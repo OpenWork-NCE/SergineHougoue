@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import { detectLocale, translatePath } from "$i18n/detectLocale";
 
 describe("detectLocale", () => {
@@ -15,8 +15,11 @@ describe("detectLocale", () => {
   });
 
   it("returns fr for root / even with Accept-Language en", () => {
-    // Path prefix wins over Accept-Language
     expect(detectLocale("/", "en-US,en;q=0.9")).toBe("fr");
+  });
+
+  it("returns fr for unprefixed /services even with Accept-Language en", () => {
+    expect(detectLocale("/services", "en-US,en;q=0.9")).toBe("fr");
   });
 
   it("returns en for /en/ when Accept-Language is fr", () => {
