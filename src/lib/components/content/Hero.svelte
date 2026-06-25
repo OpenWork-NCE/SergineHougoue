@@ -12,27 +12,30 @@
     $props();
 </script>
 
-<section class="flex min-h-[80vh] items-center">
-  <div class="container-editorial grid items-center gap-12 md:grid-cols-2">
-    <div>
-      <p class="eyebrow mb-4 text-gold">{eyebrow}</p>
-      <h1 class="font-display text-5xl text-balance text-primary md:text-7xl">
+<section class="py-10 md:py-16">
+  <div class="container-editorial grid md:grid-cols-12 gap-8 md:gap-12 items-center">
+    <!-- Left: text -->
+    <div class="md:col-span-7">
+      <p class="eyebrow mb-3 text-burgundy">{eyebrow}</p>
+      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl text-balance text-primary tracking-[-0.02em]">
         {title}
       </h1>
       {#if subtitle}
-        <p class="mt-6 max-w-2xl text-lg text-secondary">{subtitle}</p>
+        <p class="mt-5 max-w-2xl text-lg text-secondary leading-relaxed">{subtitle}</p>
       {/if}
-      <a
-        href={ctaHref}
-        class="mt-8 inline-block rounded-full border border-burgundy bg-burgundy px-6 py-3 text-xs uppercase tracking-[0.08em] text-primary transition-colors hover:bg-[#8a2638]"
-      >
+      <a href={ctaHref} class="btn-primary mt-8 inline-flex text-base">
         {ctaLabel}
       </a>
     </div>
 
+    <!-- Right: image (Profil.png) -->
     {#if imageSrc}
-      <div class="aspect-[4/5] overflow-hidden rounded-sm">
-        <img src={imageSrc} alt="" class="h-full w-full object-cover" />
+      <div class="md:col-span-5 mt-8 md:mt-0">
+        <img
+          src={imageSrc}
+          alt="Profil"
+          class="w-full h-auto max-h-[480px] md:max-h-[520px] object-cover rounded-2xl shadow-xl border border-white/10"
+        />
       </div>
     {/if}
   </div>

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import PageHeader from "$components/content/PageHeader.svelte";
   import PropertyGrid from "$components/content/PropertyGrid.svelte";
   import { getCopy } from "$i18n/copy";
   import type { PageData } from "./$types";
@@ -8,18 +7,36 @@
 
   const copy = $derived(getCopy(data.locale));
   const base = $derived(`/${data.locale}`);
+
+  // Allys-inspired type filters (sensible here)
+  let activeType = $state("All");
+  const types = ["All", "Villa", "Apartment", "House", "Land"];
+
+  const filtered = $derived(
+    data.properties.filter((p: any) =>
+      activeType === "All" || p.type?.toLowerCase() === activeType.toLowerCase()
+    )
+  );
 </script>
 
-<PageHeader
-  eyebrow={copy.listings.eyebrow}
-  title={copy.listings.title}
-  intro={copy.listings.intro}
-/>
+<div class="border-b border-white/10">
+  <div class="container-editorial py-8">
+    <p class="eyebrow text-burgundy">{copy.listings.eyebrow}</p>
+    <h1 class="font-display text-5xl text-primary mt-2">{copy.listings.title}</h1>
+    <p class="max-w-xl mt-3 text-secondary">{copy.listings.intro}</p>
+  </div>
+</div>
 
-<section class="container-editorial pb-24 md:pb-32">
-  <PropertyGrid
-    properties={data.properties}
-    locale={data.locale}
-    basePath={base}
-  />
+<!-- Filter bar -->
+<div class="border-b border-white/10 bg-surface sticky top-16 z-40">
+  <div class="container-editorial py-4 flex flex-wrap gap-2 items-center">
+    {#each types as t}
+      <button onclick={() => activeType = t} class="filter-pill {activeType === t ? 'active' : ''}">{t}</button>
+    {/each}
+    <span class="ml-auto text-sm text-secondary">{filtered.length} properties</span>
+  </div>
+</div>
+
+<section class="container-editorial py-10 md:py-14">
+  <PropertyGrid properties={filtered} locale={data.locale} basePath={base} />
 </section>

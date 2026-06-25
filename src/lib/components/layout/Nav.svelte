@@ -24,21 +24,23 @@
 </script>
 
 <nav
-  class="sticky top-0 z-50 w-full border-b border-[var(--border-hairline)] bg-canvas/80 backdrop-blur-md"
+  class="sticky top-0 z-50 w-full border-b border-white/10 bg-canvas/95 backdrop-blur-xl"
   aria-label="Primary"
 >
-  <div class="container-editorial flex h-16 items-center justify-between gap-6">
-    <a href={`${base}/`} class="font-display text-lg tracking-tight text-primary">
-      <span class="text-gold">S</span>ergine Hougoue
+  <div class="container-editorial flex h-16 md:h-20 items-center justify-between gap-4">
+    <!-- Logo -->
+    <a href={`${base}/`} class="font-display text-xl tracking-tight text-primary flex items-center">
+      <span class="text-burgundy">S</span>ergine Hougoue
     </a>
 
-    <div class="hidden items-center gap-6 md:flex">
-      <ul class="flex items-center gap-8">
+    <!-- Desktop Navigation (Allys-inspired clean structure) -->
+    <div class="hidden md:flex items-center gap-2">
+      <ul class="flex items-center gap-1 text-sm font-medium">
         {#each links as link}
           <li>
             <a
               href={link.href}
-              class="text-sm text-secondary transition-colors duration-300 hover:text-primary"
+              class="px-4 py-2 rounded-lg text-secondary hover:text-primary hover:bg-white/5 transition-all duration-200 {currentPath === link.href ? 'text-primary bg-white/5' : ''}"
               aria-current={currentPath === link.href ? "page" : undefined}
             >
               {link.label}
@@ -47,12 +49,21 @@
         {/each}
       </ul>
 
-      <LangToggle currentPath={currentPath} currentLocale={locale} />
+      <div class="ml-2 flex items-center gap-3">
+        <LangToggle currentPath={currentPath} currentLocale={locale} />
 
-      <a
-        href={`${base}/contact`}
-        class="rounded-full border border-burgundy bg-burgundy px-4 py-2 text-xs uppercase tracking-[0.08em] text-primary transition-colors hover:bg-[#8a2638]"
-      >
+        <a
+          href={`${base}/contact`}
+          class="btn-primary text-sm px-5 py-2"
+        >
+          {copy.nav.cta}
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile CTA -->
+    <div class="md:hidden">
+      <a href={`${base}/contact`} class="btn-primary text-sm px-4 py-2">
         {copy.nav.cta}
       </a>
     </div>

@@ -24,16 +24,16 @@
   );
 </script>
 
-<article class="container-editorial pb-24 md:pb-32">
-  <header class="py-16 md:py-24">
-    <p class="eyebrow mb-4 text-gold">{copy.blog.eyebrow}</p>
-    <p class="mb-4 text-xs uppercase tracking-[0.08em] text-gold">
+<article class="container-editorial pb-16 md:pb-20">
+  <header class="py-12 md:py-16 border-b border-white/10">
+    <p class="eyebrow mb-2 text-burgundy">{copy.blog.eyebrow}</p>
+    <p class="mb-2 text-xs uppercase tracking-[0.08em] text-gold">
       {categoryLabel}
     </p>
-    <h1 class="font-display text-5xl text-balance text-primary md:text-6xl">
+    <h1 class="font-display text-5xl text-balance text-primary md:text-6xl tracking-tight">
       {post.title}
     </h1>
-    <p class="mt-4 text-sm text-secondary">{post.excerpt}</p>
+    <p class="mt-3 text-lg text-secondary">{post.excerpt}</p>
 
     <div class="mt-8 flex flex-wrap items-center gap-4 text-sm text-secondary">
       {#if authorPhotoSrc}

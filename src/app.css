@@ -69,11 +69,35 @@
 
 @layer components {
   .container-editorial {
-    @apply mx-auto w-full max-w-[1440px] px-6 md:px-10 lg:px-16;
+    @apply mx-auto w-full max-w-[1280px] px-6 md:px-8 lg:px-10;
   }
 
   .eyebrow {
     @apply text-xs uppercase tracking-[0.08em] text-secondary;
+  }
+
+  /* Allys-inspired clean components, adapted to current dark + burgundy theme */
+  .card {
+    @apply bg-surface border border-white/10 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold text-primary bg-burgundy transition-all duration-300 hover:bg-[#8a2638] hover:scale-[1.02] active:scale-[0.985];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm border border-burgundy text-burgundy hover:bg-burgundy hover:text-primary transition-all duration-300;
+  }
+
+  .filter-pill {
+    @apply px-4 py-1.5 text-sm font-medium rounded-full border border-white/15 text-secondary transition-all duration-200 hover:border-burgundy hover:text-burgundy cursor-pointer;
+  }
+  .filter-pill.active {
+    @apply bg-burgundy text-primary border-burgundy;
+  }
+
+  .input {
+    @apply w-full px-4 py-3 rounded-lg bg-elevated border border-white/10 text-primary placeholder:text-muted transition-all duration-200 focus:outline-none focus:border-burgundy focus:ring-2 focus:ring-burgundy;
   }
 
   .editorial-transition {

@@ -17,4 +17,8 @@
   intro={copy.services.intro}
 />
 
-<ServiceAccordion {services} />
+<section class="container-editorial pb-16 md:pb-24">
+  <div class="max-w-3xl mx-auto">
+    <ServiceAccordion {services} />
+  </div>
+</section>

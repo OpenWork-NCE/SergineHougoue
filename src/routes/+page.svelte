@@ -1,7 +1,6 @@
 <script lang="ts">
-  import CtaStrip from "$components/content/CtaStrip.svelte";
   import Hero from "$components/content/Hero.svelte";
-  import PropertyCarousel from "$components/content/PropertyCarousel.svelte";
+  import PropertyCard from "$components/content/PropertyCard.svelte";
   import TestimonialChip from "$components/content/TestimonialChip.svelte";
   import { getCopy } from "$i18n/copy";
   import type { PageData } from "./$types";
@@ -10,40 +9,61 @@
 
   const copy = $derived(getCopy(data.locale));
   const base = $derived(`/${data.locale}`);
-  const heroSubtitle = $derived(
-    data.siteSettings?.tagline?.trim() || copy.hero.subtitle,
+
+  // Simple client-side filters inspired by Allys (makes sense for properties)
+  let activeType = $state("All");
+  const types = ["All", "Villa", "Apartment", "House", "Land"];
+
+  const filteredProperties = $derived(
+    (data.featuredProperties || []).filter((p: any) => {
+      if (activeType === "All") return true;
+      return p.type?.toLowerCase() === activeType.toLowerCase();
+    })
   );
 </script>
 
 <Hero
   eyebrow={copy.hero.eyebrow}
   title={copy.hero.title}
-  subtitle={heroSubtitle}
+  subtitle={data.siteSettings?.tagline?.trim() || copy.hero.subtitle}
   ctaHref={`${base}/contact`}
   ctaLabel={copy.nav.cta}
+  imageSrc="/Profil.png"
 />
 
+<!-- Allys-style filter bar (adapted, only sensible filters) -->
 {#if data.featuredProperties.length > 0}
-  <section class="container-editorial py-16 md:py-24">
-    <h2 class="font-display text-3xl text-primary md:text-4xl">
-      {copy.home.featuredProperties}
-    </h2>
-    <div class="mt-8">
-      <PropertyCarousel
-        properties={data.featuredProperties}
-        locale={data.locale}
-        basePath={base}
-      />
+  <div class="border-y border-white/10 bg-surface">
+    <div class="container-editorial py-4 flex flex-wrap items-center gap-3">
+      <span class="text-xs uppercase tracking-wider text-secondary mr-2">Filter by type</span>
+      {#each types as type}
+        <button
+          class="filter-pill {activeType === type ? 'active' : ''}"
+          onclick={() => activeType = type}
+        >
+          {type}
+        </button>
+      {/each}
+      <a href={`${base}/biens`} class="ml-auto text-sm text-burgundy hover:underline">View all properties →</a>
+    </div>
+  </div>
+
+  <!-- Featured properties restructured as clean grid -->
+  <section class="container-editorial py-14 md:py-20">
+    <h2 class="font-display text-3xl text-primary mb-8">{copy.home.featuredProperties}</h2>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {#each filteredProperties.slice(0, 6) as property (property._id)}
+        <PropertyCard {property} locale={data.locale} basePath={base} />
+      {/each}
     </div>
   </section>
 {/if}
 
 {#if data.testimonials.length > 0}
-  <section class="container-editorial py-16 md:py-24">
-    <h2 class="font-display text-3xl text-primary md:text-4xl">
-      {copy.home.testimonials}
-    </h2>
-    <div class="mt-8 flex flex-wrap gap-6">
+  <section class="container-editorial py-12 md:py-16 border-t border-white/10">
+    <h2 class="font-display text-3xl text-primary mb-8">{copy.home.testimonials}</h2>
+    <div class="flex flex-wrap gap-6">
       {#each data.testimonials as testimonial (testimonial._id)}
         <TestimonialChip {testimonial} />
       {/each}
@@ -51,8 +71,8 @@
   </section>
 {/if}
 
-<CtaStrip
-  title={copy.ctaStrip.title}
-  ctaHref={`${base}/contact`}
-  ctaLabel={copy.nav.cta}
-/>
+<!-- Restructured CTA -->
+<section class="container-editorial py-16 md:py-20 text-center border-t border-white/10">
+  <h2 class="font-display text-3xl text-primary mb-4">{copy.ctaStrip.title}</h2>
+  <a href={`${base}/contact`} class="btn-primary inline-block mt-2">{copy.nav.cta}</a>
+</section>

@@ -38,69 +38,39 @@
   intro={copy.contact.intro}
 />
 
-<section class="container-editorial pb-24 md:pb-32">
-  <div class="grid gap-16 lg:grid-cols-2 lg:gap-20">
+<section class="container-editorial pb-16 md:pb-20">
+  <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
     <div class="space-y-8">
-      <h2 class="eyebrow text-gold">{copy.contact.methodsHeading}</h2>
+      <h2 class="eyebrow text-burgundy">{copy.contact.methodsHeading}</h2>
 
-      <ul class="space-y-6">
-        <li>
-          <p class="mb-1 text-xs uppercase tracking-[0.08em] text-secondary">
-            {copy.contact.phoneLabel}
-          </p>
-          <a
-            href={phoneHref}
-            class="text-lg text-primary transition-colors hover:text-gold"
-          >
-            {phone}
-          </a>
-        </li>
-
-        <li>
-          <p class="mb-1 text-xs uppercase tracking-[0.08em] text-secondary">
-            {copy.contact.emailLabel}
-          </p>
-          <a
-            href="mailto:{email}"
-            class="text-lg text-primary transition-colors hover:text-gold"
-          >
-            {email}
-          </a>
-        </li>
-
-        <li>
-          <p class="mb-1 text-xs uppercase tracking-[0.08em] text-secondary">
-            {copy.contact.whatsappLabel}
-          </p>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-lg text-primary transition-colors hover:text-gold"
-          >
-            {phone}
-          </a>
-        </li>
-
-        <li>
-          <p class="mb-1 text-xs uppercase tracking-[0.08em] text-secondary">
-            {copy.contact.hoursLabel}
-          </p>
-          <p class="whitespace-pre-line text-sm leading-relaxed text-secondary">
-            {hours}
-          </p>
-        </li>
-      </ul>
+      <div class="space-y-6">
+        <div>
+          <p class="text-xs uppercase tracking-[0.08em] text-secondary mb-1">{copy.contact.phoneLabel}</p>
+          <a href={phoneHref} class="text-xl text-primary hover:text-burgundy transition-colors">{phone}</a>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.08em] text-secondary mb-1">{copy.contact.emailLabel}</p>
+          <a href="mailto:{email}" class="text-xl text-primary hover:text-burgundy transition-colors">{email}</a>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.08em] text-secondary mb-1">{copy.contact.whatsappLabel}</p>
+          <a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="text-xl text-primary hover:text-burgundy transition-colors">{phone}</a>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.08em] text-secondary mb-1">{copy.contact.hoursLabel}</p>
+          <p class="whitespace-pre-line text-sm text-secondary">{hours}</p>
+        </div>
+      </div>
     </div>
 
-    <div class="space-y-16">
-      <div class="space-y-6">
-        <h2 class="eyebrow text-gold">{copy.contact.formHeading}</h2>
+    <div class="space-y-10">
+      <div>
+        <h2 class="eyebrow text-burgundy mb-4">{copy.contact.formHeading}</h2>
         <ContactForm locale={data.locale} />
       </div>
 
-      <div class="space-y-6">
-        <h2 class="eyebrow text-gold">{copy.contact.bookingHeading}</h2>
+      <div>
+        <h2 class="eyebrow text-burgundy mb-4">{copy.contact.bookingHeading}</h2>
         <CalEmbed locale={data.locale} calLink={data.calLink} />
       </div>
     </div>

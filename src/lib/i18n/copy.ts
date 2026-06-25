@@ -60,6 +60,20 @@ export interface AboutCopy {
   eyebrow: string;
   title: string;
   intro: string;
+  bioFallback: string;
+  journeyTitle: string;
+  journey: string;
+  approachTitle: string;
+  approach: string[];
+  expertiseTitle: string;
+  expertise: Array<{
+    title: string;
+    description: string;
+  }>;
+  testimonialsTitle: string;
+  testimonialsHeading: string;
+  ctaTitle: string;
+  ctaSubtitle: string;
 }
 
 export interface ListingsCopy {
@@ -203,6 +217,41 @@ const fr: SiteCopy = {
     title: "À propos",
     intro:
       "Découvrez l'approche humaine et rigoureuse de Sergine Hougoue, courtier immobilier certifiée OACIQ.",
+    bioFallback:
+      "Courtier immobilier certifiée OACIQ basée à Montréal, Sergine Hougoue offre un accompagnement attentif et rigoureux aux acheteurs et investisseurs sur la Rive-Nord et à Montréal.",
+    journeyTitle: "Mon parcours",
+    journey:
+      "Forte d’une solide expérience terrain et d’une connaissance approfondie du marché local, j’aide les premiers acheteurs à franchir le pas en toute confiance, tout en guidant les investisseurs vers des opportunités à fort potentiel. Mon engagement : transparence totale, écoute active et résultats concrets.",
+    approachTitle: "Mon approche",
+    approach: [
+      "Écoute attentive de vos objectifs et contraintes",
+      "Analyse rigoureuse du marché et des opportunités",
+      "Accompagnement personnalisé à chaque étape",
+      "Réseau de partenaires de confiance (notaires, inspecteurs, prêteurs)",
+    ],
+    expertiseTitle: "Mon expertise",
+    expertise: [
+      {
+        title: "Premiers acheteurs",
+        description:
+          "Accompagnement complet pour votre premier achat : de la recherche au financement, en passant par les visites et les négociations.",
+      },
+      {
+        title: "Investisseurs",
+        description:
+          "Identification d’opportunités à fort potentiel, analyse de rentabilité et stratégie d’acquisition sur le marché résidentiel.",
+      },
+      {
+        title: "Vente de propriétés",
+        description:
+          "Mise en valeur de votre bien, stratégie de prix et négociation optimale pour maximiser sa valeur.",
+      },
+    ],
+    testimonialsTitle: "Ce que mes clients disent",
+    testimonialsHeading: "Témoignages",
+    ctaTitle: "Prêt à avancer sur votre projet immobilier ?",
+    ctaSubtitle:
+      "Discutons de vos objectifs et voyons comment je peux vous accompagner.",
   },
   services: {
     eyebrow: "02 / Services",
@@ -350,6 +399,40 @@ const en: SiteCopy = {
     title: "About",
     intro:
       "Meet Sergine Hougoue — an OACIQ-certified broker offering attentive, rigorous guidance for every real estate goal.",
+    bioFallback:
+      "OACIQ-certified real estate broker based in Montreal, Sergine Hougoue provides attentive and rigorous guidance for buyers and investors across the North Shore and Montreal area.",
+    journeyTitle: "My journey",
+    journey:
+      "With solid hands-on experience and in-depth knowledge of the local market, I help first-time buyers take the leap with confidence, while guiding investors toward high-potential opportunities. My commitment: total transparency, attentive listening, and concrete results.",
+    approachTitle: "My approach",
+    approach: [
+      "Attentive listening to your goals and constraints",
+      "Rigorous analysis of the market and opportunities",
+      "Personalized support at every step",
+      "Network of trusted partners (notaries, inspectors, lenders)",
+    ],
+    expertiseTitle: "My expertise",
+    expertise: [
+      {
+        title: "First-time buyers",
+        description:
+          "Complete support for your first purchase: from search to financing, including viewings and negotiations.",
+      },
+      {
+        title: "Investors",
+        description:
+          "Identifying high-potential opportunities, profitability analysis, and acquisition strategy in the residential market.",
+      },
+      {
+        title: "Property sales",
+        description:
+          "Showcasing your property, pricing strategy, and optimal negotiation to maximize its value.",
+      },
+    ],
+    testimonialsTitle: "What my clients say",
+    testimonialsHeading: "Testimonials",
+    ctaTitle: "Ready to move forward with your real estate project?",
+    ctaSubtitle: "Let's discuss your goals and see how I can support you.",
   },
   services: {
     eyebrow: "02 / Services",

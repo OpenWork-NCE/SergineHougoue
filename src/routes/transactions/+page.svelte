@@ -44,7 +44,7 @@
 />
 
 <section class="container-editorial pb-16 md:pb-24">
-  <h2 class="eyebrow mb-8 text-gold">{copy.transactions.soldHeading}</h2>
+  <h2 class="eyebrow mb-8 text-burgundy">{copy.transactions.soldHeading}</h2>
   <PropertyGrid
     properties={data.soldProperties}
     locale={data.locale}
@@ -53,8 +53,8 @@
 </section>
 
 {#if data.partners.length > 0}
-  <section class="container-editorial border-t border-white/10 pb-24 md:pb-32 pt-16 md:pt-24">
-    <h2 class="eyebrow mb-12 text-gold">{copy.transactions.partnersHeading}</h2>
+  <section class="container-editorial border-t border-white/10 py-16 md:py-20">
+    <h2 class="eyebrow mb-8 text-burgundy">{copy.transactions.partnersHeading}</h2>
 
     <div class="space-y-12">
       {#each partnersByCategory as group (group.category)}
@@ -62,31 +62,29 @@
           <h3 class="mb-6 text-sm uppercase tracking-[0.08em] text-secondary">
             {group.label}
           </h3>
-          <ul class="flex flex-wrap items-center gap-8 md:gap-12">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {#each group.partners as partner (partner._id)}
               {@const logoSrc = partnerLogoSrc(partner)}
-              <li>
-                <a
-                  href={partner.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="group inline-flex min-h-16 items-center justify-center rounded-sm border border-white/10 px-6 py-4 transition-colors hover:border-gold/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
-                >
-                  {#if logoSrc}
-                    <img
-                      src={logoSrc}
-                      alt={partner.name}
-                      class="max-h-12 w-auto max-w-[10rem] object-contain opacity-80 transition-opacity group-hover:opacity-100"
-                    />
-                  {:else}
-                    <span class="text-sm uppercase tracking-[0.08em] text-primary">
-                      {partner.name}
-                    </span>
-                  {/if}
-                </a>
-              </li>
+              <a
+                href={partner.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="card group p-6 flex items-center justify-center hover:border-burgundy/30 transition-colors"
+              >
+                {#if logoSrc}
+                  <img
+                    src={logoSrc}
+                    alt={partner.name}
+                    class="max-h-12 w-auto max-w-[10rem] object-contain opacity-80 transition-opacity group-hover:opacity-100"
+                  />
+                {:else}
+                  <span class="text-sm uppercase tracking-[0.08em] text-primary">
+                    {partner.name}
+                  </span>
+                {/if}
+              </a>
             {/each}
-          </ul>
+          </div>
         </div>
       {/each}
     </div>

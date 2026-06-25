@@ -28,14 +28,15 @@
   );
 </script>
 
-<article class="group">
+<!-- Restructured Property Card inspired by Allys cleanliness + current burgundy theme -->
+<article class="card group">
   <a href={detailHref} class="block focus-visible:outline-none">
-    <div class="relative aspect-[4/3] overflow-hidden rounded-sm">
+    <div class="relative aspect-[4/3] overflow-hidden">
       {#if imageSrc}
         <img
           src={imageSrc}
           alt={imageAlt}
-          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       {:else}
         <div class="h-full w-full bg-white/5" aria-hidden="true"></div>
@@ -43,31 +44,27 @@
 
       {#if property.status !== "a-vendre"}
         <span
-          class="absolute left-3 top-3 rounded-full px-3 py-1 text-xs uppercase tracking-[0.08em] {property.status ===
-          'vendu'
-            ? 'bg-burgundy text-primary'
-            : 'border border-gold/40 bg-[#1a1a1a]/80 text-gold'}"
+          class="absolute left-3 top-3 rounded-lg px-3 py-1 text-[10px] font-medium uppercase tracking-wider {property.status === 'vendu' ? 'bg-burgundy text-primary' : 'bg-gold text-canvas'}"
         >
           {statusLabel}
         </span>
       {/if}
     </div>
 
-    <div class="mt-4 space-y-2">
-      <p class="font-display text-2xl text-gold">{formattedPrice}</p>
-      <p class="text-base text-primary">
-        {property.address}, {property.city}
-      </p>
-      <p class="text-sm text-secondary">{specs}</p>
-      <p class="text-xs uppercase tracking-[0.08em] text-secondary">
-        {typeLabel}
-      </p>
-      <span
-        class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.08em] text-gold transition-transform group-hover:translate-x-1"
-      >
-        {copy.property.viewDetail}
-        <span aria-hidden="true">→</span>
-      </span>
+    <div class="p-5 space-y-2.5">
+      <div class="font-display text-2xl text-gold tracking-tight">{formattedPrice}</div>
+
+      <div>
+        <p class="font-medium text-primary leading-snug">{property.address}{property.city ? `, ${property.city}` : ''}</p>
+        <p class="mt-1 text-sm text-secondary">{specs}</p>
+      </div>
+
+      <div class="flex items-center justify-between pt-1">
+        <span class="text-xs uppercase tracking-[0.08em] text-secondary">{typeLabel}</span>
+        <span class="inline-flex items-center gap-1 text-xs font-medium text-burgundy group-hover:translate-x-0.5 transition-transform">
+          {copy.property.viewDetail} →
+        </span>
+      </div>
     </div>
   </a>
 </article>

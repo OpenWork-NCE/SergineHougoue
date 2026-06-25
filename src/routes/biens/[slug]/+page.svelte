@@ -43,13 +43,13 @@
   ]);
 </script>
 
-<article class="container-editorial pb-24 md:pb-32">
-  <header class="py-16 md:py-24">
-    <p class="eyebrow mb-4 text-gold">{copy.listings.eyebrow}</p>
-    <h1 class="font-display text-5xl text-balance text-primary md:text-6xl">
+<article class="container-editorial pb-16 md:pb-20">
+  <header class="py-12 md:py-16 border-b border-white/10">
+    <p class="eyebrow mb-2 text-burgundy">{copy.listings.eyebrow}</p>
+    <h1 class="font-display text-5xl text-balance text-primary md:text-6xl tracking-tight">
       {property.title}
     </h1>
-    <p class="mt-4 text-lg text-secondary">
+    <p class="mt-3 text-lg text-secondary">
       {property.address}, {property.city}
       {#if property.neighborhood}
         <span class="text-secondary"> — {property.neighborhood}</span>
@@ -76,27 +76,22 @@
     </section>
   {/if}
 
-  <div class="mt-16 grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+  <div class="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
     <section>
-      <h2 class="font-display text-3xl text-primary">{detailCopy.specs}</h2>
-      <table class="mt-6 w-full border-collapse text-left">
-        <tbody>
+      <h2 class="font-display text-3xl text-primary mb-6">{detailCopy.specs}</h2>
+      <div class="card p-6">
+        <dl class="divide-y divide-white/10">
           {#each specs as spec (spec.label)}
-            <tr class="border-t border-white/10">
-              <th
-                scope="row"
-                class="py-3 pr-6 text-sm uppercase tracking-[0.08em] text-secondary"
-              >
-                {spec.label}
-              </th>
-              <td class="py-3 text-primary">{spec.value}</td>
-            </tr>
+            <div class="flex py-3 justify-between text-sm">
+              <dt class="uppercase tracking-[0.08em] text-secondary">{spec.label}</dt>
+              <dd class="text-primary font-medium">{spec.value}</dd>
+            </div>
           {/each}
-        </tbody>
-      </table>
+        </dl>
+      </div>
 
       {#if property.features?.length}
-        <h2 class="mt-12 font-display text-3xl text-primary">
+        <h2 class="mt-10 font-display text-3xl text-primary">
           {detailCopy.features}
         </h2>
         <ul class="mt-6 space-y-3 text-secondary">

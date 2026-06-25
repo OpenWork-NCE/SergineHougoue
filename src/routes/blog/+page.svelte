@@ -23,7 +23,7 @@
   intro={copy.blog.intro}
 />
 
-<section class="container-editorial pb-16 md:pb-24">
+<section class="container-editorial py-8">
   {#if data.posts.length > 0}
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
       {#each data.posts as post (post._id)}
@@ -34,33 +34,21 @@
 
   {#if showPagination}
     <nav
-      class="mt-16 flex items-center justify-between border-t border-white/10 pt-8"
+      class="mt-12 flex items-center justify-between border-t border-white/10 pt-6 text-sm"
       aria-label={copy.blog.pagination.pageLabel}
     >
       {#if previousHref}
-        <a
-          href={previousHref}
-          class="text-sm uppercase tracking-[0.08em] text-gold transition-transform hover:translate-x-[-2px]"
-        >
-          ← {copy.blog.pagination.previous}
-        </a>
+        <a href={previousHref} class="text-burgundy hover:underline">← {copy.blog.pagination.previous}</a>
       {:else}
         <span></span>
       {/if}
 
-      <p class="text-sm text-secondary">
-        {copy.blog.pagination.pageLabel}
-        {data.page}
-        <span class="text-secondary/60">/ {data.totalPages}</span>
-      </p>
+      <span class="text-secondary">
+        {copy.blog.pagination.pageLabel} {data.page} / {data.totalPages}
+      </span>
 
       {#if nextHref}
-        <a
-          href={nextHref}
-          class="text-sm uppercase tracking-[0.08em] text-gold transition-transform hover:translate-x-1"
-        >
-          {copy.blog.pagination.next} →
-        </a>
+        <a href={nextHref} class="text-burgundy hover:underline">{copy.blog.pagination.next} →</a>
       {:else}
         <span></span>
       {/if}

@@ -33,6 +33,7 @@ export type CmsHomeData = {
 
 export type CmsAboutData = {
   teamMembers: TeamMember[];
+  testimonials: Testimonial[];
 };
 
 export type CmsListingsData = {
@@ -64,6 +65,7 @@ const EMPTY_HOME: CmsHomeData = {
 
 const EMPTY_ABOUT: CmsAboutData = {
   teamMembers: [],
+  testimonials: [],
 };
 
 const EMPTY_LISTINGS: CmsListingsData = {
@@ -119,12 +121,14 @@ export async function loadCmsAboutData(lang: Locale): Promise<CmsAboutData> {
 
   try {
     const client = createSanityClient();
-    const teamMembers = await client.fetch<TeamMember[]>(teamMembersQuery, {
-      lang,
-    });
+    const [teamMembers, testimonials] = await Promise.all([
+      client.fetch<TeamMember[]>(teamMembersQuery, { lang }),
+      client.fetch<Testimonial[]>(testimonialsQuery, { lang }),
+    ]);
 
     return {
       teamMembers: teamMembers ?? [],
+      testimonials: testimonials ?? [],
     };
   } catch {
     return EMPTY_ABOUT;
