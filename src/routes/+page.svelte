@@ -1,6 +1,7 @@
 <script lang="ts">
   import Hero from "$components/content/Hero.svelte";
   import PropertyCarousel from "$components/content/PropertyCarousel.svelte";
+  import TestimonialChip from "$components/content/TestimonialChip.svelte";
   import { getCopy } from "$i18n/copy";
   import type { PageData } from "./$types";
 
@@ -41,20 +42,10 @@
     <h2 class="font-display text-3xl text-primary md:text-4xl">
       {copy.home.testimonials}
     </h2>
-    <ul class="mt-8 space-y-8">
+    <div class="mt-8 flex flex-wrap gap-6">
       {#each data.testimonials as testimonial (testimonial._id)}
-        <li class="max-w-3xl border-t border-white/10 pt-6">
-          <blockquote class="text-lg leading-relaxed text-secondary">
-            “{testimonial.quote}”
-          </blockquote>
-          <p class="mt-4 text-sm uppercase tracking-[0.08em] text-gold">
-            {testimonial.authorName}
-            {#if testimonial.authorContext}
-              <span class="text-secondary"> — {testimonial.authorContext}</span>
-            {/if}
-          </p>
-        </li>
+        <TestimonialChip {testimonial} />
       {/each}
-    </ul>
+    </div>
   </section>
 {/if}
