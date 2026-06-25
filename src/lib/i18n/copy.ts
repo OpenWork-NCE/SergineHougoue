@@ -38,12 +38,25 @@ export interface HeroCopy {
   subtitle: string;
 }
 
+export interface HomeCopy {
+  featuredProperties: string;
+  testimonials: string;
+}
+
+export interface AboutCopy {
+  eyebrow: string;
+  title: string;
+  intro: string;
+}
+
 export interface SiteCopy {
   nav: NavCopy;
   whatsapp: WhatsappCopy;
   cookie: CookieCopy;
   footer: FooterCopy;
   hero: HeroCopy;
+  home: HomeCopy;
+  about: AboutCopy;
 }
 
 const fr: SiteCopy = {
@@ -82,6 +95,16 @@ const fr: SiteCopy = {
     subtitle:
       "Résidentiel et commercial — accompagnement sur mesure à Montréal et environs.",
   },
+  home: {
+    featuredProperties: "Biens en vedette",
+    testimonials: "Témoignages",
+  },
+  about: {
+    eyebrow: "03 / À propos",
+    title: "À propos",
+    intro:
+      "Découvrez l'approche humaine et rigoureuse de Sergine Hougoue, courtier immobilier certifiée OACIQ.",
+  },
 };
 
 const en: SiteCopy = {
@@ -119,6 +142,16 @@ const en: SiteCopy = {
     title: "Let's build your real estate future",
     subtitle:
       "Residential and commercial — tailored guidance in Montreal and beyond.",
+  },
+  home: {
+    featuredProperties: "Featured listings",
+    testimonials: "Testimonials",
+  },
+  about: {
+    eyebrow: "03 / About",
+    title: "About",
+    intro:
+      "Meet Sergine Hougoue — an OACIQ-certified broker offering attentive, rigorous guidance for every real estate goal.",
   },
 };
 

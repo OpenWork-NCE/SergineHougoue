@@ -60,3 +60,14 @@ test("/en/politique-confidentialite renders EN privacy heading", async ({
     page.getByRole("heading", { name: "Privacy policy" }),
   ).toBeVisible();
 });
+
+test("/fr/a-propos renders About page header from getCopy", async ({
+  page,
+}) => {
+  const copy = getCopy("fr");
+  await page.goto("/fr/a-propos");
+  await expect(
+    page.getByRole("heading", { name: copy.about.title }),
+  ).toBeVisible();
+  await expect(page.getByText(copy.about.intro)).toBeVisible();
+});
