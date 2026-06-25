@@ -39,6 +39,7 @@ test.describe("services routes", () => {
     page,
   }) => {
     await page.goto("/fr/services");
+    await page.waitForLoadState("networkidle");
 
     const accessibilityScanResults = await new AxeBuilder({
       page: page as unknown as AxeBuilderOptions["page"],

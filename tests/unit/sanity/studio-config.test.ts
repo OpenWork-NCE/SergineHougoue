@@ -1,4 +1,25 @@
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
+
+const { mockPublicEnv } = vi.hoisted(() => ({
+  mockPublicEnv: {
+    PUBLIC_SANITY_PROJECT_ID: "studio-default-project",
+    PUBLIC_SANITY_DATASET: "production",
+    PUBLIC_SITE_URL: "http://localhost:5173",
+  },
+}));
+
+vi.mock("$env/static/public", () => ({
+  get PUBLIC_SANITY_PROJECT_ID() {
+    return mockPublicEnv.PUBLIC_SANITY_PROJECT_ID;
+  },
+  get PUBLIC_SANITY_DATASET() {
+    return mockPublicEnv.PUBLIC_SANITY_DATASET;
+  },
+  get PUBLIC_SITE_URL() {
+    return mockPublicEnv.PUBLIC_SITE_URL;
+  },
+}));
+
 import config, {
   getStudioSanityConfig,
   STUDIO_I18N_SCHEMA_TYPES,
@@ -7,12 +28,12 @@ import config, {
 import { SITE_SETTINGS_DOCUMENT_ID, structure } from "$sanity/structure";
 
 describe("sanity studio config", () => {
-  const originalProjectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
-  const originalDataset = import.meta.env.PUBLIC_SANITY_DATASET;
+  const originalProjectId = mockPublicEnv.PUBLIC_SANITY_PROJECT_ID;
+  const originalDataset = mockPublicEnv.PUBLIC_SANITY_DATASET;
 
   afterEach(() => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = originalProjectId;
-    import.meta.env.PUBLIC_SANITY_DATASET = originalDataset;
+    mockPublicEnv.PUBLIC_SANITY_PROJECT_ID = originalProjectId;
+    mockPublicEnv.PUBLIC_SANITY_DATASET = originalDataset;
   });
 
   it("registers six schema types", () => {
@@ -28,8 +49,8 @@ describe("sanity studio config", () => {
   });
 
   it("resolves projectId and dataset from env helpers", () => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = "  abc123  ";
-    import.meta.env.PUBLIC_SANITY_DATASET = " staging ";
+    mockPublicEnv.PUBLIC_SANITY_PROJECT_ID = "  abc123  ";
+    mockPublicEnv.PUBLIC_SANITY_DATASET = " staging ";
 
     expect(getStudioSanityConfig()).toEqual({
       projectId: "abc123",
@@ -45,8 +66,8 @@ describe("sanity studio config", () => {
   });
 
   it("falls back to placeholder projectId when env is missing", () => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = "";
-    import.meta.env.PUBLIC_SANITY_DATASET = "";
+    mockPublicEnv.PUBLIC_SANITY_PROJECT_ID = "";
+    mockPublicEnv.PUBLIC_SANITY_DATASET = "";
 
     expect(getStudioSanityConfig()).toEqual({
       projectId: "placeholder",

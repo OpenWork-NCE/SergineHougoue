@@ -1,18 +1,39 @@
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
+
+const { mockPublicEnv } = vi.hoisted(() => ({
+  mockPublicEnv: {
+    PUBLIC_SANITY_PROJECT_ID: "",
+    PUBLIC_SANITY_DATASET: "production",
+    PUBLIC_SITE_URL: "http://localhost:5173",
+  },
+}));
+
+vi.mock("$env/static/public", () => ({
+  get PUBLIC_SANITY_PROJECT_ID() {
+    return mockPublicEnv.PUBLIC_SANITY_PROJECT_ID;
+  },
+  get PUBLIC_SANITY_DATASET() {
+    return mockPublicEnv.PUBLIC_SANITY_DATASET;
+  },
+  get PUBLIC_SITE_URL() {
+    return mockPublicEnv.PUBLIC_SITE_URL;
+  },
+}));
+
 import { urlFor } from "$sanity/image";
 
 describe("sanity image builder", () => {
-  const originalProjectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
-  const originalDataset = import.meta.env.PUBLIC_SANITY_DATASET;
+  const originalProjectId = mockPublicEnv.PUBLIC_SANITY_PROJECT_ID;
+  const originalDataset = mockPublicEnv.PUBLIC_SANITY_DATASET;
 
   afterEach(() => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = originalProjectId;
-    import.meta.env.PUBLIC_SANITY_DATASET = originalDataset;
+    mockPublicEnv.PUBLIC_SANITY_PROJECT_ID = originalProjectId;
+    mockPublicEnv.PUBLIC_SANITY_DATASET = originalDataset;
   });
 
   it("urlFor returns a CDN URL containing the Sanity project id", () => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = "test-project-id";
-    import.meta.env.PUBLIC_SANITY_DATASET = "production";
+    mockPublicEnv.PUBLIC_SANITY_PROJECT_ID = "test-project-id";
+    mockPublicEnv.PUBLIC_SANITY_DATASET = "production";
 
     const image = {
       _type: "image" as const,
