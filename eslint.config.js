@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import tsParser from "@typescript-eslint/parser";
 import svelte from "eslint-plugin-svelte";
+import svelteParser from "svelte-eslint-parser";
 import globals from "globals";
 import prettier from "eslint-config-prettier";
 
@@ -49,6 +50,19 @@ export default [
     languageOptions: {
       globals: sharedGlobals,
     },
+  },
+  {
+    // `+page.svelte` filenames are not matched by `**/*.svelte` in ESLint's glob.
+    files: ["**/+page.svelte", "src/routes/+page.svelte"],
+    plugins: { svelte },
+    languageOptions: {
+      parser: svelteParser,
+      parserOptions: {
+        parser: tsParser,
+      },
+      globals: sharedGlobals,
+    },
+    processor: "svelte/svelte",
   },
   {
     files: ["tests/**/*.{js,ts}", "playwright.config.ts", "vitest.config.ts"],
