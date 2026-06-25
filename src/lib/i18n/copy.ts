@@ -45,7 +45,7 @@ const fr: SiteCopy = {
     listings: "Biens",
     transactions: "Transactions",
     blog: "Blogue",
-    about: "Ã€ propos",
+    about: "À propos",
     contact: "Contact",
     cta: "Prendre rendez-vous",
   },
@@ -54,18 +54,18 @@ const fr: SiteCopy = {
     ariaLabel: "Contacter Sergine par WhatsApp",
   },
   cookie: {
-    title: "Cookies et confidentialitÃ©",
-    body: "Ce site utilise Google Analytics pour amÃ©liorer votre expÃ©rience. Vos donnÃ©es sont anonymisÃ©es.",
+    title: "Cookies et confidentialité",
+    body: "Ce site utilise Google Analytics pour améliorer votre expérience. Vos données sont anonymisées.",
     accept: "Accepter",
     reject: "Refuser",
   },
   footer: {
     tagline:
-      "Courtier immobilier rÃ©sidentiel et commercial â€” VENDIRECT, certifiÃ©e OACIQ.",
+      "Courtier immobilier résidentiel et commercial — VENDIRECT, certifiée OACIQ.",
     sitemapHeading: "Plan du site",
     contactHeading: "Contact",
-    socialHeading: "RÃ©seaux sociaux",
-    privacy: "Politique de confidentialitÃ©",
+    socialHeading: "Réseaux sociaux",
+    privacy: "Politique de confidentialité",
   },
 };
 
@@ -92,7 +92,7 @@ const en: SiteCopy = {
   },
   footer: {
     tagline:
-      "Residential and commercial real estate broker â€” VENDIRECT, OACIQ certified.",
+      "Residential and commercial real estate broker — VENDIRECT, OACIQ certified.",
     sitemapHeading: "Sitemap",
     contactHeading: "Contact",
     socialHeading: "Social media",

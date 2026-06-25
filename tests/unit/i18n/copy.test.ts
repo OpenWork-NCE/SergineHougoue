@@ -18,4 +18,22 @@ describe("getCopy", () => {
     expect(getCopy("fr").whatsapp.defaultMessage).toMatch(/Bonjour Sergine/);
     expect(getCopy("en").whatsapp.defaultMessage).toMatch(/Hello Sergine/);
   });
+
+  it("renders accented French copy in nav.about", () => {
+    expect(getCopy("fr").nav.about).toBe("À propos");
+  });
+
+  it("renders accented French copy in cookie.title", () => {
+    expect(getCopy("fr").cookie.title).toBe("Cookies et confidentialité");
+  });
+
+  it("uses an em-dash (not a curly quote) in French footer tagline", () => {
+    expect(getCopy("fr").footer.tagline).toContain("—");
+    expect(getCopy("fr").footer.tagline).not.toContain("”");
+  });
+
+  it("uses an em-dash (not a curly quote) in English footer tagline", () => {
+    expect(getCopy("en").footer.tagline).toContain("—");
+    expect(getCopy("en").footer.tagline).not.toContain("”");
+  });
 });
