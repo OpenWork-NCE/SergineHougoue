@@ -2297,6 +2297,65 @@ All queries must accept `$lang` param for document-i18n (`__i18n_lang` filter or
 
 ---
 
+## Task 2.6: Seed 7+ starter documents
+
+**Files:**
+
+- Create: `scripts/seed-sanity.ts`, `src/lib/sanity/seed-data.ts`, `tests/unit/sanity/seed-data.test.ts`
+- Modify: `package.json` (add `"seed:sanity": "tsx scripts/seed-sanity.ts"` script; add `tsx` devDep if needed)
+
+**Interfaces:**
+
+- Consumes: schemas, `createSanityClient` pattern with **write** token (`SANITY_API_TOKEN` from `$env/static/private`)
+- Produces: idempotent seed script creating ≥7 documents (FR + EN where i18n applies)
+
+**Minimum seed set (7+ docs):**
+
+1. `siteSettings` singleton (1 doc)
+2. 3 `property` listings × FR + EN = 6 docs (at least 2 `featured: true`)
+3. 2 `testimonial` × FR + EN = 4 docs
+4. 1 `teamMember` × FR + EN = 2 docs
+
+Total ≥13 documents. Script skips if `siteSettings` already exists (idempotent).
+
+- [ ] **Step 1: Write failing test** — `seed-data.test.ts` asserts `getSeedDocuments()` returns ≥7 unique `_type` entries and includes `siteSettings`, `property`, `testimonial`, `teamMember`.
+
+- [ ] **Step 2: Implement `seed-data.ts`** with bilingual starter copy (French primary).
+
+- [ ] **Step 3: Implement `scripts/seed-sanity.ts`** — loads env via `dotenv` from `.env.local`, uses write client, creates documents, logs counts.
+
+- [ ] **Step 4: Run unit tests** — pass. Run `npm run seed:sanity` only if `.env.local` has token; otherwise document skip in report.
+
+- [ ] **Step 5: Commit** — `feat(sanity): add idempotent seed script and starter document data`
+
+---
+
+## Task 2.7: Wire Home + About pages to CMS
+
+**Files:**
+
+- Create: `src/routes/+page.server.ts`, `src/routes/a-propos/+page.server.ts`, `src/routes/a-propos/+page.svelte`
+- Modify: `src/routes/+page.svelte`
+
+**Interfaces:**
+
+- Consumes: `createSanityClient`, queries, types from Task 2.5; `data.locale` from layout
+- Produces: Home loads `siteSettings`, `featuredProperties`, `testimonials`; About loads `teamMembers`; graceful empty arrays if Sanity unreachable
+
+- [ ] **Step 1: Write failing e2e or component test** — extend `locale-shell.spec.ts` or add `home-cms.spec.ts` asserting home shows CMS tagline when mocked, OR unit test for `loadHomePageData` helper.
+
+- [ ] **Step 2: Create `+page.server.ts`** — fetch with `$lang: locale`, return `{ siteSettings, featuredProperties, testimonials }`.
+
+- [ ] **Step 3: Update `+page.svelte`** — use `siteSettings.tagline` as hero subtitle when present; render simple sections listing featured property titles and testimonial quotes (Phase 3 will replace with carousel/chips).
+
+- [ ] **Step 4: Create About route** — `a-propos/+page.server.ts` + `+page.svelte` with `PageHeader` + `TeamMember`-style markup (photo, name, role, bio) from first team member.
+
+- [ ] **Step 5: Run tests + check + lint + e2e** — pass.
+
+- [ ] **Step 6: Commit** — `feat(cms): wire Home and About pages to Sanity queries`
+
+---
+
 ## Phase 2 remaining tasks (summary — expand before dispatch)
 
 | Task | What                                                           | Files                                                                                            |
