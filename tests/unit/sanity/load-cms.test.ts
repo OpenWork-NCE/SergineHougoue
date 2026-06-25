@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Property, SiteSettings, Testimonial } from "$sanity/types";
+import type { Partner, Property, SiteSettings, Testimonial } from "$sanity/types";
 
 const { mockFetch, mockCreateSanityClient, mockIsSanityConfigured } =
   vi.hoisted(() => ({
@@ -20,6 +20,7 @@ import {
   loadCmsHomeData,
   loadCmsListingsData,
   loadCmsPropertyBySlug,
+  loadCmsTransactionsData,
 } from "$sanity/load-cms";
 
 describe("loadCmsHomeData", () => {
@@ -173,6 +174,90 @@ describe("loadCmsListingsData", () => {
 
     await expect(loadCmsListingsData("en")).resolves.toEqual({
       properties: [],
+    });
+  });
+});
+
+describe("loadCmsTransactionsData", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockCreateSanityClient.mockReturnValue({ fetch: mockFetch });
+  });
+
+  it("returns empty data when Sanity is not configured", async () => {
+    mockIsSanityConfigured.mockReturnValue(false);
+
+    await expect(loadCmsTransactionsData("fr")).resolves.toEqual({
+      soldProperties: [],
+      partners: [],
+    });
+
+    expect(mockCreateSanityClient).not.toHaveBeenCalled();
+  });
+
+  it("fetches sold properties and partners with locale", async () => {
+    mockIsSanityConfigured.mockReturnValue(true);
+
+    const soldProperties = [
+      {
+        _id: "property-sold-1",
+        _type: "property",
+        title: "Condo vendu",
+        slug: { current: "condo-vendu" },
+        status: "vendu",
+        price: 499_000,
+        address: "123 rue Example",
+        city: "Montréal",
+        type: "condo",
+        bedrooms: 2,
+        bathrooms: 1,
+        area: 900,
+        publishedAt: "2026-01-01T00:00:00.000Z",
+      },
+    ] satisfies Property[];
+
+    const partners = [
+      {
+        _id: "partner-1",
+        _type: "partner",
+        name: "Banque Exemple",
+        logo: {
+          asset: { _ref: "image-partner-1", _type: "reference" },
+        },
+        url: "https://example.com",
+        category: "preteur",
+        order: 0,
+      },
+    ] satisfies Partner[];
+
+    mockFetch
+      .mockResolvedValueOnce(soldProperties)
+      .mockResolvedValueOnce(partners);
+
+    await expect(loadCmsTransactionsData("fr")).resolves.toEqual({
+      soldProperties,
+      partners,
+    });
+
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('status == "vendu"'),
+      { lang: "fr" },
+    );
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('_type == "partner"'),
+      { lang: "fr" },
+    );
+  });
+
+  it("returns empty data when Sanity fetch fails", async () => {
+    mockIsSanityConfigured.mockReturnValue(true);
+    mockFetch.mockRejectedValue(new Error("network error"));
+
+    await expect(loadCmsTransactionsData("en")).resolves.toEqual({
+      soldProperties: [],
+      partners: [],
     });
   });
 });

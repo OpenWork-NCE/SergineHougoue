@@ -1,5 +1,9 @@
 import type { Locale } from "./locales";
-import type { PropertyStatus, PropertyType } from "$sanity/types";
+import type {
+  PartnerCategory,
+  PropertyStatus,
+  PropertyType,
+} from "$sanity/types";
 
 export interface NavCopy {
   home: string;
@@ -63,6 +67,15 @@ export interface ListingsCopy {
   intro: string;
 }
 
+export interface TransactionsCopy {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  soldHeading: string;
+  partnersHeading: string;
+  partnerCategories: Record<PartnerCategory, string>;
+}
+
 export interface ServicesCopy {
   eyebrow: string;
   title: string;
@@ -102,6 +115,7 @@ export interface SiteCopy {
   about: AboutCopy;
   services: ServicesCopy;
   listings: ListingsCopy;
+  transactions: TransactionsCopy;
   property: PropertyCopy;
 }
 
@@ -167,6 +181,20 @@ const fr: SiteCopy = {
     title: "Biens",
     intro:
       "Découvrez les propriétés résidentielles et commerciales actuellement offertes à Montréal et environs.",
+  },
+  transactions: {
+    eyebrow: "04 / Transactions",
+    title: "Transactions",
+    intro:
+      "Découvrez les propriétés vendues récemment et les partenaires de confiance qui accompagnent chaque transaction.",
+    soldHeading: "Propriétés vendues",
+    partnersHeading: "Nos partenaires de confiance",
+    partnerCategories: {
+      preteur: "Prêteurs",
+      notaire: "Notaires",
+      inspecteur: "Inspecteurs",
+      autre: "Autres partenaires",
+    },
   },
   property: {
     viewDetail: "Voir le détail",
@@ -264,6 +292,20 @@ const en: SiteCopy = {
     title: "Listings",
     intro:
       "Browse residential and commercial properties currently available in Montreal and surrounding areas.",
+  },
+  transactions: {
+    eyebrow: "04 / Transactions",
+    title: "Transactions",
+    intro:
+      "Explore recently closed deals and the trusted partners who support every transaction.",
+    soldHeading: "Sold properties",
+    partnersHeading: "Our trusted partners",
+    partnerCategories: {
+      preteur: "Lenders",
+      notaire: "Notaries",
+      inspecteur: "Inspectors",
+      autre: "Other partners",
+    },
   },
   property: {
     viewDetail: "View details",

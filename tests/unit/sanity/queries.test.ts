@@ -3,8 +3,10 @@ import {
   DOCUMENT_I18N_LANGUAGE_FIELD,
   allPropertiesQuery,
   featuredPropertiesQuery,
+  partnersQuery,
   propertyBySlugQuery,
   siteSettingsQuery,
+  soldPropertiesQuery,
   teamMembersQuery,
   testimonialsQuery,
 } from "$sanity/queries";
@@ -51,6 +53,27 @@ describe("sanity GROQ queries", () => {
     );
     expect(allPropertiesQuery).toContain('status != "vendu"');
     expect(allPropertiesQuery).toContain("order(publishedAt desc)");
+  });
+
+  it("soldPropertiesQuery filters by type, language, and sold status", () => {
+    expect(soldPropertiesQuery).toContain('_type == "property"');
+    expect(soldPropertiesQuery).toContain("$lang");
+    expect(soldPropertiesQuery).toContain(
+      `${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang`,
+    );
+    expect(soldPropertiesQuery).toContain('status == "vendu"');
+    expect(soldPropertiesQuery).toContain("order(publishedAt desc)");
+  });
+
+  it("partnersQuery filters by type and language, orders by display order", () => {
+    expect(partnersQuery).toContain('_type == "partner"');
+    expect(partnersQuery).toContain("$lang");
+    expect(partnersQuery).toContain(
+      `${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang`,
+    );
+    expect(partnersQuery).toContain("order(order asc)");
+    expect(partnersQuery).toContain("logo");
+    expect(partnersQuery).toContain("category");
   });
 
   it("propertyBySlugQuery filters by type, language, and slug", () => {

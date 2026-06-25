@@ -4,12 +4,20 @@ import { isSanityConfigured } from "./env";
 import {
   allPropertiesQuery,
   featuredPropertiesQuery,
+  partnersQuery,
   propertyBySlugQuery,
+  soldPropertiesQuery,
   siteSettingsQuery,
   teamMembersQuery,
   testimonialsQuery,
 } from "./queries";
-import type { Property, SiteSettings, TeamMember, Testimonial } from "./types";
+import type {
+  Partner,
+  Property,
+  SiteSettings,
+  TeamMember,
+  Testimonial,
+} from "./types";
 
 export type CmsHomeData = {
   siteSettings: SiteSettings | null;
@@ -25,6 +33,11 @@ export type CmsListingsData = {
   properties: Property[];
 };
 
+export type CmsTransactionsData = {
+  soldProperties: Property[];
+  partners: Partner[];
+};
+
 const EMPTY_HOME: CmsHomeData = {
   siteSettings: null,
   featuredProperties: [],
@@ -37,6 +50,11 @@ const EMPTY_ABOUT: CmsAboutData = {
 
 const EMPTY_LISTINGS: CmsListingsData = {
   properties: [],
+};
+
+const EMPTY_TRANSACTIONS: CmsTransactionsData = {
+  soldProperties: [],
+  partners: [],
 };
 
 export async function loadCmsHomeData(lang: Locale): Promise<CmsHomeData> {
@@ -99,6 +117,29 @@ export async function loadCmsListingsData(
     };
   } catch {
     return EMPTY_LISTINGS;
+  }
+}
+
+export async function loadCmsTransactionsData(
+  lang: Locale,
+): Promise<CmsTransactionsData> {
+  if (!isSanityConfigured()) {
+    return EMPTY_TRANSACTIONS;
+  }
+
+  try {
+    const client = createSanityClient();
+    const [soldProperties, partners] = await Promise.all([
+      client.fetch<Property[]>(soldPropertiesQuery, { lang }),
+      client.fetch<Partner[]>(partnersQuery, { lang }),
+    ]);
+
+    return {
+      soldProperties: soldProperties ?? [],
+      partners: partners ?? [],
+    };
+  } catch {
+    return EMPTY_TRANSACTIONS;
   }
 }
 

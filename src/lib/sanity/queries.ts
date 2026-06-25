@@ -82,6 +82,17 @@ const teamMemberProjection = `{
   order
 }`;
 
+const partnerProjection = `{
+  _id,
+  _type,
+  language,
+  name,
+  logo,
+  url,
+  category,
+  order
+}`;
+
 export const siteSettingsQuery = `*[_type == "siteSettings" && _id == "${SITE_SETTINGS_DOCUMENT_ID}"][0]${siteSettingsProjection}`;
 
 export const featuredPropertiesQuery = `*[_type == "property" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang && featured == true] | order(publishedAt desc) ${propertyCardProjection}`;
@@ -93,3 +104,7 @@ export const propertyBySlugQuery = `*[_type == "property" && ${DOCUMENT_I18N_LAN
 export const testimonialsQuery = `*[_type == "testimonial" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang] | order(order asc) ${testimonialProjection}`;
 
 export const teamMembersQuery = `*[_type == "teamMember" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang] | order(order asc) ${teamMemberProjection}`;
+
+export const soldPropertiesQuery = `*[_type == "property" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang && status == "vendu"] | order(publishedAt desc) ${propertyCardProjection}`;
+
+export const partnersQuery = `*[_type == "partner" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang] | order(order asc) ${partnerProjection}`;
