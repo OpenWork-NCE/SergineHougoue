@@ -59,6 +59,12 @@ export interface ListingsCopy {
   intro: string;
 }
 
+export interface ServicesCopy {
+  eyebrow: string;
+  title: string;
+  intro: string;
+}
+
 export interface PropertyDetailCopy {
   specs: string;
   description: string;
@@ -89,6 +95,7 @@ export interface SiteCopy {
   hero: HeroCopy;
   home: HomeCopy;
   about: AboutCopy;
+  services: ServicesCopy;
   listings: ListingsCopy;
   property: PropertyCopy;
 }
@@ -141,6 +148,11 @@ const fr: SiteCopy = {
     title: "À propos",
     intro:
       "Découvrez l'approche humaine et rigoureuse de Sergine Hougoue, courtier immobilier certifiée OACIQ.",
+  },
+  services: {
+    eyebrow: "02 / Services",
+    title: "Nos services",
+    intro: "Accompagnement pour acheteurs et vendeurs.",
   },
   listings: {
     eyebrow: "02 / Biens",
@@ -230,6 +242,11 @@ const en: SiteCopy = {
     title: "About",
     intro:
       "Meet Sergine Hougoue — an OACIQ-certified broker offering attentive, rigorous guidance for every real estate goal.",
+  },
+  services: {
+    eyebrow: "02 / Services",
+    title: "Our services",
+    intro: "Guidance for buyers and sellers.",
   },
   listings: {
     eyebrow: "02 / Listings",
