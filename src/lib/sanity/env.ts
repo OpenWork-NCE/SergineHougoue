@@ -1,3 +1,8 @@
+import {
+  PUBLIC_SANITY_DATASET,
+  PUBLIC_SANITY_PROJECT_ID,
+} from "$env/static/public";
+
 /** Sanity + site env accessors. Copy .env.example → .env.local and fill values. */
 
 export const REQUIRED_PUBLIC_ENV_KEYS = [
@@ -25,7 +30,7 @@ export function parseSanityProjectId(raw: string): string {
 }
 
 export function isSanityConfigured(): boolean {
-  const projectId = (import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? "").trim();
+  const projectId = (PUBLIC_SANITY_PROJECT_ID ?? "").trim();
   return projectId.length > 0 && projectId !== "your_project_id";
 }
 
@@ -33,11 +38,7 @@ export function getPublicSanityConfig(): {
   projectId: string;
   dataset: string;
 } {
-  const projectId = parseSanityProjectId(
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? "",
-  );
-  const dataset = (
-    import.meta.env.PUBLIC_SANITY_DATASET ?? "production"
-  ).trim();
+  const projectId = parseSanityProjectId(PUBLIC_SANITY_PROJECT_ID ?? "");
+  const dataset = (PUBLIC_SANITY_DATASET ?? "production").trim();
   return { projectId, dataset };
 }

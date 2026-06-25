@@ -53,6 +53,24 @@ export interface AboutCopy {
   intro: string;
 }
 
+export interface ListingsCopy {
+  eyebrow: string;
+  title: string;
+  intro: string;
+}
+
+export interface PropertyDetailCopy {
+  specs: string;
+  description: string;
+  features: string;
+  location: string;
+  mapLink: string;
+  contactCta: string;
+  type: string;
+  status: string;
+  price: string;
+}
+
 export interface PropertyCopy {
   viewDetail: string;
   beds: string;
@@ -60,6 +78,7 @@ export interface PropertyCopy {
   area: string;
   types: Record<PropertyType, string>;
   statuses: Record<PropertyStatus, string>;
+  detail: PropertyDetailCopy;
 }
 
 export interface SiteCopy {
@@ -70,6 +89,7 @@ export interface SiteCopy {
   hero: HeroCopy;
   home: HomeCopy;
   about: AboutCopy;
+  listings: ListingsCopy;
   property: PropertyCopy;
 }
 
@@ -122,11 +142,28 @@ const fr: SiteCopy = {
     intro:
       "Découvrez l'approche humaine et rigoureuse de Sergine Hougoue, courtier immobilier certifiée OACIQ.",
   },
+  listings: {
+    eyebrow: "02 / Biens",
+    title: "Biens",
+    intro:
+      "Découvrez les propriétés résidentielles et commerciales actuellement offertes à Montréal et environs.",
+  },
   property: {
     viewDetail: "Voir le détail",
     beds: "ch.",
     baths: "sdb.",
     area: "pi²",
+    detail: {
+      specs: "Caractéristiques",
+      description: "Description",
+      features: "Atouts",
+      location: "Emplacement",
+      mapLink: "Voir sur Google Maps",
+      contactCta: "Demander une visite",
+      type: "Type",
+      status: "Statut",
+      price: "Prix",
+    },
     types: {
       unifamiliale: "Unifamiliale",
       plex: "Plex",
@@ -194,11 +231,28 @@ const en: SiteCopy = {
     intro:
       "Meet Sergine Hougoue — an OACIQ-certified broker offering attentive, rigorous guidance for every real estate goal.",
   },
+  listings: {
+    eyebrow: "02 / Listings",
+    title: "Listings",
+    intro:
+      "Browse residential and commercial properties currently available in Montreal and surrounding areas.",
+  },
   property: {
     viewDetail: "View details",
     beds: "bd",
     baths: "ba",
     area: "sq ft",
+    detail: {
+      specs: "Specifications",
+      description: "Description",
+      features: "Features",
+      location: "Location",
+      mapLink: "View on Google Maps",
+      contactCta: "Request a visit",
+      type: "Type",
+      status: "Status",
+      price: "Price",
+    },
     types: {
       unifamiliale: "Single-family",
       plex: "Plex",

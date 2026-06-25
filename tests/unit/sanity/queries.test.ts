@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
   DOCUMENT_I18N_LANGUAGE_FIELD,
+  allPropertiesQuery,
   featuredPropertiesQuery,
+  propertyBySlugQuery,
   siteSettingsQuery,
   teamMembersQuery,
   testimonialsQuery,
@@ -39,5 +41,29 @@ describe("sanity GROQ queries", () => {
       `${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang`,
     );
     expect(teamMembersQuery).toContain("order(order asc)");
+  });
+
+  it("allPropertiesQuery filters by type, language, and excludes sold listings", () => {
+    expect(allPropertiesQuery).toContain('_type == "property"');
+    expect(allPropertiesQuery).toContain("$lang");
+    expect(allPropertiesQuery).toContain(
+      `${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang`,
+    );
+    expect(allPropertiesQuery).toContain('status != "vendu"');
+    expect(allPropertiesQuery).toContain("order(publishedAt desc)");
+  });
+
+  it("propertyBySlugQuery filters by type, language, and slug", () => {
+    expect(propertyBySlugQuery).toContain('_type == "property"');
+    expect(propertyBySlugQuery).toContain("$lang");
+    expect(propertyBySlugQuery).toContain("$slug");
+    expect(propertyBySlugQuery).toContain(
+      `${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang`,
+    );
+    expect(propertyBySlugQuery).toContain("slug.current == $slug");
+    expect(propertyBySlugQuery).toContain("[0]");
+    expect(propertyBySlugQuery).toContain("description");
+    expect(propertyBySlugQuery).toContain("features");
+    expect(propertyBySlugQuery).toContain("photos");
   });
 });
