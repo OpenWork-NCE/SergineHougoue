@@ -1,5 +1,6 @@
 <script lang="ts">
   import "../app.css";
+  import Footer from "$components/layout/Footer.svelte";
   import Nav from "$components/layout/Nav.svelte";
   import type { LayoutData } from "./$types";
 
@@ -15,3 +16,5 @@
 <main>
   {@render children?.()}
 </main>
+
+<Footer locale={data.locale} />
