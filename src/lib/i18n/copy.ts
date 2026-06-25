@@ -54,6 +54,7 @@ export interface PropertyCopy {
   viewDetail: string;
   beds: string;
   baths: string;
+  area: string;
   types: Record<PropertyType, string>;
   statuses: Record<PropertyStatus, string>;
 }
@@ -119,6 +120,7 @@ const fr: SiteCopy = {
     viewDetail: "Voir le détail",
     beds: "ch.",
     baths: "sdb.",
+    area: "pi²",
     types: {
       unifamiliale: "Unifamiliale",
       plex: "Plex",
@@ -187,6 +189,7 @@ const en: SiteCopy = {
     viewDetail: "View details",
     beds: "bd",
     baths: "ba",
+    area: "sq ft",
     types: {
       unifamiliale: "Single-family",
       plex: "Plex",

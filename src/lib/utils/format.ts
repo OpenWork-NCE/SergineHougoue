@@ -1,3 +1,4 @@
+import { getCopy } from "$i18n/copy";
 import type { Locale } from "$i18n/locales";
 
 function formatThousands(value: number, separator: string): string {
@@ -13,9 +14,8 @@ export function formatPrice(price: number, locale: Locale): string {
 }
 
 export function formatArea(area: number, locale: Locale): string {
-  if (locale === "fr") {
-    return `${formatThousands(area, " ")} pi²`;
-  }
+  const { area: areaUnit } = getCopy(locale).property;
+  const separator = locale === "fr" ? " " : ",";
 
-  return `${formatThousands(area, ",")} sq ft`;
+  return `${formatThousands(area, separator)} ${areaUnit}`;
 }
