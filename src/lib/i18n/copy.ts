@@ -1,4 +1,5 @@
 import type { Locale } from "./locales";
+import type { PropertyStatus, PropertyType } from "$sanity/types";
 
 export interface NavCopy {
   home: string;
@@ -49,6 +50,14 @@ export interface AboutCopy {
   intro: string;
 }
 
+export interface PropertyCopy {
+  viewDetail: string;
+  beds: string;
+  baths: string;
+  types: Record<PropertyType, string>;
+  statuses: Record<PropertyStatus, string>;
+}
+
 export interface SiteCopy {
   nav: NavCopy;
   whatsapp: WhatsappCopy;
@@ -57,6 +66,7 @@ export interface SiteCopy {
   hero: HeroCopy;
   home: HomeCopy;
   about: AboutCopy;
+  property: PropertyCopy;
 }
 
 const fr: SiteCopy = {
@@ -105,6 +115,26 @@ const fr: SiteCopy = {
     intro:
       "Découvrez l'approche humaine et rigoureuse de Sergine Hougoue, courtier immobilier certifiée OACIQ.",
   },
+  property: {
+    viewDetail: "Voir le détail",
+    beds: "ch.",
+    baths: "sdb.",
+    types: {
+      unifamiliale: "Unifamiliale",
+      plex: "Plex",
+      condo: "Condo",
+      duplex: "Duplex",
+      triplex: "Triplex",
+      quadruplex: "Quadruplex",
+      quintuplex: "Quintuplex",
+      commercial: "Commercial",
+    },
+    statuses: {
+      "a-vendre": "À vendre",
+      vendu: "Vendu",
+      "en-primeur": "En primeur",
+    },
+  },
 };
 
 const en: SiteCopy = {
@@ -152,6 +182,26 @@ const en: SiteCopy = {
     title: "About",
     intro:
       "Meet Sergine Hougoue — an OACIQ-certified broker offering attentive, rigorous guidance for every real estate goal.",
+  },
+  property: {
+    viewDetail: "View details",
+    beds: "bd",
+    baths: "ba",
+    types: {
+      unifamiliale: "Single-family",
+      plex: "Plex",
+      condo: "Condo",
+      duplex: "Duplex",
+      triplex: "Triplex",
+      quadruplex: "Quadruplex",
+      quintuplex: "Quintuplex",
+      commercial: "Commercial",
+    },
+    statuses: {
+      "a-vendre": "For sale",
+      vendu: "Sold",
+      "en-primeur": "Coming soon",
+    },
   },
 };
 
