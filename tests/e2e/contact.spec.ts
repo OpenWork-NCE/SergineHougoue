@@ -1,9 +1,23 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { getCopy } from "../../src/lib/i18n/copy";
 import { getFormCopy } from "../../src/lib/i18n/forms";
 
 type AxeBuilderOptions = ConstructorParameters<typeof AxeBuilder>[0];
+
+async function fillBoundInput(
+  page: Page,
+  selector: string,
+  value: string,
+) {
+  const field = page.locator(selector);
+  await field.scrollIntoViewIfNeeded();
+  await field.evaluate((element, nextValue) => {
+    const input = element as HTMLInputElement | HTMLTextAreaElement;
+    input.value = nextValue;
+    input.dispatchEvent(new InputEvent("input", { bubbles: true }));
+  }, value);
+}
 
 test.describe("contact routes", () => {
   test("/fr/contact returns 200 with page header and form fields", async ({
@@ -23,6 +37,50 @@ test.describe("contact routes", () => {
     await expect(page.getByLabel(formCopy.fields.email)).toBeVisible();
     await expect(page.getByLabel(formCopy.fields.intent)).toBeVisible();
     await expect(page.getByLabel(formCopy.fields.message)).toBeVisible();
+  });
+
+  test("/fr/contact submits form and shows success with mocked API", async ({
+    page,
+  }) => {
+    const formCopy = getFormCopy("fr");
+
+    await page.route("**/api/contact", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true }),
+      });
+    });
+
+    await page.addInitScript(() => {
+      localStorage.setItem("sergine_cookie_consent", "accepted");
+    });
+
+    await page.goto("/fr/contact", { waitUntil: "networkidle" });
+    await expect(page.locator("#contact-name")).toBeEditable();
+
+    await fillBoundInput(page, "#contact-name", "Jane Doe");
+    await fillBoundInput(page, "#contact-phone", "4384626015");
+    await fillBoundInput(page, "#contact-email", "jane@example.com");
+    await page.locator("#contact-intent").evaluate((select) => {
+      const element = select as HTMLSelectElement;
+      element.value = "buy";
+      element.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    await fillBoundInput(
+      page,
+      "#contact-message",
+      "Je souhaite acheter une propriété à Montréal.",
+    );
+
+    const submitButton = page.locator('form button[type="submit"]');
+    await submitButton.scrollIntoViewIfNeeded();
+    await submitButton.click();
+
+    await expect(page.getByTestId("contact-form-success")).toBeVisible();
+    await expect(page.getByTestId("contact-form-success")).toHaveText(
+      formCopy.success,
+    );
   });
 
   test("/en/contact returns 200 with English page header", async ({ page }) => {
