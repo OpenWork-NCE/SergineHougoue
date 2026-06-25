@@ -1,5 +1,6 @@
 <script lang="ts">
   import "../app.css";
+  import CookieBanner from "$components/layout/CookieBanner.svelte";
   import Footer from "$components/layout/Footer.svelte";
   import Nav from "$components/layout/Nav.svelte";
   import WhatsAppFab from "$components/layout/WhatsAppFab.svelte";
@@ -19,5 +20,7 @@
 </main>
 
 <Footer locale={data.locale} />
+
+<CookieBanner locale={data.locale} />
 
 <WhatsAppFab phone="14384626015" locale={data.locale} />
