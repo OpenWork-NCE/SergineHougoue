@@ -2156,6 +2156,42 @@ git commit -m "feat(sanity): install Sanity deps and add env module + .env.examp
 
 ---
 
+## Task 2.2: Define schemas — siteSettings, teamMember, testimonial, partner
+
+**Files:**
+
+- Create: `src/lib/sanity/schemas/{index,fields,siteSettings,teamMember,testimonial,partner}.ts`, `tests/unit/sanity/schemas.test.ts`
+- Modify: none
+
+**Interfaces:**
+
+- Consumes: Task 2.1 Sanity deps; spec section 5 field tables
+- Produces: Four Sanity `defineType` schemas + shared field helpers + barrel export `schemaTypes` array
+
+**i18n note:** Document-level FR/EN is configured in Task 2.4 via `@sanity/document-internationalization`. Schemas use plain `string`/`text` fields; the plugin creates per-locale document variants.
+
+- [ ] **Step 1: Write failing unit test** — `tests/unit/sanity/schemas.test.ts` asserts `schemaTypes` exports 4 types with names `siteSettings`, `teamMember`, `testimonial`, `partner`; asserts `imageWithAlt` requires alt; asserts `siteSettings` is singleton (`__experimental_formPreviewTitle` or `options.singleton` pattern).
+
+- [ ] **Step 2: Run test** — expect FAIL (modules not found).
+
+- [ ] **Step 3: Create `fields.ts`** — helpers: `imageWithAlt` (image field + required alt string), `orderField` (number), enum helpers.
+
+- [ ] **Step 4: Create four schema files** per spec section 5:
+  - `siteSettings`: brandName, tagline, contactEmail, contactPhone, whatsappNumber, hoursOfOperation, socialLinks (facebook/instagram/tiktok/linkedin urls), defaultSEO (metaTitle, metaDescription, ogImage), cookieConsentCopy. Singleton.
+  - `teamMember`: name, role, photo (imageWithAlt), bio (array/blocks portable text), order
+  - `testimonial`: quote, authorName, authorContext, photo (optional imageWithAlt), rating (1-5), order
+  - `partner`: name, logo (image), url, category enum (`preteur`|`notaire`|`inspecteur`|`autre`), order
+
+- [ ] **Step 5: Create `index.ts`** — export `schemaTypes` array with all four schemas.
+
+- [ ] **Step 6: Run tests** — pass.
+
+- [ ] **Step 7: `npm run check && npm run lint`** — 0 errors.
+
+- [ ] **Step 8: Commit** — `feat(sanity): add siteSettings, teamMember, testimonial, partner schemas`
+
+---
+
 ## Phase 2 remaining tasks (summary — expand before dispatch)
 
 | Task | What                                                           | Files                                                                                            |
