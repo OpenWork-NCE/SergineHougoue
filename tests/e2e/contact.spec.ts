@@ -56,8 +56,8 @@ test.describe("contact routes", () => {
       localStorage.setItem("sergine_cookie_consent", "accepted");
     });
 
-    await page.goto("/fr/contact", { waitUntil: "networkidle" });
-    await expect(page.locator("#contact-name")).toBeEditable();
+    await page.goto("/fr/contact");
+    await expect(page.locator("#contact-name")).toBeEditable({ timeout: 15_000 });
 
     await fillBoundInput(page, "#contact-name", "Jane Doe");
     await fillBoundInput(page, "#contact-phone", "4384626015");
