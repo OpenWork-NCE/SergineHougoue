@@ -1,19 +1,19 @@
-import adapter from '@sveltejs/adapter-vercel';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from "@sveltejs/adapter-vercel";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   preprocess: vitePreprocess(),
   kit: {
-    adapter: adapter({ runtime: 'nodejs20.x' }),
+    adapter: adapter({ runtime: "nodejs20.x" }),
     alias: {
-      $components: 'src/lib/components',
-      $i18n: 'src/lib/i18n',
-      $sanity: 'src/lib/sanity',
-      $server: 'src/lib/server',
-      $utils: 'src/lib/utils'
-    }
-  }
+      $components: "src/lib/components",
+      $i18n: "src/lib/i18n",
+      $sanity: "src/lib/sanity",
+      $server: "src/lib/server",
+      $utils: "src/lib/utils",
+    },
+  },
 };
 
 export default config;

@@ -1,0 +1,36 @@
+
+> sergine-hougoue-immo@0.1.0 check
+> svelte-kit sync && svelte-check --tsconfig ./tsconfig.json
+
+X [ERROR] Cannot read directory "../../../..": Access is denied.
+
+X [ERROR] Could not resolve "C:\\Users\\AM\\Documents\\Workspace\\DHC\\immo\\vite.config.ts"
+
+failed to load config from C:\Users\AM\Documents\Workspace\DHC\immo\vite.config.ts
+Loading Svelte config from Vite config failed: Error: Build failed with 2 errors:
+error: Cannot read directory "../../../..": Access is denied.
+error: Could not resolve "C:\\Users\\AM\\Documents\\Workspace\\DHC\\immo\\vite.config.ts"
+    at failureErrorWithLog (C:\Users\AM\Documents\Workspace\DHC\immo\node_modules\vite\node_modules\esbuild\lib\main.js:1472:15)
+    at C:\Users\AM\Documents\Workspace\DHC\immo\node_modules\vite\node_modules\esbuild\lib\main.js:945:25
+    at runOnEndCallbacks (C:\Users\AM\Documents\Workspace\DHC\immo\node_modules\vite\node_modules\esbuild\lib\main.js:1315:45)
+    at buildResponseToResult (C:\Users\AM\Documents\Workspace\DHC\immo\node_modules\vite\node_modules\esbuild\lib\main.js:943:7)
+    at C:\Users\AM\Documents\Workspace\DHC\immo\node_modules\vite\node_modules\esbuild\lib\main.js:970:16
+    at responseCallbacks.<computed> (C:\Users\AM\Documents\Workspace\DHC\immo\node_modules\vite\node_modules\esbuild\lib\main.js:622:9)
+    at handleIncomingPacket (C:\Users\AM\Documents\Workspace\DHC\immo\node_modules\vite\node_modules\esbuild\lib\main.js:677:12)
+    at Socket.readFromStdout (C:\Users\AM\Documents\Workspace\DHC\immo\node_modules\vite\node_modules\esbuild\lib\main.js:600:7)
+    at Socket.emit (node:events:509:28)
+    at addChunk (node:internal/streams/readable:563:12) {
+  errors: [Getter/Setter],
+  warnings: [Getter/Setter]
+} 
+
+Falling back to loading svelte.config.js
+X [ERROR] Cannot read directory "../../../..": Access is denied.
+
+X [ERROR] Could not resolve "c:\\Users\\AM\\Documents\\Workspace\\DHC\\immo\\vite.config.ts"
+
+failed to load config from c:\Users\AM\Documents\Workspace\DHC\immo\vite.config.ts
+Loading svelte-check in workspace: c:\Users\AM\Documents\Workspace\DHC\immo
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings

@@ -4,24 +4,29 @@
 
 @layer base {
   :root {
-    --bg-canvas: #0E0E0E;
+    --bg-canvas: #0e0e0e;
     --bg-surface: #161616;
-    --bg-elevated: #1F1F1F;
-    --text-primary: #F5F2EC;
-    --text-secondary: #A8A29A;
-    --text-muted: #6B6660;
+    --bg-elevated: #1f1f1f;
+    --text-primary: #f5f2ec;
+    --text-secondary: #a8a29a;
+    --text-muted: #6b6660;
     --border-hairline: rgba(245, 242, 236, 0.08);
-    --accent: #E8DFD0;
+    --accent: #e8dfd0;
     --state-hover: rgba(255, 255, 255, 0.06);
 
-    --brand-burgundy: #6E1F2E;
-    --brand-gold: #C9A24A;
+    --brand-burgundy: #6e1f2e;
+    --brand-gold: #c9a24a;
   }
 
   html {
     background-color: var(--bg-canvas);
     color: var(--text-primary);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
     font-weight: 300;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
@@ -33,8 +38,13 @@
     min-height: 100vh;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', ui-serif, Georgia, serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Fraunces", ui-serif, Georgia, serif;
     font-weight: 300;
     line-height: 1.05;
     letter-spacing: -0.01em;

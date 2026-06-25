@@ -12,12 +12,14 @@ Sergine Hougoue is launching a new web presence to develop her real estate broke
 **Primary business goal**: Acquire at least one new client per month that converts to a transaction (buy, sell, or rent).
 
 **Secondary goals**:
+
 - Reposition Sergine's existing Facebook page (~5,000 followers) from a previous writing/chronicles audience to a real estate audience.
 - Establish a professional, trustworthy web identity that converts Quebec prospects into booked appointments.
 - Provide a foundation the team can maintain (CMS-driven content, bilingual, SEO-friendly).
 - Enable measurable lead tracking so the team can see whether "1 client/month" is being achieved and from which channels.
 
 **Out of scope (handled separately, not in this spec)**:
+
 - Social media account creation and management (TikTok, Instagram) — handled by the marketing team.
 - Facebook page repositioning and ongoing content — handled by the marketing team.
 - Sponsored Facebook ad campaigns — handled by the marketing team.
@@ -26,37 +28,37 @@ Sergine Hougoue is launching a new web presence to develop her real estate broke
 
 ## 2. Decisions Summary
 
-| # | Decision | Choice |
-|---|---|---|
-| 1 | Visual foundation | Existing `DESIGN.md` (Lesse Studio dark editorial) as base; supplement from nlandurealestate/marioconte/guillou only where it adds value |
-| 2 | Scope | All 7 pages at launch with modest depth |
-| 3 | Listings data source | Hand-curated showcase (managed via Sanity) |
-| 4 | CMS | Sanity (free tier, embedded studio) |
-| 5 | Language | Bilingual FR + EN with full route-level toggle |
-| 6 | Contact delivery | Email (Resend) + click-to-WhatsApp buttons |
-| 7 | Booking | Cal.com embedded widget on Contact page |
-| 8 | Hosting | Vercel |
-| 9 | Framework | SvelteKit 2 + Svelte 5 + TypeScript + Tailwind |
-| 10 | SEO | Baseline SEO + blog-driven content SEO |
-| 11 | Analytics | Google Analytics 4 + Quebec Law 25 cookie consent |
+| #   | Decision             | Choice                                                                                                                                   |
+| --- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Visual foundation    | Existing `DESIGN.md` (Lesse Studio dark editorial) as base; supplement from nlandurealestate/marioconte/guillou only where it adds value |
+| 2   | Scope                | All 7 pages at launch with modest depth                                                                                                  |
+| 3   | Listings data source | Hand-curated showcase (managed via Sanity)                                                                                               |
+| 4   | CMS                  | Sanity (free tier, embedded studio)                                                                                                      |
+| 5   | Language             | Bilingual FR + EN with full route-level toggle                                                                                           |
+| 6   | Contact delivery     | Email (Resend) + click-to-WhatsApp buttons                                                                                               |
+| 7   | Booking              | Cal.com embedded widget on Contact page                                                                                                  |
+| 8   | Hosting              | Vercel                                                                                                                                   |
+| 9   | Framework            | SvelteKit 2 + Svelte 5 + TypeScript + Tailwind                                                                                           |
+| 10  | SEO                  | Baseline SEO + blog-driven content SEO                                                                                                   |
+| 11  | Analytics            | Google Analytics 4 + Quebec Law 25 cookie consent                                                                                        |
 
 ## 3. Architecture & Stack
 
 ### Tech stack
 
-| Layer | Choice | Rationale |
-|---|---|---|
-| Framework | SvelteKit 2 + Svelte 5 + TypeScript | Fast, low-JS, great SEO, idiomatic with existing DESIGN.md tokens |
-| Bundler | Vite (via SvelteKit) | Default, fast HMR |
-| Styling | Tailwind CSS + CSS variables | Existing DESIGN.md tokens live as `:root` variables; Tailwind utility classes consume them |
-| CMS | Sanity (free tier) | Real-time collaboration, generous free tier, first-class i18n plugin, embedded Studio at `/studio` |
-| Hosting | Vercel | Free tier covers this scale, auto-deploys from Git, serverless functions for form handler |
-| Email delivery | Resend (free tier, 100/day) | Simple API, modern DX, generous free quota |
-| Booking | Cal.com (free cloud tier) | Open source, embeddable, syncs to Google/Outlook |
-| WhatsApp | Click-to-`wa.me` links (no paid API) | Free, works today, what most Quebec brokers do |
-| Analytics | Google Analytics 4 | Industry standard for marketing attribution |
-| Cookie consent | Custom lightweight banner | Quebec Law 25 / GDPR-compliant, no third-party dependency |
-| SEO | Per-page meta, OG, structured data, hreflang, sitemap | Baseline + blog content strategy |
+| Layer          | Choice                                                | Rationale                                                                                          |
+| -------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Framework      | SvelteKit 2 + Svelte 5 + TypeScript                   | Fast, low-JS, great SEO, idiomatic with existing DESIGN.md tokens                                  |
+| Bundler        | Vite (via SvelteKit)                                  | Default, fast HMR                                                                                  |
+| Styling        | Tailwind CSS + CSS variables                          | Existing DESIGN.md tokens live as `:root` variables; Tailwind utility classes consume them         |
+| CMS            | Sanity (free tier)                                    | Real-time collaboration, generous free tier, first-class i18n plugin, embedded Studio at `/studio` |
+| Hosting        | Vercel                                                | Free tier covers this scale, auto-deploys from Git, serverless functions for form handler          |
+| Email delivery | Resend (free tier, 100/day)                           | Simple API, modern DX, generous free quota                                                         |
+| Booking        | Cal.com (free cloud tier)                             | Open source, embeddable, syncs to Google/Outlook                                                   |
+| WhatsApp       | Click-to-`wa.me` links (no paid API)                  | Free, works today, what most Quebec brokers do                                                     |
+| Analytics      | Google Analytics 4                                    | Industry standard for marketing attribution                                                        |
+| Cookie consent | Custom lightweight banner                             | Quebec Law 25 / GDPR-compliant, no third-party dependency                                          |
+| SEO            | Per-page meta, OG, structured data, hreflang, sitemap | Baseline + blog content strategy                                                                   |
 
 ### Design tokens
 
@@ -65,23 +67,24 @@ The existing DESIGN.md defines a dark editorial palette. We extend it with two b
 ```css
 :root {
   /* Existing DESIGN.md tokens (unchanged) */
-  --bg-canvas: #0E0E0E;
+  --bg-canvas: #0e0e0e;
   --bg-surface: #161616;
-  --bg-elevated: #1F1F1F;
-  --text-primary: #F5F2EC;
-  --text-secondary: #A8A29A;
-  --text-muted: #6B6660;
+  --bg-elevated: #1f1f1f;
+  --text-primary: #f5f2ec;
+  --text-secondary: #a8a29a;
+  --text-muted: #6b6660;
   --border-hairline: rgba(245, 242, 236, 0.08);
-  --accent: #E8DFD0;            /* bone — neutral highlights */
+  --accent: #e8dfd0; /* bone — neutral highlights */
   --state-hover: rgba(255, 255, 255, 0.06);
 
   /* NEW — Sergine brand tokens (sampled from business card) */
-  --brand-burgundy: #6E1F2E;    /* primary CTA fills, active states, dividers */
-  --brand-gold: #C9A24A;        /* secondary accents, eyebrow text, "En Primeur" tag, link arrows */
+  --brand-burgundy: #6e1f2e; /* primary CTA fills, active states, dividers */
+  --brand-gold: #c9a24a; /* secondary accents, eyebrow text, "En Primeur" tag, link arrows */
 }
 ```
 
 **Token usage rules**:
+
 - **Burgundy** — primary CTA fills, active nav state, section dividers, "Vendu" badge
 - **Gold** — secondary accents, eyebrow text, "En Primeur" tag, inline link arrows, key highlight bars
 - **Bone (`--accent`)** — neutral highlights, testimonial chips, focus rings, decorative hairlines
@@ -133,16 +136,16 @@ src/routes/
 
 ### Page-by-page intent
 
-| Route | Purpose | Key sections |
-|---|---|---|
-| Home | Convert — capture leads fast | Hero (Sergine photo, H1, CTA, WhatsApp), 3 value-prop cards, featured listings carousel (3), testimonial chips, CTA strip |
-| About | Build trust via storytelling | Two-column editorial photo + long-form bio from `Texts utilities.txt`, 5-pillar values block |
-| Services | Explain offerings | Numbered accordion with 4 categories (Buyers first-time / Buyers investment / Sellers evaluation / Sellers strategy) |
-| Listings | Show inventory | Hand-curated grid of ~6–12 featured properties, each card: photo, price, address, beds/baths/area, type, "Voir le détail" arrow |
-| Listing detail | Convert on a specific property | Full gallery (Svelte lightbox), specs table, description, map embed, contact CTA strip |
-| Transactions | Social proof | Closed-deals grid (tagged "Vendu"), partners section (lenders, notaries, inspectors) when logos provided |
-| Blog | SEO + education | Index with 3 latest featured + paginated older posts; each post: hero image, 5-min read, FR + EN versions |
-| Contact | Capture + book | Phone/email/WhatsApp buttons, Cal.com inline embed, contact form (name, phone, email, intent, message), hours, coverage map |
+| Route          | Purpose                        | Key sections                                                                                                                    |
+| -------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| Home           | Convert — capture leads fast   | Hero (Sergine photo, H1, CTA, WhatsApp), 3 value-prop cards, featured listings carousel (3), testimonial chips, CTA strip       |
+| About          | Build trust via storytelling   | Two-column editorial photo + long-form bio from `Texts utilities.txt`, 5-pillar values block                                    |
+| Services       | Explain offerings              | Numbered accordion with 4 categories (Buyers first-time / Buyers investment / Sellers evaluation / Sellers strategy)            |
+| Listings       | Show inventory                 | Hand-curated grid of ~6–12 featured properties, each card: photo, price, address, beds/baths/area, type, "Voir le détail" arrow |
+| Listing detail | Convert on a specific property | Full gallery (Svelte lightbox), specs table, description, map embed, contact CTA strip                                          |
+| Transactions   | Social proof                   | Closed-deals grid (tagged "Vendu"), partners section (lenders, notaries, inspectors) when logos provided                        |
+| Blog           | SEO + education                | Index with 3 latest featured + paginated older posts; each post: hero image, 5-min read, FR + EN versions                       |
+| Contact        | Capture + book                 | Phone/email/WhatsApp buttons, Cal.com inline embed, contact form (name, phone, email, intent, message), hours, coverage map     |
 
 ### Cross-cutting
 
@@ -159,83 +162,83 @@ All schemas live in `src/lib/sanity/schemas/` and are mounted via `sanity.config
 
 #### `property` (listing)
 
-| Field | Type | Notes |
-|---|---|---|
-| `title` | localized string | FR + EN |
-| `slug` | slug | auto from title |
-| `status` | enum | `a-vendre` \| `vendu` \| `en-primeur` |
-| `price` | number (CAD) | |
-| `address` | localized string | |
-| `city` | localized string | |
-| `neighborhood` | localized string (optional) | |
-| `type` | enum | `unifamiliale` \| `plex` \| `condo` \| `duplex` \| `triplex` \| `quadruplex` \| `quintuplex` \| `commercial` |
-| `bedrooms` | number | |
-| `bathrooms` | number | |
-| `area` | number (sq ft) | |
-| `description` | localized portable text | |
-| `features` | array of localized strings | parking, pool, year built, etc. |
-| `photos` | array of image + alt text | alt required for accessibility |
-| `publishedAt` | datetime | |
-| `featured` | boolean | controls Home carousel |
+| Field          | Type                        | Notes                                                                                                        |
+| -------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `title`        | localized string            | FR + EN                                                                                                      |
+| `slug`         | slug                        | auto from title                                                                                              |
+| `status`       | enum                        | `a-vendre` \| `vendu` \| `en-primeur`                                                                        |
+| `price`        | number (CAD)                |                                                                                                              |
+| `address`      | localized string            |                                                                                                              |
+| `city`         | localized string            |                                                                                                              |
+| `neighborhood` | localized string (optional) |                                                                                                              |
+| `type`         | enum                        | `unifamiliale` \| `plex` \| `condo` \| `duplex` \| `triplex` \| `quadruplex` \| `quintuplex` \| `commercial` |
+| `bedrooms`     | number                      |                                                                                                              |
+| `bathrooms`    | number                      |                                                                                                              |
+| `area`         | number (sq ft)              |                                                                                                              |
+| `description`  | localized portable text     |                                                                                                              |
+| `features`     | array of localized strings  | parking, pool, year built, etc.                                                                              |
+| `photos`       | array of image + alt text   | alt required for accessibility                                                                               |
+| `publishedAt`  | datetime                    |                                                                                                              |
+| `featured`     | boolean                     | controls Home carousel                                                                                       |
 
 #### `post` (blog article)
 
-| Field | Type | Notes |
-|---|---|---|
-| `title` | localized string | |
-| `slug` | slug | |
-| `excerpt` | localized string (≤160 chars) | |
-| `coverImage` | image + alt | |
-| `body` | localized portable text | |
-| `category` | enum | `acheter` \| `vendre` \| `investir` \| `mode-de-vie` \| `marche` |
-| `author` | reference → `teamMember` | |
-| `publishedAt` | datetime | |
-| `seo` | object | metaTitle, metaDescription, ogImage (all localized) |
+| Field         | Type                          | Notes                                                            |
+| ------------- | ----------------------------- | ---------------------------------------------------------------- |
+| `title`       | localized string              |                                                                  |
+| `slug`        | slug                          |                                                                  |
+| `excerpt`     | localized string (≤160 chars) |                                                                  |
+| `coverImage`  | image + alt                   |                                                                  |
+| `body`        | localized portable text       |                                                                  |
+| `category`    | enum                          | `acheter` \| `vendre` \| `investir` \| `mode-de-vie` \| `marche` |
+| `author`      | reference → `teamMember`      |                                                                  |
+| `publishedAt` | datetime                      |                                                                  |
+| `seo`         | object                        | metaTitle, metaDescription, ogImage (all localized)              |
 
 #### `teamMember`
 
-| Field | Type | Notes |
-|---|---|---|
-| `name` | string | |
-| `role` | localized string | |
-| `photo` | image + alt | |
-| `bio` | localized portable text | |
-| `order` | number | display order |
+| Field   | Type                    | Notes         |
+| ------- | ----------------------- | ------------- |
+| `name`  | string                  |               |
+| `role`  | localized string        |               |
+| `photo` | image + alt             |               |
+| `bio`   | localized portable text |               |
+| `order` | number                  | display order |
 
 #### `testimonial`
 
-| Field | Type | Notes |
-|---|---|---|
-| `quote` | localized text | |
-| `authorName` | string | |
-| `authorContext` | localized string | e.g., "Premier acheteur, Montréal" |
-| `photo` | image + alt (optional) | |
-| `rating` | number (1–5) | |
-| `order` | number | |
+| Field           | Type                   | Notes                              |
+| --------------- | ---------------------- | ---------------------------------- |
+| `quote`         | localized text         |                                    |
+| `authorName`    | string                 |                                    |
+| `authorContext` | localized string       | e.g., "Premier acheteur, Montréal" |
+| `photo`         | image + alt (optional) |                                    |
+| `rating`        | number (1–5)           |                                    |
+| `order`         | number                 |                                    |
 
 #### `partner`
 
-| Field | Type | Notes |
-|---|---|---|
-| `name` | string | |
-| `logo` | image | |
-| `url` | url | |
-| `category` | enum | `preteur` \| `notaire` \| `inspecteur` \| `autre` |
-| `order` | number | |
+| Field      | Type   | Notes                                             |
+| ---------- | ------ | ------------------------------------------------- |
+| `name`     | string |                                                   |
+| `logo`     | image  |                                                   |
+| `url`      | url    |                                                   |
+| `category` | enum   | `preteur` \| `notaire` \| `inspecteur` \| `autre` |
+| `order`    | number |                                                   |
 
 #### `siteSettings` (singleton)
 
-| Field | Type | Notes |
-|---|---|---|
-| `brandName` | string | |
-| `tagline` | localized string | |
-| `contactEmail` | string | serginehougoue@gmail.com |
-| `contactPhone` | string | 438-462-6015 |
-| `whatsappNumber` | string | 14384626015 (E.164, no `+`) |
-| `hoursOfOperation` | localized text | |
-| `socialLinks` | object | facebook, instagram, tiktok, linkedin |
-| `defaultSEO` | object | metaTitle, metaDescription, ogImage (localized) |
-| `cookieConsentCopy` | localized text | |
+| Field               | Type             | Notes                                           |
+| ------------------- | ---------------- | ----------------------------------------------- |
+| `brandName`         | string           |                                                 |
+| `tagline`           | localized string |                                                 |
+| `contactEmail`      | string           | serginehougoue@gmail.com                        |
+| `contactPhone`      | string           | 438-462-6015                                    |
+| `whatsappNumber`    | string           | 14384626015 (E.164, no `+`)                     |
+| `hoursOfOperation`  | localized text   |                                                 |
+| `socialLinks`       | object           | facebook, instagram, tiktok, linkedin           |
+| `defaultSEO`        | object           | metaTitle, metaDescription, ogImage (localized) |
+| `cookieConsentCopy` | localized text   |                                                 |
 
 ### Localization
 
@@ -249,52 +252,52 @@ All components live in `src/lib/components/`. Each is single-responsibility, tes
 
 ### Layout components
 
-| Component | Purpose | Key props |
-|---|---|---|
-| `<Nav />` | Sticky transparent → solid nav | `currentPath`, `locale` |
-| `<Footer />` | 3-column footer + social row | `locale` |
-| `<LangToggle />` | FR/EN route-preserving toggle | `currentPath`, `currentLocale` |
-| `<CookieBanner />` | Quebec Law 25 consent banner | `copy` |
-| `<WhatsAppFab />` | Floating bottom-right button | `phone`, `locale` |
+| Component          | Purpose                        | Key props                      |
+| ------------------ | ------------------------------ | ------------------------------ |
+| `<Nav />`          | Sticky transparent → solid nav | `currentPath`, `locale`        |
+| `<Footer />`       | 3-column footer + social row   | `locale`                       |
+| `<LangToggle />`   | FR/EN route-preserving toggle  | `currentPath`, `currentLocale` |
+| `<CookieBanner />` | Quebec Law 25 consent banner   | `copy`                         |
+| `<WhatsAppFab />`  | Floating bottom-right button   | `phone`, `locale`              |
 
 ### Content components
 
-| Component | Purpose | Key props |
-|---|---|---|
-| `<Hero />` | Full-bleed hero for Home | `eyebrow`, `title`, `subtitle`, `ctaHref`, `ctaLabel`, `image` |
-| `<PageHeader />` | Smaller hero for inner pages | `eyebrow`, `title`, `intro` |
-| `<PropertyCard />` | Image + price + address + specs | `property` |
-| `<PropertyGrid />` | Responsive grid wrapper | `properties[]` |
-| `<PropertyCarousel />` | Horizontal carousel | `properties[]` |
-| `<ServiceAccordion />` | Numbered accordion | `services[]` |
-| `<TestimonialChip />` | Quote + author + rating | `testimonial` |
-| `<TeamMember />` | Photo + name + role + bio | `member` |
-| `<BlogCard />` | Cover + category + title + excerpt | `post` |
-| `<CtaStrip />` | Full-width burgundy CTA strip | `title`, `ctaHref`, `ctaLabel` |
-| `<PortableTextRenderer />` | Sanity portable text renderer | `blocks`, `locale` |
+| Component                  | Purpose                            | Key props                                                      |
+| -------------------------- | ---------------------------------- | -------------------------------------------------------------- |
+| `<Hero />`                 | Full-bleed hero for Home           | `eyebrow`, `title`, `subtitle`, `ctaHref`, `ctaLabel`, `image` |
+| `<PageHeader />`           | Smaller hero for inner pages       | `eyebrow`, `title`, `intro`                                    |
+| `<PropertyCard />`         | Image + price + address + specs    | `property`                                                     |
+| `<PropertyGrid />`         | Responsive grid wrapper            | `properties[]`                                                 |
+| `<PropertyCarousel />`     | Horizontal carousel                | `properties[]`                                                 |
+| `<ServiceAccordion />`     | Numbered accordion                 | `services[]`                                                   |
+| `<TestimonialChip />`      | Quote + author + rating            | `testimonial`                                                  |
+| `<TeamMember />`           | Photo + name + role + bio          | `member`                                                       |
+| `<BlogCard />`             | Cover + category + title + excerpt | `post`                                                         |
+| `<CtaStrip />`             | Full-width burgundy CTA strip      | `title`, `ctaHref`, `ctaLabel`                                 |
+| `<PortableTextRenderer />` | Sanity portable text renderer      | `blocks`, `locale`                                             |
 
 ### Form components
 
-| Component | Purpose | Key props |
-|---|---|---|
+| Component         | Purpose                              | Key props                 |
+| ----------------- | ------------------------------------ | ------------------------- |
 | `<ContactForm />` | Name/phone/email/intent/message form | `copy` (localized labels) |
-| `<CalEmbed />` | Cal.com inline widget | `calLink` |
+| `<CalEmbed />`    | Cal.com inline widget                | `calLink`                 |
 
 ### SEO components
 
-| Component | Purpose | Key props |
-|---|---|---|
+| Component     | Purpose                     | Key props                                           |
+| ------------- | --------------------------- | --------------------------------------------------- |
 | `<SeoHead />` | Meta + OG + structured data | `title`, `description`, `ogImage`, `locale`, `path` |
 
 ### Server-side
 
-| Endpoint / module | Purpose |
-|---|---|
-| `/api/contact/+server.ts` | POST handler — Zod-validates body, sends via Resend to serginehougoue@gmail.com |
-| `/api/og/+server.ts` | Dynamic OG image generation via Satori + satori-html |
-| `src/lib/server/sanity.ts` | Server-only typed Sanity client |
-| `src/lib/sanity/client.ts` | Browser Sanity client (preview mode) |
-| `src/hooks.server.ts` | Locale resolution middleware |
+| Endpoint / module          | Purpose                                                                         |
+| -------------------------- | ------------------------------------------------------------------------------- |
+| `/api/contact/+server.ts`  | POST handler — Zod-validates body, sends via Resend to serginehougoue@gmail.com |
+| `/api/og/+server.ts`       | Dynamic OG image generation via Satori + satori-html                            |
+| `src/lib/server/sanity.ts` | Server-only typed Sanity client                                                 |
+| `src/lib/sanity/client.ts` | Browser Sanity client (preview mode)                                            |
+| `src/hooks.server.ts`      | Locale resolution middleware                                                    |
 
 ## 7. Testing Strategy
 
@@ -360,35 +363,35 @@ Critical user flows:
 
 ### Environment variables (managed in Vercel dashboard, never committed)
 
-| Variable | Value |
-|---|---|
-| `SANITY_PROJECT_ID` | from Sanity dashboard |
-| `SANITY_DATASET` | `production` |
-| `SANITY_API_TOKEN` | read-only for public site, write for studio |
-| `RESEND_API_KEY` | from Resend dashboard |
-| `CONTACT_TO_EMAIL` | serginehougoue@gmail.com |
-| `GA4_MEASUREMENT_ID` | from GA4 admin |
-| `CAL_COM_LINK` | Sergine's Cal.com username |
+| Variable             | Value                                       |
+| -------------------- | ------------------------------------------- |
+| `SANITY_PROJECT_ID`  | from Sanity dashboard                       |
+| `SANITY_DATASET`     | `production`                                |
+| `SANITY_API_TOKEN`   | read-only for public site, write for studio |
+| `RESEND_API_KEY`     | from Resend dashboard                       |
+| `CONTACT_TO_EMAIL`   | serginehougoue@gmail.com                    |
+| `GA4_MEASUREMENT_ID` | from GA4 admin                              |
+| `CAL_COM_LINK`       | Sergine's Cal.com username                  |
 
 ### Rollout phases
 
-| Phase | Weeks | Deliverable |
-|---|---|---|
-| 1. Foundation | 1–2 | SvelteKit scaffold, Tailwind, brand tokens, base layout (Nav, Footer, LangToggle), dark editorial home page with placeholder content |
-| 2. Sanity + content | 2–3 | Sanity schemas, embedded studio, populated with starter content (3 properties, 2 testimonials, 1 blog post, About copy from `Texts utilities.txt`). Home and About page pulling from CMS. |
-| 3. All pages | 3–4 | Services, Listings + detail, Transactions, Blog + post, Contact with Cal.com + form + Resend |
-| 4. Polish & launch | 4–5 | SEO meta + structured data, GA4 + cookie banner, performance pass, accessibility pass, visual regression baseline, mobile QA, custom domain + SSL, swap real photos when they arrive |
-| 5. Post-launch | 6+ | Monitor analytics, write first 2–3 blog posts targeting long-tail keywords, iterate based on what's working |
+| Phase               | Weeks | Deliverable                                                                                                                                                                               |
+| ------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Foundation       | 1–2   | SvelteKit scaffold, Tailwind, brand tokens, base layout (Nav, Footer, LangToggle), dark editorial home page with placeholder content                                                      |
+| 2. Sanity + content | 2–3   | Sanity schemas, embedded studio, populated with starter content (3 properties, 2 testimonials, 1 blog post, About copy from `Texts utilities.txt`). Home and About page pulling from CMS. |
+| 3. All pages        | 3–4   | Services, Listings + detail, Transactions, Blog + post, Contact with Cal.com + form + Resend                                                                                              |
+| 4. Polish & launch  | 4–5   | SEO meta + structured data, GA4 + cookie banner, performance pass, accessibility pass, visual regression baseline, mobile QA, custom domain + SSL, swap real photos when they arrive      |
+| 5. Post-launch      | 6+    | Monitor analytics, write first 2–3 blog posts targeting long-tail keywords, iterate based on what's working                                                                               |
 
 ## 9. Risks & Mitigations
 
-| Risk | Mitigation |
-|---|---|
-| Professional photography not yet available | Use well-composed placeholders (architectural interiors, neighborhood shots). Hero photo of Sergine from business card used temporarily; swap when pro photos arrive. Document a `PLACEHOLDERS.md` so the team knows what to replace. |
-| No content yet | Populate with copy already in `Texts utilities.txt` and the long-form text in `PROJET_IMMOBILIER.docx`. Write 3 sample blog posts around topics Sergine already mentioned (premier acheteur, investir dans un plex, marché 2026) as starter content. |
-| Sanity Studio learning curve for non-technical team | Short Loom video walkthrough (~5 min) on adding a listing, writing a blog post, updating hours. Documented in a `TEAM_GUIDE.md`. |
-| Quebec Law 25 / GDPR compliance | Cookie consent banner + privacy policy page with clear FR + EN copy. Document data handling in the privacy policy. |
-| Cal.com adoption by Sergine | If Sergine doesn't want Cal.com, fall back to "No booking widget" (option C from original brainstorm): just call/WhatsApp/email buttons + contact form. Sergine handles scheduling manually. Implementation plan should treat Cal.com as the default but flag this fallback. |
+| Risk                                                | Mitigation                                                                                                                                                                                                                                                                   |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Professional photography not yet available          | Use well-composed placeholders (architectural interiors, neighborhood shots). Hero photo of Sergine from business card used temporarily; swap when pro photos arrive. Document a `PLACEHOLDERS.md` so the team knows what to replace.                                        |
+| No content yet                                      | Populate with copy already in `Texts utilities.txt` and the long-form text in `PROJET_IMMOBILIER.docx`. Write 3 sample blog posts around topics Sergine already mentioned (premier acheteur, investir dans un plex, marché 2026) as starter content.                         |
+| Sanity Studio learning curve for non-technical team | Short Loom video walkthrough (~5 min) on adding a listing, writing a blog post, updating hours. Documented in a `TEAM_GUIDE.md`.                                                                                                                                             |
+| Quebec Law 25 / GDPR compliance                     | Cookie consent banner + privacy policy page with clear FR + EN copy. Document data handling in the privacy policy.                                                                                                                                                           |
+| Cal.com adoption by Sergine                         | If Sergine doesn't want Cal.com, fall back to "No booking widget" (option C from original brainstorm): just call/WhatsApp/email buttons + contact form. Sergine handles scheduling manually. Implementation plan should treat Cal.com as the default but flag this fallback. |
 
 ## 10. Open Questions
 

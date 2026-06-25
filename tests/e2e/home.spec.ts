@@ -1,8 +1,22 @@
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+
+type AxeBuilderOptions = ConstructorParameters<typeof AxeBuilder>[0];
 
 test("home page renders the bootstrap heading", async ({ page }) => {
   await page.goto("/");
   await expect(
     page.getByRole("heading", { name: "Construisons votre avenir immobilier" }),
   ).toBeVisible();
+});
+
+test("home page has no critical accessibility violations", async ({ page }) => {
+  await page.goto("/");
+
+  // AxeBuilder currently types `page` against a newer playwright-core version.
+  const accessibilityScanResults = await new AxeBuilder({
+    page: page as unknown as AxeBuilderOptions["page"],
+  }).analyze();
+
+  expect(accessibilityScanResults.violations).toEqual([]);
 });

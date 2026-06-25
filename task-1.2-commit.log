@@ -1,0 +1,7 @@
+[feat/phase-1-foundation 781ce1b] feat: add Tailwind CSS with DESIGN.md tokens + Sergine brand colors
+ 9 files changed, 1321 insertions(+), 63 deletions(-)
+ create mode 100644 postcss.config.js
+ create mode 100644 src/app.css
+ create mode 100644 tailwind.config.ts
+ create mode 100644 task-1.2-check.cmd
+ create mode 100644 task-1.2-dev.cmd

@@ -7,6 +7,7 @@
 **Architecture:** SvelteKit 2 + Svelte 5 + TypeScript single-page-app-ish SSR site. Sanity CMS for all dynamic content (properties, blog posts, testimonials, partners, team, site settings) with FR + EN locales. Tailwind CSS consuming the existing dark-editorial design tokens from `DESIGN.md`, layered with two new brand tokens (`--brand-burgundy`, `--brand-gold`). Vercel hosting with serverless form handler. Resend for email delivery, click-to-WhatsApp for chat, Cal.com embed for booking, GA4 + Quebec Law 25 cookie consent.
 
 **Tech Stack:**
+
 - SvelteKit ^2.x, Svelte ^5.x (runes), TypeScript ^5.x, Vite (via SvelteKit)
 - @sveltejs/adapter-vercel ^5.x
 - Tailwind CSS ^3.4.x with PostCSS
@@ -102,9 +103,11 @@ Full component file list lives in `src/lib/components/`:
 ## Task 1.1: Initialize SvelteKit + TypeScript project
 
 **Files:**
+
 - Create: `package.json`, `svelte.config.js`, `vite.config.ts`, `tsconfig.json`, `src/app.html`, `src/app.d.ts`, `.gitignore`, `README.md`, `src/routes/+layout.svelte`, `src/routes/+page.svelte`
 
 **Interfaces:**
+
 - Consumes: nothing (greenfield)
 - Produces: a runnable SvelteKit dev server on `http://localhost:5173`
 
@@ -178,22 +181,22 @@ Expected: `node_modules/` created, no errors. `package-lock.json` written.
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\svelte.config.js`:
 
 ```javascript
-import adapter from '@sveltejs/adapter-vercel';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from "@sveltejs/adapter-vercel";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   preprocess: vitePreprocess(),
   kit: {
-    adapter: adapter({ runtime: 'nodejs20.x' }),
+    adapter: adapter({ runtime: "nodejs20.x" }),
     alias: {
-      $components: 'src/lib/components',
-      $i18n: 'src/lib/i18n',
-      $sanity: 'src/lib/sanity',
-      $server: 'src/lib/server',
-      $utils: 'src/lib/utils'
-    }
-  }
+      $components: "src/lib/components",
+      $i18n: "src/lib/i18n",
+      $sanity: "src/lib/sanity",
+      $server: "src/lib/server",
+      $utils: "src/lib/utils",
+    },
+  },
 };
 
 export default config;
@@ -204,15 +207,15 @@ export default config;
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\vite.config.ts`:
 
 ```typescript
-import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { sveltekit } from "@sveltejs/kit/vite";
+import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [sveltekit()],
   server: { port: 5173 },
   test: {
-    include: ['src/**/*.{test,spec}.{js,ts}']
-  }
+    include: ["src/**/*.{test,spec}.{js,ts}"],
+  },
 });
 ```
 
@@ -268,7 +271,7 @@ Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\app.d.ts`:
 
 ```typescript
 // Placeholder until Task 1.4 introduces $i18n/locales
-type Locale = 'fr' | 'en';
+type Locale = "fr" | "en";
 
 declare global {
   namespace App {
@@ -322,8 +325,8 @@ Open http://localhost:5173.
 ## Tests
 
 \`\`\`bash
-npm run test          # unit + component
-npm run test:e2e      # Playwright e2e + a11y
+npm run test # unit + component
+npm run test:e2e # Playwright e2e + a11y
 \`\`\`
 
 ## Build
@@ -346,6 +349,7 @@ Expected: `0 errors, 0 warnings`.
 - [ ] **Step 13: Commit**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 git add -A
@@ -357,10 +361,12 @@ git commit -m "chore: scaffold SvelteKit + TypeScript project"
 ## Task 1.2: Install + configure Tailwind CSS with brand tokens
 
 **Files:**
+
 - Create: `tailwind.config.ts`, `postcss.config.js`, `src/app.css`
 - Modify: `src/routes/+layout.svelte` (import `app.css`)
 
 **Interfaces:**
+
 - Consumes: `package.json` (Task 1.1)
 - Produces: `bg-canvas`, `bg-surface`, `text-primary`, `text-secondary`, `accent`, `brand-burgundy`, `brand-gold` Tailwind utilities available; `app.css` global styles loaded
 
@@ -374,43 +380,49 @@ Expected: `tailwindcss`, `postcss`, `autoprefixer` in `package.json` devDependen
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tailwind.config.ts`:
 
 ```typescript
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ['./src/**/*.{html,svelte,ts,js}'],
-  darkMode: ['class', '[data-theme="dark"]'],
+  content: ["./src/**/*.{html,svelte,ts,js}"],
+  darkMode: ["class", '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {
         // DESIGN.md base tokens (dark editorial)
-        canvas: 'var(--bg-canvas)',
-        surface: 'var(--bg-surface)',
-        elevated: 'var(--bg-elevated)',
-        primary: 'var(--text-primary)',
-        secondary: 'var(--text-secondary)',
-        muted: 'var(--text-muted)',
-        accent: 'var(--accent)',
+        canvas: "var(--bg-canvas)",
+        surface: "var(--bg-surface)",
+        elevated: "var(--bg-elevated)",
+        primary: "var(--text-primary)",
+        secondary: "var(--text-secondary)",
+        muted: "var(--text-muted)",
+        accent: "var(--accent)",
         // Sergine brand tokens (new)
-        burgundy: 'var(--brand-burgundy)',
-        gold: 'var(--brand-gold)'
+        burgundy: "var(--brand-burgundy)",
+        gold: "var(--brand-gold)",
       },
       fontFamily: {
-        display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
-        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif']
+        display: ["Fraunces", "ui-serif", "Georgia", "serif"],
+        sans: [
+          "Inter",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "sans-serif",
+        ],
       },
       borderRadius: {
-        none: '0',
-        full: '9999px'
+        none: "0",
+        full: "9999px",
       },
       transitionTimingFunction: {
-        editorial: 'cubic-bezier(0.22, 1, 0.36, 1)'
+        editorial: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
       transitionDuration: {
-        editorial: '700ms'
-      }
-    }
+        editorial: "700ms",
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };
 
 export default config;
@@ -424,8 +436,8 @@ Write `C:\Users\AM\Documents\Workspace\DHC\immo\postcss.config.js`:
 export default {
   plugins: {
     tailwindcss: {},
-    autoprefixer: {}
-  }
+    autoprefixer: {},
+  },
 };
 ```
 
@@ -441,25 +453,30 @@ Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\app.css`:
 @layer base {
   :root {
     /* DESIGN.md base palette (existing) */
-    --bg-canvas: #0E0E0E;
+    --bg-canvas: #0e0e0e;
     --bg-surface: #161616;
-    --bg-elevated: #1F1F1F;
-    --text-primary: #F5F2EC;
-    --text-secondary: #A8A29A;
-    --text-muted: #6B6660;
+    --bg-elevated: #1f1f1f;
+    --text-primary: #f5f2ec;
+    --text-secondary: #a8a29a;
+    --text-muted: #6b6660;
     --border-hairline: rgba(245, 242, 236, 0.08);
-    --accent: #E8DFD0;
+    --accent: #e8dfd0;
     --state-hover: rgba(255, 255, 255, 0.06);
 
     /* Sergine brand tokens (new) */
-    --brand-burgundy: #6E1F2E;
-    --brand-gold: #C9A24A;
+    --brand-burgundy: #6e1f2e;
+    --brand-gold: #c9a24a;
   }
 
   html {
     background-color: var(--bg-canvas);
     color: var(--text-primary);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
     font-weight: 300;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
@@ -471,8 +488,13 @@ Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\app.css`:
     min-height: 100vh;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', ui-serif, Georgia, serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Fraunces", ui-serif, Georgia, serif;
     font-weight: 300;
     line-height: 1.05;
     letter-spacing: -0.01em;
@@ -566,6 +588,7 @@ Expected: `0 errors, 0 warnings`.
 - [ ] **Step 9: Commit**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 git add -A
@@ -577,16 +600,19 @@ git commit -m "feat: add Tailwind CSS with DESIGN.md tokens + Sergine brand colo
 ## Task 1.3: Configure Vitest (unit + component) and Playwright (e2e + a11y)
 
 **Files:**
+
 - Create: `vitest.config.ts`, `tests/setup.ts`, `playwright.config.ts`, `tests/unit/smoke.test.ts`, `tests/e2e/home.spec.ts`
 - Modify: `package.json` (add test scripts), `src/routes/+page.svelte` (the new heading from Task 1.2 stays)
 
 **Interfaces:**
+
 - Consumes: `package.json` (Task 1.1), `svelte.config.js`
 - Produces: working `npm run test` and `npm run test:e2e` commands; one passing e2e test against Home
 
 - [ ] **Step 1: Install Vitest + Testing Library + Playwright + axe-core**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 npm install -D vitest@^2.1.0 @vitest/ui@^2.1.0 jsdom@^25.0.0 @testing-library/svelte@^5.2.0 @testing-library/jest-dom@^6.5.0 @playwright/test@^1.48.0 @axe-core/playwright@^4.10.0
@@ -600,32 +626,36 @@ Expected: `vitest`, `@vitest/ui`, `jsdom`, `@testing-library/svelte`, `@testing-
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\vitest.config.ts`:
 
 ```typescript
-import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vitest/config';
+import { sveltekit } from "@sveltejs/kit/vite";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [sveltekit()],
   test: {
-    include: ['src/**/*.{test,spec}.{js,ts}', 'tests/unit/**/*.{test,spec}.{js,ts}', 'tests/component/**/*.{test,spec}.{js,ts}'],
-    exclude: ['tests/e2e/**', 'node_modules/**'],
-    environment: 'jsdom',
+    include: [
+      "src/**/*.{test,spec}.{js,ts}",
+      "tests/unit/**/*.{test,spec}.{js,ts}",
+      "tests/component/**/*.{test,spec}.{js,ts}",
+    ],
+    exclude: ["tests/e2e/**", "node_modules/**"],
+    environment: "jsdom",
     globals: true,
-    setupFiles: ['./tests/setup.ts'],
+    setupFiles: ["./tests/setup.ts"],
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'html'],
-      exclude: ['**/*.d.ts', 'tests/**', 'node_modules/**']
-    }
+      provider: "v8",
+      reporter: ["text", "html"],
+      exclude: ["**/*.d.ts", "tests/**", "node_modules/**"],
+    },
   },
   resolve: {
     alias: {
-      $components: '/src/lib/components',
-      $i18n: '/src/lib/i18n',
-      $sanity: '/src/lib/sanity',
-      $server: '/src/lib/server',
-      $utils: '/src/lib/utils'
-    }
-  }
+      $components: "/src/lib/components",
+      $i18n: "/src/lib/i18n",
+      $sanity: "/src/lib/sanity",
+      $server: "/src/lib/server",
+      $utils: "/src/lib/utils",
+    },
+  },
 });
 ```
 
@@ -634,24 +664,24 @@ export default defineConfig({
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\setup.ts`:
 
 ```typescript
-import '@testing-library/jest-dom/vitest';
-import { vi } from 'vitest';
+import "@testing-library/jest-dom/vitest";
+import { vi } from "vitest";
 
-vi.mock('$app/environment', () => ({
+vi.mock("$app/environment", () => ({
   browser: false,
   dev: true,
   building: false,
-  version: 'test'
+  version: "test",
 }));
 
-vi.mock('$app/navigation', () => ({
+vi.mock("$app/navigation", () => ({
   goto: vi.fn(),
   invalidate: vi.fn(),
   invalidateAll: vi.fn(),
   preloadData: vi.fn(),
   preloadCode: vi.fn(),
   beforeNavigate: vi.fn(),
-  afterNavigate: vi.fn()
+  afterNavigate: vi.fn(),
 }));
 ```
 
@@ -660,10 +690,10 @@ vi.mock('$app/navigation', () => ({
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\unit\smoke.test.ts`:
 
 ```typescript
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
 
-describe('test infra', () => {
-  it('runs a basic assertion', () => {
+describe("test infra", () => {
+  it("runs a basic assertion", () => {
     expect(1 + 1).toBe(2);
   });
 });
@@ -679,30 +709,30 @@ Expected: `1 passed`.
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\playwright.config.ts`:
 
 ```typescript
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: "./tests/e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: process.env.CI ? 'github' : 'list',
+  reporter: process.env.CI ? "github" : "list",
   use: {
-    baseURL: 'http://localhost:5173',
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure'
+    baseURL: "http://localhost:5173",
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'mobile-chrome', use: { ...devices['Pixel 5'] } }
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "mobile-chrome", use: { ...devices["Pixel 5"] } },
   ],
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:5173',
+    command: "npm run dev",
+    url: "http://localhost:5173",
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000
-  }
+    timeout: 120_000,
+  },
 });
 ```
 
@@ -711,11 +741,13 @@ export default defineConfig({
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\e2e\home.spec.ts`:
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('home page renders the bootstrap heading', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Construisons votre avenir immobilier' })).toBeVisible();
+test("home page renders the bootstrap heading", async ({ page }) => {
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", { name: "Construisons votre avenir immobilier" }),
+  ).toBeVisible();
 });
 ```
 
@@ -727,6 +759,7 @@ Expected: `2 passed (chromium, mobile-chrome)`.
 - [ ] **Step 9: Commit**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 git add -A
@@ -738,10 +771,12 @@ git commit -m "test: configure Vitest + Testing Library + Playwright + axe-core"
 ## Task 1.4: Build the i18n locale module + unit tests
 
 **Files:**
+
 - Create: `src/lib/i18n/locales.ts`, `src/lib/i18n/detectLocale.ts`, `src/lib/i18n/copy.ts`, `tests/unit/i18n/detectLocale.test.ts`, `tests/unit/i18n/copy.test.ts`
 - Modify: `src/app.d.ts` (replace placeholder Locale type with real import)
 
 **Interfaces:**
+
 - Consumes: nothing
 - Produces:
   - `type Locale = 'fr' | 'en'` (canonical)
@@ -756,51 +791,51 @@ git commit -m "test: configure Vitest + Testing Library + Playwright + axe-core"
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\unit\i18n\detectLocale.test.ts`:
 
 ```typescript
-import { describe, it, expect } from 'vitest';
-import { detectLocale, translatePath } from '$i18n/detectLocale';
+import { describe, it, expect } from "vitest";
+import { detectLocale, translatePath } from "$i18n/detectLocale";
 
-describe('detectLocale', () => {
-  it('returns fr for /fr/services', () => {
-    expect(detectLocale('/fr/services')).toBe('fr');
+describe("detectLocale", () => {
+  it("returns fr for /fr/services", () => {
+    expect(detectLocale("/fr/services")).toBe("fr");
   });
 
-  it('returns en for /en/services', () => {
-    expect(detectLocale('/en/services')).toBe('en');
+  it("returns en for /en/services", () => {
+    expect(detectLocale("/en/services")).toBe("en");
   });
 
-  it('returns fr for root / when no Accept-Language header', () => {
-    expect(detectLocale('/')).toBe('fr');
+  it("returns fr for root / when no Accept-Language header", () => {
+    expect(detectLocale("/")).toBe("fr");
   });
 
-  it('returns fr for root / even with Accept-Language en', () => {
+  it("returns fr for root / even with Accept-Language en", () => {
     // Path prefix wins over Accept-Language
-    expect(detectLocale('/', 'en-US,en;q=0.9')).toBe('fr');
+    expect(detectLocale("/", "en-US,en;q=0.9")).toBe("fr");
   });
 
-  it('returns en for /en/ when Accept-Language is fr', () => {
-    expect(detectLocale('/en/contact', 'fr-CA,fr;q=0.9')).toBe('en');
+  it("returns en for /en/ when Accept-Language is fr", () => {
+    expect(detectLocale("/en/contact", "fr-CA,fr;q=0.9")).toBe("en");
   });
 
-  it('strips query string before checking', () => {
-    expect(detectLocale('/en/blog?utm=foo')).toBe('en');
+  it("strips query string before checking", () => {
+    expect(detectLocale("/en/blog?utm=foo")).toBe("en");
   });
 });
 
-describe('translatePath', () => {
-  it('switches /fr/services to /en/services', () => {
-    expect(translatePath('/fr/services', 'fr', 'en')).toBe('/en/services');
+describe("translatePath", () => {
+  it("switches /fr/services to /en/services", () => {
+    expect(translatePath("/fr/services", "fr", "en")).toBe("/en/services");
   });
 
-  it('switches /en/blog/foo to /fr/blog/foo', () => {
-    expect(translatePath('/en/blog/foo', 'en', 'fr')).toBe('/fr/blog/foo');
+  it("switches /en/blog/foo to /fr/blog/foo", () => {
+    expect(translatePath("/en/blog/foo", "en", "fr")).toBe("/fr/blog/foo");
   });
 
-  it('returns /en/ for root /', () => {
-    expect(translatePath('/', 'fr', 'en')).toBe('/en/');
+  it("returns /en/ for root /", () => {
+    expect(translatePath("/", "fr", "en")).toBe("/en/");
   });
 
-  it('leaves already-prefixed path alone if same locale', () => {
-    expect(translatePath('/fr/a-propos', 'fr', 'fr')).toBe('/fr/a-propos');
+  it("leaves already-prefixed path alone if same locale", () => {
+    expect(translatePath("/fr/a-propos", "fr", "fr")).toBe("/fr/a-propos");
   });
 });
 ```
@@ -815,9 +850,9 @@ Expected: FAIL â€” module `$i18n/detectLocale` not found.
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\lib\i18n\locales.ts`:
 
 ```typescript
-export const LOCALES = ['fr', 'en'] as const;
+export const LOCALES = ["fr", "en"] as const;
 export type Locale = (typeof LOCALES)[number];
-export const DEFAULT_LOCALE: Locale = 'fr';
+export const DEFAULT_LOCALE: Locale = "fr";
 
 export function isLocale(value: string): value is Locale {
   return (LOCALES as readonly string[]).includes(value);
@@ -829,19 +864,22 @@ export function isLocale(value: string): value is Locale {
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\lib\i18n\detectLocale.ts`:
 
 ```typescript
-import { DEFAULT_LOCALE, isLocale, type Locale } from './locales';
+import { DEFAULT_LOCALE, isLocale, type Locale } from "./locales";
 
-export function detectLocale(pathname: string, acceptLanguage?: string | null): Locale {
-  const path = pathname.split('?')[0]?.split('#')[0] ?? '/';
-  const segments = path.split('/').filter(Boolean);
+export function detectLocale(
+  pathname: string,
+  acceptLanguage?: string | null,
+): Locale {
+  const path = pathname.split("?")[0]?.split("#")[0] ?? "/";
+  const segments = path.split("/").filter(Boolean);
   const first = segments[0];
   if (first && isLocale(first)) return first;
 
   if (acceptLanguage) {
     const preferred = acceptLanguage
-      .split(',')
-      .map((part) => part.trim().split(';')[0]?.toLowerCase() ?? '')
-      .map((tag) => tag.split('-')[0] ?? '')
+      .split(",")
+      .map((part) => part.trim().split(";")[0]?.toLowerCase() ?? "")
+      .map((tag) => tag.split("-")[0] ?? "")
       .find((tag) => isLocale(tag));
     if (preferred) return preferred as Locale;
   }
@@ -849,16 +887,20 @@ export function detectLocale(pathname: string, acceptLanguage?: string | null): 
   return DEFAULT_LOCALE;
 }
 
-export function translatePath(pathname: string, from: Locale, to: Locale): string {
+export function translatePath(
+  pathname: string,
+  from: Locale,
+  to: Locale,
+): string {
   if (from === to) return pathname;
-  const path = pathname.startsWith('/') ? pathname : `/${pathname}`;
-  const segments = path.split('/').filter(Boolean);
+  const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  const segments = path.split("/").filter(Boolean);
   if (segments[0] && isLocale(segments[0])) {
     segments[0] = to;
   } else {
     segments.unshift(to);
   }
-  const tail = segments.join('/');
+  const tail = segments.join("/");
   return tail ? `/${tail}` : `/${to}/`;
 }
 ```
@@ -873,25 +915,25 @@ Expected: `10 passed`.
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\unit\i18n\copy.test.ts`:
 
 ```typescript
-import { describe, it, expect } from 'vitest';
-import { getCopy } from '$i18n/copy';
+import { describe, it, expect } from "vitest";
+import { getCopy } from "$i18n/copy";
 
-describe('getCopy', () => {
-  it('returns French copy for fr locale', () => {
-    const copy = getCopy('fr');
-    expect(copy.nav.home).toBe('Accueil');
-    expect(copy.nav.contact).toBe('Contact');
+describe("getCopy", () => {
+  it("returns French copy for fr locale", () => {
+    const copy = getCopy("fr");
+    expect(copy.nav.home).toBe("Accueil");
+    expect(copy.nav.contact).toBe("Contact");
   });
 
-  it('returns English copy for en locale', () => {
-    const copy = getCopy('en');
-    expect(copy.nav.home).toBe('Home');
-    expect(copy.nav.contact).toBe('Contact');
+  it("returns English copy for en locale", () => {
+    const copy = getCopy("en");
+    expect(copy.nav.home).toBe("Home");
+    expect(copy.nav.contact).toBe("Contact");
   });
 
-  it('exposes WhatsApp pre-fill message in both languages', () => {
-    expect(getCopy('fr').whatsapp.defaultMessage).toMatch(/Bonjour Sergine/);
-    expect(getCopy('en').whatsapp.defaultMessage).toMatch(/Hello Sergine/);
+  it("exposes WhatsApp pre-fill message in both languages", () => {
+    expect(getCopy("fr").whatsapp.defaultMessage).toMatch(/Bonjour Sergine/);
+    expect(getCopy("en").whatsapp.defaultMessage).toMatch(/Hello Sergine/);
   });
 });
 ```
@@ -906,7 +948,7 @@ Expected: FAIL â€” module `$i18n/copy` not found.
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\lib\i18n\copy.ts`:
 
 ```typescript
-import type { Locale } from './locales';
+import type { Locale } from "./locales";
 
 export interface NavCopy {
   home: string;
@@ -948,62 +990,64 @@ export interface SiteCopy {
 
 const fr: SiteCopy = {
   nav: {
-    home: 'Accueil',
-    services: 'Services',
-    listings: 'Biens',
-    transactions: 'Transactions',
-    blog: 'Blogue',
-    about: 'Ã€ propos',
-    contact: 'Contact',
-    cta: 'Prendre rendez-vous'
+    home: "Accueil",
+    services: "Services",
+    listings: "Biens",
+    transactions: "Transactions",
+    blog: "Blogue",
+    about: "Ã€ propos",
+    contact: "Contact",
+    cta: "Prendre rendez-vous",
   },
   whatsapp: {
-    defaultMessage: 'Bonjour Sergine, je vous contacte depuis votre site web.',
-    ariaLabel: 'Contacter Sergine par WhatsApp'
+    defaultMessage: "Bonjour Sergine, je vous contacte depuis votre site web.",
+    ariaLabel: "Contacter Sergine par WhatsApp",
   },
   cookie: {
-    title: 'Cookies et confidentialitÃ©',
-    body: 'Ce site utilise Google Analytics pour amÃ©liorer votre expÃ©rience. Vos donnÃ©es sont anonymisÃ©es.',
-    accept: 'Accepter',
-    reject: 'Refuser'
+    title: "Cookies et confidentialitÃ©",
+    body: "Ce site utilise Google Analytics pour amÃ©liorer votre expÃ©rience. Vos donnÃ©es sont anonymisÃ©es.",
+    accept: "Accepter",
+    reject: "Refuser",
   },
   footer: {
-    tagline: 'Courtier immobilier rÃ©sidentiel et commercial â€” VENDIRECT, certifiÃ©e OACIQ.',
-    sitemapHeading: 'Plan du site',
-    contactHeading: 'Contact',
-    socialHeading: 'RÃ©seaux sociaux',
-    privacy: 'Politique de confidentialitÃ©'
-  }
+    tagline:
+      "Courtier immobilier rÃ©sidentiel et commercial â€” VENDIRECT, certifiÃ©e OACIQ.",
+    sitemapHeading: "Plan du site",
+    contactHeading: "Contact",
+    socialHeading: "RÃ©seaux sociaux",
+    privacy: "Politique de confidentialitÃ©",
+  },
 };
 
 const en: SiteCopy = {
   nav: {
-    home: 'Home',
-    services: 'Services',
-    listings: 'Listings',
-    transactions: 'Transactions',
-    blog: 'Blog',
-    about: 'About',
-    contact: 'Contact',
-    cta: 'Book a meeting'
+    home: "Home",
+    services: "Services",
+    listings: "Listings",
+    transactions: "Transactions",
+    blog: "Blog",
+    about: "About",
+    contact: "Contact",
+    cta: "Book a meeting",
   },
   whatsapp: {
-    defaultMessage: 'Hello Sergine, I am reaching out from your website.',
-    ariaLabel: 'Contact Sergine on WhatsApp'
+    defaultMessage: "Hello Sergine, I am reaching out from your website.",
+    ariaLabel: "Contact Sergine on WhatsApp",
   },
   cookie: {
-    title: 'Cookies & privacy',
-    body: 'This site uses Google Analytics to improve your experience. Your data is anonymized.',
-    accept: 'Accept',
-    reject: 'Reject'
+    title: "Cookies & privacy",
+    body: "This site uses Google Analytics to improve your experience. Your data is anonymized.",
+    accept: "Accept",
+    reject: "Reject",
   },
   footer: {
-    tagline: 'Residential and commercial real estate broker â€” VENDIRECT, OACIQ certified.',
-    sitemapHeading: 'Sitemap',
-    contactHeading: 'Contact',
-    socialHeading: 'Social media',
-    privacy: 'Privacy policy'
-  }
+    tagline:
+      "Residential and commercial real estate broker â€” VENDIRECT, OACIQ certified.",
+    sitemapHeading: "Sitemap",
+    contactHeading: "Contact",
+    socialHeading: "Social media",
+    privacy: "Privacy policy",
+  },
 };
 
 const COPY: Record<Locale, SiteCopy> = { fr, en };
@@ -1023,7 +1067,7 @@ Expected: `3 passed`.
 Replace `C:\Users\AM\Documents\Workspace\DHC\immo\src\app.d.ts` with:
 
 ```typescript
-import type { Locale } from '$i18n/locales';
+import type { Locale } from "$i18n/locales";
 
 declare global {
   namespace App {
@@ -1047,6 +1091,7 @@ Expected: `0 errors, 0 warnings`.
 - [ ] **Step 12: Commit**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 git add -A
@@ -1058,10 +1103,12 @@ git commit -m "feat(i18n): add Locale type, detectLocale/translatePath, SiteCopy
 ## Task 1.5: Server hooks (locale redirect) + layout wiring
 
 **Files:**
+
 - Create: `src/hooks.server.ts`, `src/routes/+layout.server.ts`, `src/routes/+layout.ts`
 - Modify: `src/routes/+page.svelte`
 
 **Interfaces:**
+
 - Consumes: `detectLocale` (Task 1.4)
 - Produces: `event.locals.locale` set on every request; root requests without a locale prefix redirect to `/fr/...`; `+layout.ts` returns `{ locale }` to all child pages
 
@@ -1070,30 +1117,35 @@ git commit -m "feat(i18n): add Locale type, detectLocale/translatePath, SiteCopy
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\hooks.server.ts`:
 
 ```typescript
-import { redirect, type Handle } from '@sveltejs/kit';
-import { isLocale } from '$i18n/locales';
-import { detectLocale } from '$i18n/detectLocale';
+import { redirect, type Handle } from "@sveltejs/kit";
+import { isLocale } from "$i18n/locales";
+import { detectLocale } from "$i18n/detectLocale";
 
 export const handle: Handle = async ({ event, resolve }) => {
   const pathname = event.url.pathname;
-  const acceptLanguage = event.request.headers.get('accept-language');
+  const acceptLanguage = event.request.headers.get("accept-language");
 
   // Skip Studio and static assets
-  if (pathname.startsWith('/studio') || pathname.startsWith('/_app') || pathname.startsWith('/api')) {
+  if (
+    pathname.startsWith("/studio") ||
+    pathname.startsWith("/_app") ||
+    pathname.startsWith("/api")
+  ) {
     return resolve(event);
   }
 
-  const segments = pathname.split('/').filter(Boolean);
+  const segments = pathname.split("/").filter(Boolean);
   const first = segments[0];
   if (!first || !isLocale(first)) {
     const locale = detectLocale(pathname, acceptLanguage);
-    const target = `/${locale}${pathname === '/' ? '/' : pathname}`;
+    const target = `/${locale}${pathname === "/" ? "/" : pathname}`;
     throw redirect(307, target);
   }
 
   event.locals.locale = detectLocale(pathname);
   return resolve(event, {
-    transformPageChunk: ({ html }) => html.replace('%sveltekit.lang%', event.locals.locale)
+    transformPageChunk: ({ html }) =>
+      html.replace("%sveltekit.lang%", event.locals.locale),
   });
 };
 ```
@@ -1103,7 +1155,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\routes\+layout.server.ts`:
 
 ```typescript
-import type { LayoutServerLoad } from './$types';
+import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = ({ locals }) => {
   return { locale: locals.locale };
@@ -1115,7 +1167,7 @@ export const load: LayoutServerLoad = ({ locals }) => {
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\routes\+layout.ts`:
 
 ```typescript
-import type { LayoutLoad } from './$types';
+import type { LayoutLoad } from "./$types";
 
 export const load: LayoutLoad = ({ data }) => {
   return { locale: data.locale };
@@ -1162,6 +1214,7 @@ Expected: all tests pass.
 - [ ] **Step 7: Commit**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 git add -A
@@ -1173,10 +1226,12 @@ git commit -m "feat(routing): add locale redirect middleware + layout locale loa
 ## Task 1.6: Build `<Nav />` component + tests
 
 **Files:**
+
 - Create: `src/lib/components/layout/Nav.svelte`, `tests/component/Nav.test.ts`
 - Modify: `src/routes/+layout.svelte`
 
 **Interfaces:**
+
 - Consumes: `Locale`, `SiteCopy`
 - Produces: sticky transparent top nav with logo, nav links, primary CTA; hides CTA on mobile
 
@@ -1185,28 +1240,32 @@ git commit -m "feat(routing): add locale redirect middleware + layout locale loa
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\component\Nav.test.ts`:
 
 ```typescript
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/svelte';
-import Nav from '$components/layout/Nav.svelte';
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/svelte";
+import Nav from "$components/layout/Nav.svelte";
 
-describe('<Nav>', () => {
-  it('renders all primary nav links from copy', () => {
-    render(Nav, { props: { currentPath: '/fr/', locale: 'fr' } });
-    expect(screen.getByRole('link', { name: 'Accueil' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Services' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Biens' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Contact' })).toBeInTheDocument();
+describe("<Nav>", () => {
+  it("renders all primary nav links from copy", () => {
+    render(Nav, { props: { currentPath: "/fr/", locale: "fr" } });
+    expect(screen.getByRole("link", { name: "Accueil" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Services" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Biens" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Contact" })).toBeInTheDocument();
   });
 
-  it('renders the primary CTA', () => {
-    render(Nav, { props: { currentPath: '/fr/', locale: 'fr' } });
-    expect(screen.getByRole('link', { name: 'Prendre rendez-vous' })).toBeInTheDocument();
+  it("renders the primary CTA", () => {
+    render(Nav, { props: { currentPath: "/fr/", locale: "fr" } });
+    expect(
+      screen.getByRole("link", { name: "Prendre rendez-vous" }),
+    ).toBeInTheDocument();
   });
 
-  it('renders English copy when locale is en', () => {
-    render(Nav, { props: { currentPath: '/en/', locale: 'en' } });
-    expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Book a meeting' })).toBeInTheDocument();
+  it("renders English copy when locale is en", () => {
+    render(Nav, { props: { currentPath: "/en/", locale: "en" } });
+    expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Book a meeting" }),
+    ).toBeInTheDocument();
   });
 });
 ```
@@ -1315,6 +1374,7 @@ Open `http://localhost:5173/fr/`; you should see the sticky nav with logo "S[gol
 - [ ] **Step 7: Commit**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 git add -A
@@ -1326,10 +1386,12 @@ git commit -m "feat(layout): add <Nav> with sticky transparent style + FR/EN cop
 ## Task 1.7: Build `<LangToggle />` + integrate into Nav
 
 **Files:**
+
 - Create: `src/lib/components/layout/LangToggle.svelte`, `tests/component/LangToggle.test.ts`
 - Modify: `src/lib/components/layout/Nav.svelte`
 
 **Interfaces:**
+
 - Consumes: `Locale`, `currentPath`, `translatePath`
 - Produces: a 2-link toggle (FR | EN) that swaps the URL prefix and preserves the rest of the path
 
@@ -1338,26 +1400,44 @@ git commit -m "feat(layout): add <Nav> with sticky transparent style + FR/EN cop
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\component\LangToggle.test.ts`:
 
 ```typescript
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/svelte';
-import LangToggle from '$components/layout/LangToggle.svelte';
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/svelte";
+import LangToggle from "$components/layout/LangToggle.svelte";
 
-describe('<LangToggle>', () => {
-  it('renders FR and EN links', () => {
-    render(LangToggle, { props: { currentPath: '/fr/services', currentLocale: 'fr' } });
-    expect(screen.getByRole('link', { name: 'FR' })).toHaveAttribute('href', '/fr/services');
-    expect(screen.getByRole('link', { name: 'EN' })).toHaveAttribute('href', '/en/services');
+describe("<LangToggle>", () => {
+  it("renders FR and EN links", () => {
+    render(LangToggle, {
+      props: { currentPath: "/fr/services", currentLocale: "fr" },
+    });
+    expect(screen.getByRole("link", { name: "FR" })).toHaveAttribute(
+      "href",
+      "/fr/services",
+    );
+    expect(screen.getByRole("link", { name: "EN" })).toHaveAttribute(
+      "href",
+      "/en/services",
+    );
   });
 
-  it('marks the active locale with aria-current', () => {
-    render(LangToggle, { props: { currentPath: '/en/contact', currentLocale: 'en' } });
-    expect(screen.getByRole('link', { name: 'EN' })).toHaveAttribute('aria-current', 'true');
-    expect(screen.getByRole('link', { name: 'FR' })).not.toHaveAttribute('aria-current');
+  it("marks the active locale with aria-current", () => {
+    render(LangToggle, {
+      props: { currentPath: "/en/contact", currentLocale: "en" },
+    });
+    expect(screen.getByRole("link", { name: "EN" })).toHaveAttribute(
+      "aria-current",
+      "true",
+    );
+    expect(screen.getByRole("link", { name: "FR" })).not.toHaveAttribute(
+      "aria-current",
+    );
   });
 
-  it('handles root path correctly', () => {
-    render(LangToggle, { props: { currentPath: '/fr/', currentLocale: 'fr' } });
-    expect(screen.getByRole('link', { name: 'EN' })).toHaveAttribute('href', '/en/');
+  it("handles root path correctly", () => {
+    render(LangToggle, { props: { currentPath: "/fr/", currentLocale: "fr" } });
+    expect(screen.getByRole("link", { name: "EN" })).toHaveAttribute(
+      "href",
+      "/en/",
+    );
   });
 });
 ```
@@ -1457,6 +1537,7 @@ Open `http://localhost:5173/fr/`; confirm FR | EN toggle is visible in the nav. 
 - [ ] **Step 7: Commit**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 git add -A
@@ -1468,10 +1549,12 @@ git commit -m "feat(layout): add <LangToggle> for FR/EN with path preservation"
 ## Task 1.8: Build `<Footer />` + tests
 
 **Files:**
+
 - Create: `src/lib/components/layout/Footer.svelte`, `tests/component/Footer.test.ts`
 - Modify: `src/routes/+layout.svelte`
 
 **Interfaces:**
+
 - Consumes: `Locale`, `SiteCopy`
 - Produces: 3-column footer (brand + sitemap + contact) on cream background, plus small print + privacy link
 
@@ -1480,27 +1563,36 @@ git commit -m "feat(layout): add <LangToggle> for FR/EN with path preservation"
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\component\Footer.test.ts`:
 
 ```typescript
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/svelte';
-import Footer from '$components/layout/Footer.svelte';
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/svelte";
+import Footer from "$components/layout/Footer.svelte";
 
-describe('<Footer>', () => {
-  it('renders the tagline in French for fr locale', () => {
-    render(Footer, { props: { locale: 'fr' } });
-    expect(screen.getByText(/Courtier immobilier rÃ©sidentiel et commercial/)).toBeInTheDocument();
+describe("<Footer>", () => {
+  it("renders the tagline in French for fr locale", () => {
+    render(Footer, { props: { locale: "fr" } });
+    expect(
+      screen.getByText(/Courtier immobilier rÃ©sidentiel et commercial/),
+    ).toBeInTheDocument();
     expect(screen.getByText(/Plan du site/)).toBeInTheDocument();
   });
 
-  it('renders the tagline in English for en locale', () => {
-    render(Footer, { props: { locale: 'en' } });
-    expect(screen.getByText(/Residential and commercial real estate broker/)).toBeInTheDocument();
+  it("renders the tagline in English for en locale", () => {
+    render(Footer, { props: { locale: "en" } });
+    expect(
+      screen.getByText(/Residential and commercial real estate broker/),
+    ).toBeInTheDocument();
     expect(screen.getByText(/Sitemap/)).toBeInTheDocument();
   });
 
-  it('renders phone and email links', () => {
-    render(Footer, { props: { locale: 'fr' } });
-    expect(screen.getByRole('link', { name: '438-462-6015' })).toHaveAttribute('href', 'tel:4384626015');
-    expect(screen.getByRole('link', { name: 'serginehougoue@gmail.com' })).toHaveAttribute('href', 'mailto:serginehougoue@gmail.com');
+  it("renders phone and email links", () => {
+    render(Footer, { props: { locale: "fr" } });
+    expect(screen.getByRole("link", { name: "438-462-6015" })).toHaveAttribute(
+      "href",
+      "tel:4384626015",
+    );
+    expect(
+      screen.getByRole("link", { name: "serginehougoue@gmail.com" }),
+    ).toHaveAttribute("href", "mailto:serginehougoue@gmail.com");
   });
 });
 ```
@@ -1615,6 +1707,7 @@ Open `http://localhost:5173/fr/`; confirm a cream-colored footer at the bottom w
 - [ ] **Step 7: Commit**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 git add -A
@@ -1626,10 +1719,12 @@ git commit -m "feat(layout): add <Footer> with sitemap + contact + tagline on cr
 ## Task 1.9: Build `<WhatsAppFab />` + tests
 
 **Files:**
+
 - Create: `src/lib/components/layout/WhatsAppFab.svelte`, `tests/component/WhatsAppFab.test.ts`
 - Modify: `src/routes/+layout.svelte`
 
 **Interfaces:**
+
 - Consumes: `Locale`, `SiteCopy`
 - Produces: floating bottom-right WhatsApp button with locale-aware pre-filled message
 
@@ -1638,34 +1733,37 @@ git commit -m "feat(layout): add <Footer> with sitemap + contact + tagline on cr
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\component\WhatsAppFab.test.ts`:
 
 ```typescript
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/svelte';
-import WhatsAppFab from '$components/layout/WhatsAppFab.svelte';
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/svelte";
+import WhatsAppFab from "$components/layout/WhatsAppFab.svelte";
 
-describe('<WhatsAppFab>', () => {
-  it('renders a link to wa.me with the correct phone number', () => {
-    render(WhatsAppFab, { props: { phone: '14384626015', locale: 'fr' } });
-    const link = screen.getByRole('link');
-    expect(link.getAttribute('href')).toContain('wa.me/14384626015');
+describe("<WhatsAppFab>", () => {
+  it("renders a link to wa.me with the correct phone number", () => {
+    render(WhatsAppFab, { props: { phone: "14384626015", locale: "fr" } });
+    const link = screen.getByRole("link");
+    expect(link.getAttribute("href")).toContain("wa.me/14384626015");
   });
 
-  it('pre-fills the FR message', () => {
-    render(WhatsAppFab, { props: { phone: '14384626015', locale: 'fr' } });
-    const link = screen.getByRole('link');
-    const href = link.getAttribute('href') ?? '';
-    expect(decodeURIComponent(href)).toContain('Bonjour Sergine');
+  it("pre-fills the FR message", () => {
+    render(WhatsAppFab, { props: { phone: "14384626015", locale: "fr" } });
+    const link = screen.getByRole("link");
+    const href = link.getAttribute("href") ?? "";
+    expect(decodeURIComponent(href)).toContain("Bonjour Sergine");
   });
 
-  it('pre-fills the EN message', () => {
-    render(WhatsAppFab, { props: { phone: '14384626015', locale: 'en' } });
-    const link = screen.getByRole('link');
-    const href = link.getAttribute('href') ?? '';
-    expect(decodeURIComponent(href)).toContain('Hello Sergine');
+  it("pre-fills the EN message", () => {
+    render(WhatsAppFab, { props: { phone: "14384626015", locale: "en" } });
+    const link = screen.getByRole("link");
+    const href = link.getAttribute("href") ?? "";
+    expect(decodeURIComponent(href)).toContain("Hello Sergine");
   });
 
-  it('has a localized aria-label', () => {
-    render(WhatsAppFab, { props: { phone: '14384626015', locale: 'fr' } });
-    expect(screen.getByRole('link')).toHaveAttribute('aria-label', expect.stringContaining('WhatsApp'));
+  it("has a localized aria-label", () => {
+    render(WhatsAppFab, { props: { phone: "14384626015", locale: "fr" } });
+    expect(screen.getByRole("link")).toHaveAttribute(
+      "aria-label",
+      expect.stringContaining("WhatsApp"),
+    );
   });
 });
 ```
@@ -1749,6 +1847,7 @@ Open `http://localhost:5173/fr/`; confirm a green WhatsApp circle in the bottom-
 - [ ] **Step 7: Commit**
 
 Run:
+
 ```bash
 cd C:\Users\AM\Documents\Workspace\DHC\immo
 git add -A
@@ -1760,10 +1859,12 @@ git commit -m "feat(layout): add <WhatsAppFab> floating bottom-right button (FR/
 ## Task 1.10: Build `<CookieBanner />` + tests
 
 **Files:**
+
 - Create: `src/lib/components/layout/CookieBanner.svelte`, `tests/component/CookieBanner.test.ts`
 - Modify: `src/routes/+layout.svelte`
 
 **Interfaces:**
+
 - Consumes: `Locale`, `SiteCopy.cookie`
 - Produces: bottom cookie-consent strip with Accept/Reject buttons; persists choice in `localStorage` key `sergine_cookie_consent`; renders nothing if already accepted/rejected
 
@@ -1772,47 +1873,55 @@ git commit -m "feat(layout): add <WhatsAppFab> floating bottom-right button (FR/
 Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\component\CookieBanner.test.ts`:
 
 ```typescript
-import { describe, it, expect, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/svelte';
-import CookieBanner from '$components/layout/CookieBanner.svelte';
+import { describe, it, expect, beforeEach } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/svelte";
+import CookieBanner from "$components/layout/CookieBanner.svelte";
 
-describe('<CookieBanner>', () => {
+describe("<CookieBanner>", () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
-  it('renders the banner with localized copy on first render', () => {
-    render(CookieBanner, { props: { locale: 'fr' } });
+  it("renders the banner with localized copy on first render", () => {
+    render(CookieBanner, { props: { locale: "fr" } });
     expect(screen.getByText(/Cookies et confidentialitÃ©/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Accepter' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Refuser' })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Accepter" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Refuser" })).toBeInTheDocument();
   });
 
-  it('renders English copy for en locale', () => {
-    render(CookieBanner, { props: { locale: 'en' } });
+  it("renders English copy for en locale", () => {
+    render(CookieBanner, { props: { locale: "en" } });
     expect(screen.getByText(/Cookies & privacy/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Accept' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Reject' })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Accept" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reject" })).toBeInTheDocument();
   });
 
-  it('hides the banner after Accept and persists choice', async () => {
-    render(CookieBanner, { props: { locale: 'fr' } });
-    await fireEvent.click(screen.getByRole('button', { name: 'Accepter' }));
-    expect(screen.queryByText(/Cookies et confidentialitÃ©/)).not.toBeInTheDocument();
-    expect(localStorage.getItem('sergine_cookie_consent')).toBe('accepted');
+  it("hides the banner after Accept and persists choice", async () => {
+    render(CookieBanner, { props: { locale: "fr" } });
+    await fireEvent.click(screen.getByRole("button", { name: "Accepter" }));
+    expect(
+      screen.queryByText(/Cookies et confidentialitÃ©/),
+    ).not.toBeInTheDocument();
+    expect(localStorage.getItem("sergine_cookie_consent")).toBe("accepted");
   });
 
-  it('hides the banner after Reject and persists choice', async () => {
-    render(CookieBanner, { props: { locale: 'fr' } });
-    await fireEvent.click(screen.getByRole('button', { name: 'Refuser' }));
-    expect(screen.queryByText(/Cookies et confidentialitÃ©/)).not.toBeInTheDocument();
-    expect(localStorage.getItem('sergine_cookie_consent')).toBe('rejected');
+  it("hides the banner after Reject and persists choice", async () => {
+    render(CookieBanner, { props: { locale: "fr" } });
+    await fireEvent.click(screen.getByRole("button", { name: "Refuser" }));
+    expect(
+      screen.queryByText(/Cookies et confidentialitÃ©/),
+    ).not.toBeInTheDocument();
+    expect(localStorage.getItem("sergine_cookie_consent")).toBe("rejected");
   });
 
-  it('does not render if a choice was already persisted', () => {
-    localStorage.setItem('sergine_cookie_consent', 'accepted');
-    render(CookieBanner, { props: { locale: 'fr' } });
-    expect(screen.queryByText(/Cookies et confidentialitÃ©/)).not.toBeInTheDocument();
+  it("does not render if a choice was already persisted", () => {
+    localStorage.setItem("sergine_cookie_consent", "accepted");
+    render(CookieBanner, { props: { locale: "fr" } });
+    expect(
+      screen.queryByText(/Cookies et confidentialitÃ©/),
+    ).not.toBeInTheDocument();
   });
 });
 ```
@@ -1822,10 +1931,12 @@ describe('<CookieBanner>', () => {
 ## Task 1.11: Build `<Hero />` + `<PageHeader />` + tests
 
 **Files:**
+
 - Create: `src/lib/components/content/Hero.svelte`, `PageHeader.svelte`, `tests/component/Hero.test.ts`, `PageHeader.test.ts`
 - Modify: `src/routes/+page.svelte`
 
 **Interfaces:**
+
 - `<Hero>` consumes: `eyebrow`, `title`, `subtitle?`, `ctaHref`, `ctaLabel`, `imageSrc?`
 - `<PageHeader>` consumes: `eyebrow`, `title`, `intro?`
 
@@ -1844,6 +1955,7 @@ describe('<CookieBanner>', () => {
 ## Task 1.12: Placeholder assets, favicon, Privacy page
 
 **Files:**
+
 - Create: `static/favicon.svg`, `static/placeholders/README.md`, `src/routes/[lang=locale]/politique-confidentialite/+page.svelte`
 
 - [ ] **Step 1: Create `static/favicon.svg`** — small house icon in gold on dark canvas with "SH" letters.
@@ -1857,6 +1969,7 @@ describe('<CookieBanner>', () => {
 ## Phase 1 wrap-up
 
 Phase 1 is complete when:
+
 - `npm run test` passes with 20+ unit/component tests
 - `npm run test:e2e` passes
 - `npm run check` returns 0 errors
@@ -1871,15 +1984,15 @@ Phase 1 is complete when:
 
 Schema fields and types are defined in detail in **section 5** of `docs/superpowers/specs/2026-06-24-sergine-hougoue-immo-design.md`. Each schema task follows TDD: tests for any computed logic, then schema code, then verify with `npm run check` and a Studio smoke test.
 
-| Task | What | Files |
-|---|---|---|
-| 2.1 | Provision Sanity project + install deps + `.env.example` | `package.json`, `.env.example`, `.env.local` |
-| 2.2 | Define schemas: siteSettings, teamMember, testimonial, partner | `src/lib/sanity/schemas/{index,siteSettings,teamMember,testimonial,partner}.ts` |
-| 2.3 | Define schemas: property, post | `src/lib/sanity/schemas/{property,post}.ts` |
-| 2.4 | Configure Sanity Studio + embed at `/studio` | `sanity.config.ts`, `src/routes/studio/[[...index]]/+page.svelte` |
-| 2.5 | Server client + image builder + GROQ queries + types | `src/lib/sanity/{client,image,queries,types}.ts` |
-| 2.6 | Seed 7+ documents (done in Studio UI) | — |
-| 2.7 | Wire Home + About pages to CMS | `src/routes/+page.server.ts`, `src/routes/[lang=locale]/a-propos/{+page.server.ts,+page.svelte}` |
+| Task | What                                                           | Files                                                                                            |
+| ---- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 2.1  | Provision Sanity project + install deps + `.env.example`       | `package.json`, `.env.example`, `.env.local`                                                     |
+| 2.2  | Define schemas: siteSettings, teamMember, testimonial, partner | `src/lib/sanity/schemas/{index,siteSettings,teamMember,testimonial,partner}.ts`                  |
+| 2.3  | Define schemas: property, post                                 | `src/lib/sanity/schemas/{property,post}.ts`                                                      |
+| 2.4  | Configure Sanity Studio + embed at `/studio`                   | `sanity.config.ts`, `src/routes/studio/[[...index]]/+page.svelte`                                |
+| 2.5  | Server client + image builder + GROQ queries + types           | `src/lib/sanity/{client,image,queries,types}.ts`                                                 |
+| 2.6  | Seed 7+ documents (done in Studio UI)                          | —                                                                                                |
+| 2.7  | Wire Home + About pages to CMS                                 | `src/routes/+page.server.ts`, `src/routes/[lang=locale]/a-propos/{+page.server.ts,+page.svelte}` |
 
 **Phase 2 done when:** Studio loads at `/studio`, all 6 schemas registered with i18n, 7+ documents seeded (FR + EN), Home renders `featuredProperties` carousel + `testimonials` chips + `siteSettings` tagline, About renders `teamMember` bio + photo.
 
@@ -1889,20 +2002,20 @@ Schema fields and types are defined in detail in **section 5** of `docs/superpow
 
 Each task follows the same TDD pattern as Phase 1: failing test → implement → pass → commit. Components are listed in **section 6** of the spec; full field shapes are in the spec and the Phase 2 schemas.
 
-| Task | Component / Page | Files |
-|---|---|---|
-| 3.1 | `<PropertyCard>` + `<PropertyGrid>` | `src/lib/components/content/{PropertyCard,PropertyGrid}.svelte`, tests |
-| 3.2 | `<PropertyCarousel>` (Embla) | `src/lib/components/content/PropertyCarousel.svelte` |
-| 3.3 | `/[lang]/biens` index + `/[lang]/biens/[slug]` detail | route pair |
-| 3.4 | `<ServiceAccordion>` + `/services` | `ServiceAccordion.svelte`, `services.ts` i18n, route |
-| 3.5 | `<TestimonialChip>` + `<TeamMember>` | `src/lib/components/content/{TestimonialChip,TeamMember}.svelte` |
-| 3.6 | `<PortableTextRenderer>` (Sanity PT) | `src/lib/components/content/PortableTextRenderer.svelte` |
-| 3.7 | `<CtaStrip>` | `src/lib/components/content/CtaStrip.svelte` |
-| 3.8 | `/transactions` (sold grid + partners) | route pair |
-| 3.9 | `<BlogCard>` + `/blog` + `/blog/[slug]` | `BlogCard.svelte`, two route pairs |
-| 3.10 | `/api/contact` endpoint (Resend + Zod) | `src/routes/api/contact/+server.ts`, `src/lib/server/resend.ts` |
-| 3.11 | `<ContactForm>` + `<CalEmbed>` | `src/lib/components/forms/{ContactForm,CalEmbed}.svelte`, `forms.ts` i18n |
-| 3.12 | `/contact` page | route pair |
+| Task | Component / Page                                      | Files                                                                     |
+| ---- | ----------------------------------------------------- | ------------------------------------------------------------------------- |
+| 3.1  | `<PropertyCard>` + `<PropertyGrid>`                   | `src/lib/components/content/{PropertyCard,PropertyGrid}.svelte`, tests    |
+| 3.2  | `<PropertyCarousel>` (Embla)                          | `src/lib/components/content/PropertyCarousel.svelte`                      |
+| 3.3  | `/[lang]/biens` index + `/[lang]/biens/[slug]` detail | route pair                                                                |
+| 3.4  | `<ServiceAccordion>` + `/services`                    | `ServiceAccordion.svelte`, `services.ts` i18n, route                      |
+| 3.5  | `<TestimonialChip>` + `<TeamMember>`                  | `src/lib/components/content/{TestimonialChip,TeamMember}.svelte`          |
+| 3.6  | `<PortableTextRenderer>` (Sanity PT)                  | `src/lib/components/content/PortableTextRenderer.svelte`                  |
+| 3.7  | `<CtaStrip>`                                          | `src/lib/components/content/CtaStrip.svelte`                              |
+| 3.8  | `/transactions` (sold grid + partners)                | route pair                                                                |
+| 3.9  | `<BlogCard>` + `/blog` + `/blog/[slug]`               | `BlogCard.svelte`, two route pairs                                        |
+| 3.10 | `/api/contact` endpoint (Resend + Zod)                | `src/routes/api/contact/+server.ts`, `src/lib/server/resend.ts`           |
+| 3.11 | `<ContactForm>` + `<CalEmbed>`                        | `src/lib/components/forms/{ContactForm,CalEmbed}.svelte`, `forms.ts` i18n |
+| 3.12 | `/contact` page                                       | route pair                                                                |
 
 **Phase 3 done when:** all 9 routes work in FR + EN, every page pulls content from Sanity, `/api/contact` delivers email via Resend, Cal.com embed renders when `CAL_COM_LINK` is set, all e2e flows pass.
 
@@ -1910,18 +2023,18 @@ Each task follows the same TDD pattern as Phase 1: failing test → implement �
 
 # Phase 4 — Polish & launch (Weeks 4–5, summary)
 
-| Task | What | Files |
-|---|---|---|
-| 4.1 | `<SeoHead>` + OG + hreflang + JSON-LD RealEstateAgent | `src/lib/components/seo/SeoHead.svelte`, wire into all 9 pages |
-| 4.2 | Dynamic `sitemap.xml` + `robots.txt` | `src/routes/sitemap.xml/+server.ts`, `src/routes/robots.txt/+server.ts` |
-| 4.3 | `/api/og` dynamic OG image (Satori + resvg) | `src/lib/server/og.ts`, `src/routes/api/og/+server.ts` |
-| 4.4 | GA4 loader (gated by CookieBanner consent) | `src/lib/components/seo/Ga4Loader.svelte`, integrated into `+layout.svelte` |
-| 4.5 | Lighthouse perf + a11y pass (target ≥95 all 4) | optimize images, fonts, JS |
-| 4.6 | axe-core a11y tests for every page | extend `tests/e2e/` |
-| 4.7 | Visual regression baseline (Playwright screenshots) | `tests/e2e/visual/` |
-| 4.8 | Mobile QA pass (Pixel 5 + iPhone 13 viewports) | fix any layout issues found |
-| 4.9 | Custom domain + SSL setup | `serginehougoue.ca` DNS → Vercel |
-| 4.10 | Replace placeholder photos with real assets | drop files into `static/placeholders/` |
+| Task | What                                                  | Files                                                                       |
+| ---- | ----------------------------------------------------- | --------------------------------------------------------------------------- |
+| 4.1  | `<SeoHead>` + OG + hreflang + JSON-LD RealEstateAgent | `src/lib/components/seo/SeoHead.svelte`, wire into all 9 pages              |
+| 4.2  | Dynamic `sitemap.xml` + `robots.txt`                  | `src/routes/sitemap.xml/+server.ts`, `src/routes/robots.txt/+server.ts`     |
+| 4.3  | `/api/og` dynamic OG image (Satori + resvg)           | `src/lib/server/og.ts`, `src/routes/api/og/+server.ts`                      |
+| 4.4  | GA4 loader (gated by CookieBanner consent)            | `src/lib/components/seo/Ga4Loader.svelte`, integrated into `+layout.svelte` |
+| 4.5  | Lighthouse perf + a11y pass (target ≥95 all 4)        | optimize images, fonts, JS                                                  |
+| 4.6  | axe-core a11y tests for every page                    | extend `tests/e2e/`                                                         |
+| 4.7  | Visual regression baseline (Playwright screenshots)   | `tests/e2e/visual/`                                                         |
+| 4.8  | Mobile QA pass (Pixel 5 + iPhone 13 viewports)        | fix any layout issues found                                                 |
+| 4.9  | Custom domain + SSL setup                             | `serginehougoue.ca` DNS → Vercel                                            |
+| 4.10 | Replace placeholder photos with real assets           | drop files into `static/placeholders/`                                      |
 
 **Phase 4 done when:** Lighthouse ≥95 on every key page, axe-core clean, sitemap + robots valid, OG image renders correctly in social previews, GA4 fires only after consent, custom domain live with HTTPS, all real photos in place.
 
@@ -1929,15 +2042,15 @@ Each task follows the same TDD pattern as Phase 1: failing test → implement �
 
 # Phase 5 — Post-launch (Week 6+)
 
-| Task | What |
-|---|---|
-| 5.1 | Write 3 starter blog posts targeting long-tail keywords ("acheter un plex à Montréal", "premier acheteur Rive-Nord", "marché immobilier 2026") |
-| 5.2 | Add 3–6 additional properties to Sanity |
-| 5.3 | Submit sitemap to Google Search Console |
-| 5.4 | Set up GA4 conversion events for form submission + WhatsApp click |
-| 5.5 | Add real testimonials as transactions close |
-| 5.6 | Monitor "1 client/month" funnel: traffic → contact form → booked appointment → closed transaction |
-| 5.7 | Iterate on copy, photography, and CTAs based on analytics |
+| Task | What                                                                                                                                           |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5.1  | Write 3 starter blog posts targeting long-tail keywords ("acheter un plex à Montréal", "premier acheteur Rive-Nord", "marché immobilier 2026") |
+| 5.2  | Add 3–6 additional properties to Sanity                                                                                                        |
+| 5.3  | Submit sitemap to Google Search Console                                                                                                        |
+| 5.4  | Set up GA4 conversion events for form submission + WhatsApp click                                                                              |
+| 5.5  | Add real testimonials as transactions close                                                                                                    |
+| 5.6  | Monitor "1 client/month" funnel: traffic → contact form → booked appointment → closed transaction                                              |
+| 5.7  | Iterate on copy, photography, and CTAs based on analytics                                                                                      |
 
 ---
 
@@ -1947,20 +2060,20 @@ After writing the complete plan, I checked it against the spec.
 
 ### 1. Spec coverage
 
-| Spec section | Plan task(s) |
-|---|---|
-| 1. Purpose & Goals | Phase 1 wrap-up + Phase 5 |
-| 2. Decisions Summary (11 decisions) | All reflected in stack + components (Tasks 1.1–4.4) |
-| 3. Architecture & Stack | 1.1, 1.2, 2.1, 3.10, 4.3, 4.4 |
-| 4. Information Architecture | All routes present; locale prefix in Task 1.5 |
-| 5. Sanity Content Model (6 schemas) | Tasks 2.2, 2.3, 2.4, 2.5, 2.6 |
-| 6. Component Architecture (19 components) | Tasks 1.6–1.12, 3.1–3.9, 3.11, 4.1 |
-| 7. Testing Strategy | Vitest, Testing Library, Playwright, axe-core, visual regression, Lighthouse |
-| 8. Deployment | `@sveltejs/adapter-vercel`, env vars, custom domain, Resend |
-| 9. Risks & Mitigations | Placeholders (1.12, 4.10), starter content (2.6), consent (1.10), Cal.com fallback (3.11) |
-| 10. Open Questions | Graceful-degradation paths in 4.1, 4.9, 3.11, 4.10; Phase 5 addresses blog posts |
-| 11. References | Cited throughout |
-| 12. Approval | Spec approved 2026-06-24 |
+| Spec section                              | Plan task(s)                                                                              |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------- |
+| 1. Purpose & Goals                        | Phase 1 wrap-up + Phase 5                                                                 |
+| 2. Decisions Summary (11 decisions)       | All reflected in stack + components (Tasks 1.1–4.4)                                       |
+| 3. Architecture & Stack                   | 1.1, 1.2, 2.1, 3.10, 4.3, 4.4                                                             |
+| 4. Information Architecture               | All routes present; locale prefix in Task 1.5                                             |
+| 5. Sanity Content Model (6 schemas)       | Tasks 2.2, 2.3, 2.4, 2.5, 2.6                                                             |
+| 6. Component Architecture (19 components) | Tasks 1.6–1.12, 3.1–3.9, 3.11, 4.1                                                        |
+| 7. Testing Strategy                       | Vitest, Testing Library, Playwright, axe-core, visual regression, Lighthouse              |
+| 8. Deployment                             | `@sveltejs/adapter-vercel`, env vars, custom domain, Resend                               |
+| 9. Risks & Mitigations                    | Placeholders (1.12, 4.10), starter content (2.6), consent (1.10), Cal.com fallback (3.11) |
+| 10. Open Questions                        | Graceful-degradation paths in 4.1, 4.9, 3.11, 4.10; Phase 5 addresses blog posts          |
+| 11. References                            | Cited throughout                                                                          |
+| 12. Approval                              | Spec approved 2026-06-24                                                                  |
 
 **Coverage verdict**: every spec section has at least one task; every component, schema, route, env var, and decision is implemented.
 

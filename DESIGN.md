@@ -1,14 +1,17 @@
 # DESIGN.md: Lesse Studio
 
 ## Source
+
 - URL: https://lessestudio.com/
 - Capture date: 2026-06-24
 - Evidence: page markdown via r.jina.ai proxy, raw HTML inspect, image URL catalog, sibling /contact page for nav/footer; supplement with `firecrawl scrape --format branding,images --full-page-screenshot` when the CLI is available.
 
 ## Reference Screenshot
+
 ![Full-page screenshot of Lesse Studio](./.firecrawl/lessestudio-screenshot.png)
 
 Generate locally with:
+
 ```bash
 firecrawl scrape "https://lessestudio.com/" --full-page-screenshot -o .firecrawl/lessestudio-screenshot.png
 ```
@@ -16,6 +19,7 @@ firecrawl scrape "https://lessestudio.com/" --full-page-screenshot -o .firecrawl
 Use this screenshot as the visual source of truth for layout, hierarchy, density, and feel. Tokens below describe the same page in machine-readable form.
 
 ## Design Summary
+
 Lesse Studio is a premium Italian design + technology agency. The visual language is **dark-mode-first editorial**: near-black canvas with off-white type, oversized hero photography, a single white wordmark, and a restrained warm-neutral accent. Content is organized in long, slow-scrolling sections with cinematic full-bleed imagery, generous vertical rhythm, and minimal chrome. Tone is confident, calm, and European-luxury — short declarative copy, sentence-case headings, no exclamation, "Start a Project" as the only primary CTA.
 
 Tech stack inferred from HTML: **SvelteKit** (asset paths under `/_app/immutable/assets/`) + **Tailwind CSS** (arbitrary variants like `[&>svg]:h-full`, `[&>svg]:w-auto`).
@@ -24,18 +28,18 @@ Tech stack inferred from HTML: **SvelteKit** (asset paths under `/_app/immutable
 
 ### Colors
 
-| Role | Value | Source |
-|---|---|---|
-| `--bg-canvas` (page background) | `#0E0E0E` (near-black) | inferred — logo is shipped as **white SVG** for dark theme |
-| `--bg-surface` (cards, footer dark sections) | `#161616` | inferred |
-| `--bg-elevated` (testimonial chips, inputs) | `#1F1F1F` | inferred |
-| `--text-primary` | `#F5F2EC` (warm off-white / "cream") | inferred from logo contrast + agency genre |
-| `--text-secondary` | `#A8A29A` (warm grey) | inferred |
-| `--text-muted` | `#6B6660` | inferred |
-| `--border-hairline` | `rgba(245,242,236,0.08)` | inferred |
-| `--accent` | `#E8DFD0` (warm bone) | inferred — minimal-luxury accent |
-| `--state-hover` | `rgba(255,255,255,0.06)` overlay | inferred |
-| Section counter text | `#E8DFD0` on `#0E0E0E` | inferred from "01 / 03 Brand Identity" hero badge |
+| Role                                         | Value                                | Source                                                     |
+| -------------------------------------------- | ------------------------------------ | ---------------------------------------------------------- |
+| `--bg-canvas` (page background)              | `#0E0E0E` (near-black)               | inferred — logo is shipped as **white SVG** for dark theme |
+| `--bg-surface` (cards, footer dark sections) | `#161616`                            | inferred                                                   |
+| `--bg-elevated` (testimonial chips, inputs)  | `#1F1F1F`                            | inferred                                                   |
+| `--text-primary`                             | `#F5F2EC` (warm off-white / "cream") | inferred from logo contrast + agency genre                 |
+| `--text-secondary`                           | `#A8A29A` (warm grey)                | inferred                                                   |
+| `--text-muted`                               | `#6B6660`                            | inferred                                                   |
+| `--border-hairline`                          | `rgba(245,242,236,0.08)`             | inferred                                                   |
+| `--accent`                                   | `#E8DFD0` (warm bone)                | inferred — minimal-luxury accent                           |
+| `--state-hover`                              | `rgba(255,255,255,0.06)` overlay     | inferred                                                   |
+| Section counter text                         | `#E8DFD0` on `#0E0E0E`               | inferred from "01 / 03 Brand Identity" hero badge          |
 
 Light sections (form area, footer column heads) flip to `--bg-canvas: #F5F2EC` with `--text-primary: #0E0E0E`.
 
@@ -48,6 +52,7 @@ Light sections (form area, footer column heads) flip to `--bg-canvas: #F5F2EC` w
 - **Eyebrow / labels** ("01 / 03 Brand Identity", section counters, footer column heads): all-caps, tracked `+0.08em`, 11–13px.
 
 Scale (inferred, mobile-first → desktop):
+
 - `text-xs` 12px / 1.4 — eyebrow, meta
 - `text-sm` 14px / 1.5 — body small, captions
 - `text-base` 16px / 1.55 — body
@@ -75,12 +80,14 @@ Weights used: 300 (light body), 400 (regular), 500 (medium), 600 (semibold for h
 ## Components
 
 ### Top Nav (sticky, transparent over hero, solid on scroll)
+
 - Left: white wordmark logo (`/_app/immutable/assets/logo-white.D2PbM6gr.svg`)
 - Center/right: text links — `Services`, `Portfolio`, `About`, `Insights`, `Contact`
 - Right: small `Start a project →` pill button + login icon
 - Height: 64–72px, `backdrop-blur` when scrolled
 
 ### Hero
+
 - Full-viewport (`min-h-screen`) with split layout: oversized editorial image left, copy right
 - Image: `https://cnd.lessestudio.com/838ae005-fc2e-43d6-a92b-3b43fa9c7398.webp` (branded bottles — moody, low-key product photography)
 - Eyebrow pill: `01 / 03 — Brand Identity` style counter
@@ -89,22 +96,26 @@ Weights used: 300 (light body), 400 (regular), 500 (medium), 600 (semibold for h
 - Secondary CTA: `Scroll` (text + small arrow indicator at bottom)
 
 ### Services Accordion / List
+
 - Header counter `01 / 03`, then category heading
 - Sub-items listed with `See More →` affordance
 - Categories visible: **Brand Strategy / Brand Identity / User Experience Design / Visual Content / Web Development / eCommerce / Web & Mobile Applications / Embedded & Hardware** (each with 3–7 sub-services)
 - Service count badge e.g. `/6 services`
 
 ### Approach & Values
+
 - Two-column: copy left, full-bleed image right
 - Image: collage (`https://cnd.lessestudio.com/be81029e-7e11-4068-826e-8ee48c967e43.webp`) or animated GIF (`https://cnd.lessestudio.com/9f75a1bc-35f8-41ef-be3a-56ead44686f0.gif`) — muted greys with selective accent
 - Body: "We combine creativity, strategic ideas and technology to create bespoke solutions that drive your success."
 
 ### Latest Work (case studies)
+
 - Vertical case-study cards with full-bleed cover image, project name (large), then long-form description
 - Example observed: **Duo Nutrition** — "DUO NUTRITION is a brand that redefines pet food as a celebration of the equal, unspoken partnership between humans and their dogs. … a simple yet powerful oval, split evenly down the middle."
 - Pattern: image-on-top, title beneath, narrative paragraph, subtle "View case →" link
 
 ### Testimonials Carousel
+
 - Three visible at desktop, swipe on mobile
 - Card: large quote (serif, 22–28px), circular avatar, name, role/company
 - Avatars hosted at `cnd.lessestudio.com/...svg` (e.g. `b915dfc2-95a1-437f-b026-b7b9dc170c84.svg`, `6dc48285-0f58-4406-8064-0059ed94fc01.svg`, `02a83412-deca-40f0-b3fd-eed1d48c2213.svg`, `be1a44c9-a699-4a61-a8d1-5d1737e45962.webp`)
@@ -112,16 +123,19 @@ Weights used: 300 (light body), 400 (regular), 500 (medium), 600 (semibold for h
 - Closing CTA inside carousel: `Let's work together →`
 
 ### Latest News
+
 - Compact list: title (left), date (right), hairline divider
 - Items observed: "Building Brands from Within — April 6", "How to Choose a Brand Name That Lasts — April 6"
 - Footer link: `View all news →`
 
 ### Contact Form ("Ready to get started?")
+
 - Two-column on desktop, stacked on mobile
-- Fields: Name*, Email*, Phone (optional), Tell us about your project*, Services interested in (checkbox group: Brand Strategy, Brand Identity, User Experience Design, Visual Content, Web Development, eCommerce, Web & Mobile Applications, Embedded & Hardware), Website, Send Message
+- Fields: Name*, Email*, Phone (optional), Tell us about your project\*, Services interested in (checkbox group: Brand Strategy, Brand Identity, User Experience Design, Visual Content, Web Development, eCommerce, Web & Mobile Applications, Embedded & Hardware), Website, Send Message
 - Inputs: dark surface `#1F1F1F`, 1px hairline border, no rounded corners, focus ring in cream accent
 
 ### Footer
+
 - Two-column mega footer on light cream background
 - Left column: services listed across two sub-columns (Visual and Marketing / Technology), each with category + sub-bullets
 - Right column or bottom row: social text links — `INSTAGRAM`, `LINKEDIN`, `DRIBBBLE`, `MAIL` (uppercase, tracked)
@@ -129,16 +143,17 @@ Weights used: 300 (light body), 400 (regular), 500 (medium), 600 (semibold for h
 
 ### Buttons
 
-| Variant | Style |
-|---|---|
-| Primary | Filled cream pill, dark text, `px-6 py-3 rounded-full`, hover inverts to filled dark w/ cream border |
-| Secondary / Ghost | 1px cream border on dark, transparent fill, hover fills cream |
-| Text link | Inline arrow `Label →`, slides arrow on hover |
-| Pill tag | `rounded-full border border-white/15 px-3 py-1 text-xs uppercase tracking-widest` |
+| Variant           | Style                                                                                                |
+| ----------------- | ---------------------------------------------------------------------------------------------------- |
+| Primary           | Filled cream pill, dark text, `px-6 py-3 rounded-full`, hover inverts to filled dark w/ cream border |
+| Secondary / Ghost | 1px cream border on dark, transparent fill, hover fills cream                                        |
+| Text link         | Inline arrow `Label →`, slides arrow on hover                                                        |
+| Pill tag          | `rounded-full border border-white/15 px-3 py-1 text-xs uppercase tracking-widest`                    |
 
 ## Page Patterns
 
 Section order (canonical):
+
 1. Sticky transparent nav
 2. Hero (full-bleed image + split copy + CTA + scroll cue)
 3. Services accordion with three numbered categories and "Explore All Services" footer link
@@ -150,6 +165,7 @@ Section order (canonical):
 9. Footer mega-nav with social row
 
 Responsive behavior:
+
 - Single-column stack under 768px
 - Hero copy drops below image on mobile
 - Service list collapses accordion-style
@@ -181,8 +197,8 @@ Responsive behavior:
 12. **Accessibility**: every interactive element has a focus ring (2px cream, 2px offset); `prefers-reduced-motion` disables the scroll-reveal and carousel auto-advance.
 
 ## Rerun Inputs
+
 workflow: firecrawl-website-design-clone
 source_url: https://lessestudio.com/
 target_stack: sveltekit + tailwind
 output: DESIGN.md
-
