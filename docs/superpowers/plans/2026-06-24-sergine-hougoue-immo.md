@@ -2372,26 +2372,328 @@ Total ≥13 documents. Script skips if `siteSettings` already exists (idempotent
 
 ---
 
-# Phase 3 — All pages (Weeks 3–4, summary)
+# Phase 3 — All pages (Weeks 3–4)
 
-Each task follows the same TDD pattern as Phase 1: failing test → implement → pass → commit. Components are listed in **section 6** of the spec; full field shapes are in the spec and the Phase 2 schemas.
+Each task follows the same TDD pattern as Phase 1: failing test → implement → pass → commit. Components are listed in **section 6** of the spec; field shapes match Phase 2 schemas and `$sanity/types`.
 
-| Task | Component / Page                                      | Files                                                                     |
-| ---- | ----------------------------------------------------- | ------------------------------------------------------------------------- |
-| 3.1  | `<PropertyCard>` + `<PropertyGrid>`                   | `src/lib/components/content/{PropertyCard,PropertyGrid}.svelte`, tests    |
-| 3.2  | `<PropertyCarousel>` (Embla)                          | `src/lib/components/content/PropertyCarousel.svelte`                      |
-| 3.3  | `/[lang]/biens` index + `/[lang]/biens/[slug]` detail | route pair                                                                |
-| 3.4  | `<ServiceAccordion>` + `/services`                    | `ServiceAccordion.svelte`, `services.ts` i18n, route                      |
-| 3.5  | `<TestimonialChip>` + `<TeamMember>`                  | `src/lib/components/content/{TestimonialChip,TeamMember}.svelte`          |
-| 3.6  | `<PortableTextRenderer>` (Sanity PT)                  | `src/lib/components/content/PortableTextRenderer.svelte`                  |
-| 3.7  | `<CtaStrip>`                                          | `src/lib/components/content/CtaStrip.svelte`                              |
-| 3.8  | `/transactions` (sold grid + partners)                | route pair                                                                |
-| 3.9  | `<BlogCard>` + `/blog` + `/blog/[slug]`               | `BlogCard.svelte`, two route pairs                                        |
-| 3.10 | `/api/contact` endpoint (Resend + Zod)                | `src/routes/api/contact/+server.ts`, `src/lib/server/resend.ts`           |
-| 3.11 | `<ContactForm>` + `<CalEmbed>`                        | `src/lib/components/forms/{ContactForm,CalEmbed}.svelte`, `forms.ts` i18n |
-| 3.12 | `/contact` page                                       | route pair                                                                |
+**Routing note:** Locale-prefixed URLs (`/fr/biens`, `/en/biens`) are handled by `hooks.server.ts` — routes live at `src/routes/biens/` (no `[lang]` param folder). Pass `data.locale` from `+layout.server.ts` into components for link prefixes.
 
-**Phase 3 done when:** all 9 routes work in FR + EN, every page pulls content from Sanity, `/api/contact` delivers email via Resend, Cal.com embed renders when `CAL_COM_LINK` is set, all e2e flows pass.
+**CMS note:** Extend `$sanity/queries.ts` and `$sanity/load-cms.ts` as needed per task. All fetches filter by `language == $lang`. Graceful empty arrays when Sanity is unconfigured (same pattern as `loadCmsHomeData`).
+
+---
+
+## Task 3.1: Build `<PropertyCard>` + `<PropertyGrid>` + `formatPrice`
+
+**Files:**
+
+- Create: `src/lib/utils/format.ts`, `src/lib/components/content/{PropertyCard,PropertyGrid}.svelte`, `tests/unit/utils/format.test.ts`, `tests/component/{PropertyCard,PropertyGrid}.test.ts`, `tests/fixtures/property.ts`
+- Modify: `src/lib/i18n/copy.ts` (add `PropertyCopy` labels for type + status + "view detail")
+
+**Interfaces:**
+
+- Consumes: `Property` from `$sanity/types`; `Locale` from `$i18n/locales`; `urlFor` from `$sanity/image`
+- Produces: `formatPrice(amount, locale)` → `"749 000 $"` (FR) / `"$749,000"` (EN); `<PropertyCard property locale basePath>` renders photo (first `photos[0]` or placeholder), formatted price, address + city, beds/baths/area, localized type label, status badge, link to `{basePath}/biens/{slug.current}` with localized "Voir le détail" / "View details"; `<PropertyGrid properties locale basePath>` renders responsive `grid gap-8 sm:grid-cols-2 lg:grid-cols-3`
+
+- [ ] **Step 1: Write failing unit test for `formatPrice`**
+
+Write `tests/unit/utils/format.test.ts` asserting FR uses space thousands + trailing `$`, EN uses `$` prefix + comma thousands.
+
+- [ ] **Step 2: Write failing component tests**
+
+Write `tests/fixtures/property.ts` exporting `mockProperty()` returning a minimal valid `Property` (reuse field shapes from `load-cms.test.ts`). `PropertyCard.test.ts` asserts: price text, address, bed/bath/area counts, link `href="/fr/biens/duplex-rosemont"`, image `alt` from photo. `PropertyGrid.test.ts` renders 2 properties, asserts 2 links.
+
+- [ ] **Step 3: Run tests** — expect FAIL (modules not found).
+
+- [ ] **Step 4: Implement `format.ts`** — `formatPrice(price: number, locale: Locale): string`.
+
+- [ ] **Step 5: Extend `copy.ts`** — add `property: { viewDetail, beds, baths, area, types: Record<PropertyType,string>, statuses: Record<PropertyStatus,string> }` for FR + EN.
+
+- [ ] **Step 6: Create `PropertyCard.svelte`** — card with `aspect-[4/3]` image, gold price, burgundy status pill for `vendu`, link wrapping card or explicit CTA arrow.
+
+- [ ] **Step 7: Create `PropertyGrid.svelte`** — maps `properties` to `<PropertyCard>`.
+
+- [ ] **Step 8: Run tests** — all pass; output pristine.
+
+- [ ] **Step 9: `npm run check && npm run lint`**
+
+- [ ] **Step 10: Commit** — `feat(content): add PropertyCard, PropertyGrid, and formatPrice utility`
+
+---
+
+## Task 3.2: Build `<PropertyCarousel>` (Embla)
+
+**Files:**
+
+- Create: `src/lib/components/content/PropertyCarousel.svelte`, `tests/component/PropertyCarousel.test.ts`
+- Modify: `package.json`, `package-lock.json`, `src/routes/+page.svelte`
+
+**Interfaces:**
+
+- Consumes: `Property[]`, `locale`, `basePath`; `PropertyCard` from Task 3.1
+- Produces: horizontal scroll carousel with prev/next buttons, `aria-label` on region, auto-advance every 6s (pause on hover/focus), disabled when `prefers-reduced-motion: reduce`; wires into Home replacing the plain list in `+page.svelte`
+
+- [ ] **Step 1: Install `embla-carousel-svelte`** — add to dependencies.
+
+- [ ] **Step 2: Write failing component test** — renders 3 cards, prev/next buttons present, `aria-roledescription="carousel"`.
+
+- [ ] **Step 3: Run test** — expect FAIL.
+
+- [ ] **Step 4: Implement `PropertyCarousel.svelte`** — Embla with snap, keyboard-accessible controls, `prefers-reduced-motion` via `matchMedia` disables interval.
+
+- [ ] **Step 5: Update `+page.svelte`** — replace featured list with `<PropertyCarousel properties={data.featuredProperties} locale={data.locale} basePath={base} />`.
+
+- [ ] **Step 6: Run tests + check + lint**
+
+- [ ] **Step 7: Commit** — `feat(content): add PropertyCarousel with Embla on Home`
+
+---
+
+## Task 3.3: `/biens` index + `/biens/[slug]` detail routes
+
+**Files:**
+
+- Create: `src/routes/biens/+page.server.ts`, `src/routes/biens/+page.svelte`, `src/routes/biens/[slug]/+page.server.ts`, `src/routes/biens/[slug]/+page.svelte`, `tests/e2e/biens.spec.ts`
+- Modify: `src/lib/sanity/queries.ts`, `src/lib/sanity/load-cms.ts`, `tests/unit/sanity/queries.test.ts`, `tests/unit/sanity/load-cms.test.ts`
+
+**Interfaces:**
+
+- Consumes: `PropertyCard`, `PropertyGrid`, `PageHeader`, `formatPrice`, `urlFor`, `plainTextFromBlocks`
+- Produces: `allPropertiesQuery` — `*[_type == "property" && language == $lang && status != "vendu"] | order(publishedAt desc)` with full card projection; `propertyBySlugQuery` — single property by slug + lang with description, features, photos; `loadCmsListingsData(lang)`, `loadCmsPropertyBySlug(lang, slug)`; index page with PageHeader + PropertyGrid; detail page with image gallery (simple grid, no lightbox yet), specs table, description, map placeholder `iframe` or static map link, CTA link to contact
+
+- [ ] **Step 1: Write failing query + load tests** — assert new query strings contain `language == $lang` and slug filter.
+
+- [ ] **Step 2: Write failing e2e** — `biens.spec.ts`: `/fr/biens` returns 200 with axe clean; `/fr/biens/duplex-rosemont` returns 200 (use seeded slug).
+
+- [ ] **Step 3: Run tests** — expect FAIL.
+
+- [ ] **Step 4: Add queries + loaders** to `queries.ts` and `load-cms.ts`.
+
+- [ ] **Step 5: Create index route** — server load calls `loadCmsListingsData`, page renders PageHeader + PropertyGrid.
+
+- [ ] **Step 6: Create detail route** — `error(404)` when property missing; gallery uses `urlFor` widths 800/400; specs show beds/baths/area/type/status/price/features list.
+
+- [ ] **Step 7: Run full suite** — unit + e2e pass.
+
+- [ ] **Step 8: Commit** — `feat(routes): add biens index and detail pages wired to Sanity`
+
+---
+
+## Task 3.4: `<ServiceAccordion>` + `/services` page
+
+**Files:**
+
+- Create: `src/lib/i18n/services.ts`, `src/lib/components/content/ServiceAccordion.svelte`, `src/routes/services/+page.svelte`, `tests/component/ServiceAccordion.test.ts`, `tests/unit/i18n/services.test.ts`
+- Modify: `src/lib/i18n/copy.ts` (import services into SiteCopy or keep separate `getServices(locale)`)
+
+**Interfaces:**
+
+- Consumes: static i18n content (4 categories from spec: first-time buyers, investment buyers, seller evaluation, seller strategy — each with title + 3–4 bullet points)
+- Produces: numbered accordion (`aria-expanded`, keyboard Enter/Space), only one panel open at a time; `/fr/services` and `/en/services` with PageHeader + accordion
+
+- [ ] **Step 1: Write failing tests** — services.ts returns 4 items per locale; accordion toggles `aria-expanded` on click.
+
+- [ ] **Step 2: Run tests** — expect FAIL.
+
+- [ ] **Step 3: Create `services.ts`** — export `getServices(locale): ServiceCategory[]` with FR + EN copy drawn from spec intent.
+
+- [ ] **Step 4: Create `ServiceAccordion.svelte`** — button headers with `01`, `02`… prefixes in gold.
+
+- [ ] **Step 5: Create `services/+page.svelte`** — PageHeader + ServiceAccordion.
+
+- [ ] **Step 6: Run tests + check + lint + axe e2e snippet in locale-shell or new services e2e**
+
+- [ ] **Step 7: Commit** — `feat(content): add ServiceAccordion and services page`
+
+---
+
+## Task 3.5: `<TestimonialChip>` + `<TeamMember>` + wire Home/About
+
+**Files:**
+
+- Create: `src/lib/components/content/{TestimonialChip,TeamMember}.svelte`, `tests/component/{TestimonialChip,TeamMember}.test.ts`
+- Modify: `src/routes/+page.svelte`, `src/routes/a-propos/+page.svelte`
+
+**Interfaces:**
+
+- Consumes: `Testimonial`, `TeamMember` types; `urlFor`; `plainTextFromBlocks` or future `PortableTextRenderer`
+- Produces: `TestimonialChip` — quote, author, context, optional photo, star rating (aria `img` with label); `TeamMember` — photo, name, role, bio; Home uses horizontal flex/wrap of chips; About uses `<TeamMember member={member} />` replacing inline markup
+
+- [ ] **Step 1: Write failing component tests** for both components.
+
+- [ ] **Step 2: Implement components** matching DESIGN.md typography.
+
+- [ ] **Step 3: Wire Home** — replace testimonial `<ul>` with chips.
+
+- [ ] **Step 4: Wire About** — replace inline team markup with `<TeamMember>`.
+
+- [ ] **Step 5: Run tests + commit** — `feat(content): add TestimonialChip and TeamMember, wire Home and About`
+
+---
+
+## Task 3.6: `<PortableTextRenderer>` (Sanity portable text)
+
+**Files:**
+
+- Create: `src/lib/components/content/PortableTextRenderer.svelte`, `tests/component/PortableTextRenderer.test.ts`
+- Modify: `package.json` (add `@portabletext/svelte`), `src/routes/biens/[slug]/+page.svelte`, `src/routes/a-propos/+page.svelte`
+
+**Interfaces:**
+
+- Consumes: `PortableTextBlock[]`, optional `class` prop
+- Produces: renders paragraphs, bold/italic marks, bullet lists; maps `normal` → `p`, `h2` → `h2` with editorial classes; replaces `plainTextFromBlocks` on detail + About bio where rich text expected
+
+- [ ] **Step 1: Write failing test** — renders paragraph text and a list from fixture blocks.
+
+- [ ] **Step 2: Install `@portabletext/svelte`**
+
+- [ ] **Step 3: Implement component** with custom components for block styles.
+
+- [ ] **Step 4: Wire into biens detail + About**
+
+- [ ] **Step 5: Run tests + commit** — `feat(content): add PortableTextRenderer for Sanity rich text`
+
+---
+
+## Task 3.7: `<CtaStrip>` + Home CTA section
+
+**Files:**
+
+- Create: `src/lib/components/content/CtaStrip.svelte`, `tests/component/CtaStrip.test.ts`
+- Modify: `src/lib/i18n/copy.ts` (add `ctaStrip` copy), `src/routes/+page.svelte`
+
+**Interfaces:**
+
+- Consumes: `title`, `ctaHref`, `ctaLabel` props
+- Produces: full-width burgundy band, centered title + rounded CTA; Home adds strip below testimonials linking to `/contact`
+
+- [ ] **Step 1: Write failing test** — renders title + link.
+
+- [ ] **Step 2: Implement + wire Home**
+
+- [ ] **Step 3: Run tests + commit** — `feat(content): add CtaStrip and wire Home conversion strip`
+
+---
+
+## Task 3.8: `/transactions` page (sold grid + partners)
+
+**Files:**
+
+- Create: `src/routes/transactions/+page.server.ts`, `src/routes/transactions/+page.svelte`, `tests/e2e/transactions.spec.ts`
+- Modify: `src/lib/sanity/queries.ts`, `src/lib/sanity/load-cms.ts`, `src/lib/i18n/copy.ts`
+
+**Interfaces:**
+
+- Consumes: `PropertyGrid`, `PropertyCard`; new queries `soldPropertiesQuery` (`status == "vendu"`), `partnersQuery`
+- Produces: PageHeader + sold listings grid (reuse PropertyCard with vendu badge) + partners logo row (name fallback if no logo)
+
+- [ ] **Step 1: Write failing load + e2e tests**
+
+- [ ] **Step 2: Add queries/loaders**
+
+- [ ] **Step 3: Create route**
+
+- [ ] **Step 4: Run tests + commit** — `feat(routes): add transactions page with sold listings and partners`
+
+---
+
+## Task 3.9: `<BlogCard>` + `/blog` + `/blog/[slug]`
+
+**Files:**
+
+- Create: `src/lib/components/content/BlogCard.svelte`, `src/routes/blog/+page.server.ts`, `src/routes/blog/+page.svelte`, `src/routes/blog/[slug]/+page.server.ts`, `src/routes/blog/[slug]/+page.svelte`, `tests/component/BlogCard.test.ts`, `tests/e2e/blog.spec.ts`
+- Modify: `src/lib/sanity/queries.ts`, `src/lib/sanity/load-cms.ts`, `src/lib/i18n/copy.ts`
+
+**Interfaces:**
+
+- Consumes: `Post` type; `PortableTextRenderer`; pagination: 6 posts per page on index (`?page=2`)
+- Produces: `postsQuery`, `postBySlugQuery`, `postsCountQuery`; BlogCard shows cover, category label, title, excerpt, read link; detail shows cover, author, date, body
+
+- [ ] **Step 1: Write failing tests** (component + query + e2e)
+
+- [ ] **Step 2: Add queries/loaders** — `loadCmsPosts(lang, page)`, `loadCmsPostBySlug(lang, slug)`
+
+- [ ] **Step 3: Implement BlogCard + routes**
+
+- [ ] **Step 4: Run tests + commit** — `feat(routes): add blog index and post detail pages`
+
+---
+
+## Task 3.10: `/api/contact` endpoint (Resend + Zod)
+
+**Files:**
+
+- Create: `src/lib/server/contact-schema.ts`, `src/lib/server/resend.ts`, `src/routes/api/contact/+server.ts`, `tests/unit/server/contact-schema.test.ts`, `tests/unit/server/contact-handler.test.ts`
+- Modify: `package.json` (add `resend`, `zod`)
+
+**Interfaces:**
+
+- Consumes: env `RESEND_API_KEY`, `CONTACT_TO_EMAIL` from `$sanity/env` server keys
+- Produces: `contactFormSchema` — `{ name, phone, email, intent, message }` with Zod (email valid, phone min 10 chars, message min 10); POST returns `{ ok: true }` or `{ ok: false, errors }` with 400; sends HTML email via Resend adapter (mockable); rate-limit not required in v1
+
+- [ ] **Step 1: Write failing schema tests** — valid payload passes; missing email fails.
+
+- [ ] **Step 2: Write failing handler test** — mock Resend, assert `fetch` POST to `/api/contact` returns 200.
+
+- [ ] **Step 3: Implement schema + resend adapter + handler**
+
+- [ ] **Step 4: Run tests + commit** — `feat(api): add contact form endpoint with Zod and Resend`
+
+---
+
+## Task 3.11: `<ContactForm>` + `<CalEmbed>`
+
+**Files:**
+
+- Create: `src/lib/i18n/forms.ts`, `src/lib/components/forms/{ContactForm,CalEmbed}.svelte`, `tests/component/{ContactForm,CalEmbed}.test.ts`
+- Modify: `package.json` if needed
+
+**Interfaces:**
+
+- Consumes: `getFormCopy(locale)` labels; POST `/api/contact`; env `CAL_COM_LINK` (optional — CalEmbed renders fallback message when unset)
+- Produces: ContactForm with fields name/phone/email/intent (select: buy/sell/invest/other)/message, client-side validation mirroring Zod, success + error states; CalEmbed loads Cal inline script when link present
+
+- [ ] **Step 1: Write failing component tests** — renders all fields; shows validation on empty submit; CalEmbed renders iframe/container when `calLink` set.
+
+- [ ] **Step 2: Implement forms**
+
+- [ ] **Step 3: Run tests + commit** — `feat(forms): add ContactForm and CalEmbed components`
+
+---
+
+## Task 3.12: `/contact` page
+
+**Files:**
+
+- Create: `src/routes/contact/+page.server.ts`, `src/routes/contact/+page.svelte`, `tests/e2e/contact.spec.ts`
+- Modify: `src/lib/i18n/copy.ts`
+
+**Interfaces:**
+
+- Consumes: `PageHeader`, `ContactForm`, `CalEmbed`, `siteSettings` from CMS (phone, email, hours); WhatsApp link `wa.me/14384626015`
+- Produces: two-column layout: left = contact methods + hours; right = form + Cal embed; e2e submits form with mocked API or test mode
+
+- [ ] **Step 1: Write failing e2e** — `/fr/contact` axe clean, form fields visible.
+
+- [ ] **Step 2: Server load** — `siteSettings` via existing query.
+
+- [ ] **Step 3: Build page** assembling all sections.
+
+- [ ] **Step 4: Run full suite** — all Phase 3 routes reachable in FR + EN.
+
+- [ ] **Step 5: Commit** — `feat(routes): add contact page with form, Cal embed, and contact info`
+
+---
+
+## Phase 3 wrap-up
+
+Phase 3 is complete when:
+
+- `npm run test` passes (90+ unit/component tests)
+- `npm run test:e2e` passes including biens, blog, contact, transactions
+- `npm run check` returns 0 errors
+- All routes work: `/fr/` + `/en/` home with carousel + chips + CTA strip; `/fr/biens`, `/fr/biens/[slug]`, `/fr/services`, `/fr/transactions`, `/fr/blog`, `/fr/blog/[slug]`, `/fr/contact` (and EN equivalents)
+- `/api/contact` validates and returns structured errors
+- Cal.com embed renders when `CAL_COM_LINK` is set; graceful fallback when unset
 
 ---
 
