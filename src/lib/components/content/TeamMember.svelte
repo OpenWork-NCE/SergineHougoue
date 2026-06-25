@@ -1,7 +1,7 @@
 <script lang="ts">
+  import PortableTextRenderer from "$components/content/PortableTextRenderer.svelte";
   import type { TeamMember } from "$sanity/types";
   import { urlFor } from "$sanity/image";
-  import { plainTextFromBlocks } from "$sanity/portable-text";
 
   interface Props {
     member: TeamMember;
@@ -9,7 +9,6 @@
 
   let { member }: Props = $props();
 
-  const bio = $derived(plainTextFromBlocks(member.bio));
   const photoUrl = $derived(
     member.photo?.asset
       ? urlFor(member.photo).width(640).height(800).fit("crop").url()
@@ -35,8 +34,8 @@
     <p class="mt-2 text-sm uppercase tracking-[0.08em] text-gold">
       {member.role}
     </p>
-    {#if bio}
-      <p class="mt-6 text-lg leading-relaxed text-secondary">{bio}</p>
+    {#if member.bio?.length}
+      <PortableTextRenderer blocks={member.bio} class="mt-6" />
     {/if}
   </div>
 </div>

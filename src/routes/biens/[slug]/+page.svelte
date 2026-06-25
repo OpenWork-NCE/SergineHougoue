@@ -1,7 +1,7 @@
 <script lang="ts">
+  import PortableTextRenderer from "$components/content/PortableTextRenderer.svelte";
   import { getCopy } from "$i18n/copy";
   import { urlFor } from "$sanity/image";
-  import { plainTextFromBlocks } from "$sanity/portable-text";
   import { formatArea, formatPrice } from "$utils/format";
   import type { PageData } from "./$types";
 
@@ -11,7 +11,6 @@
   const base = $derived(`/${data.locale}`);
   const property = $derived(data.property);
   const detailCopy = $derived(copy.property.detail);
-  const description = $derived(plainTextFromBlocks(property.description));
   const formattedPrice = $derived(formatPrice(property.price, data.locale));
   const typeLabel = $derived(copy.property.types[property.type]);
   const statusLabel = $derived(copy.property.statuses[property.status]);
@@ -112,14 +111,15 @@
     </section>
 
     <section class="space-y-12">
-      {#if description}
+      {#if property.description?.length}
         <div>
           <h2 class="font-display text-3xl text-primary">
             {detailCopy.description}
           </h2>
-          <p class="mt-6 text-lg leading-relaxed text-secondary">
-            {description}
-          </p>
+          <PortableTextRenderer
+            blocks={property.description}
+            class="mt-6"
+          />
         </div>
       {/if}
 
