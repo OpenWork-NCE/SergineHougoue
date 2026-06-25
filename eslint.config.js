@@ -52,8 +52,14 @@ export default [
     },
   },
   {
-    // `+page.svelte` filenames are not matched by `**/*.svelte` in ESLint's glob.
-    files: ["**/+page.svelte", "src/routes/+page.svelte"],
+    // `+page.svelte` / `+layout.svelte` and some paths are not matched by `**/*.svelte`.
+    files: [
+      "**/+page.svelte",
+      "**/+layout.svelte",
+      "src/routes/+page.svelte",
+      "src/routes/+layout.svelte",
+      "src/lib/components/**/*.svelte",
+    ],
     plugins: { svelte },
     languageOptions: {
       parser: svelteParser,

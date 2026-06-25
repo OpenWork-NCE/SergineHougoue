@@ -20,6 +20,7 @@ export default defineConfig({
     },
   },
   resolve: {
+    conditions: ["browser"],
     alias: {
       $components: "/src/lib/components",
       $i18n: "/src/lib/i18n",
