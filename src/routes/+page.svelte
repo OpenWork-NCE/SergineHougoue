@@ -1,5 +1,6 @@
 <script lang="ts">
   import Hero from "$components/content/Hero.svelte";
+  import PropertyCarousel from "$components/content/PropertyCarousel.svelte";
   import { getCopy } from "$i18n/copy";
   import type { PageData } from "./$types";
 
@@ -25,13 +26,13 @@
     <h2 class="font-display text-3xl text-primary md:text-4xl">
       {copy.home.featuredProperties}
     </h2>
-    <ul class="mt-8 space-y-4">
-      {#each data.featuredProperties as property (property._id)}
-        <li class="border-t border-white/10 pt-4 text-lg text-secondary">
-          {property.title}
-        </li>
-      {/each}
-    </ul>
+    <div class="mt-8">
+      <PropertyCarousel
+        properties={data.featuredProperties}
+        locale={data.locale}
+        basePath={base}
+      />
+    </div>
   </section>
 {/if}
 

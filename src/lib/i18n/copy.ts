@@ -42,6 +42,9 @@ export interface HeroCopy {
 export interface HomeCopy {
   featuredProperties: string;
   testimonials: string;
+  carouselAriaLabel: string;
+  carouselPrevious: string;
+  carouselNext: string;
 }
 
 export interface AboutCopy {
@@ -109,6 +112,9 @@ const fr: SiteCopy = {
   home: {
     featuredProperties: "Biens en vedette",
     testimonials: "Témoignages",
+    carouselAriaLabel: "Carrousel des biens en vedette",
+    carouselPrevious: "Bien précédent",
+    carouselNext: "Bien suivant",
   },
   about: {
     eyebrow: "03 / À propos",
@@ -178,6 +184,9 @@ const en: SiteCopy = {
   home: {
     featuredProperties: "Featured listings",
     testimonials: "Testimonials",
+    carouselAriaLabel: "Featured listings carousel",
+    carouselPrevious: "Previous listing",
+    carouselNext: "Next listing",
   },
   about: {
     eyebrow: "03 / About",

@@ -49,6 +49,7 @@
     "@sanity/document-internationalization": "^3.3.3",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^3.99.0",
+    "embla-carousel-svelte": "^8.6.0",
     "sanity": "^3.99.0"
   }
 }
