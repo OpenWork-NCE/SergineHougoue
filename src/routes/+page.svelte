@@ -1,4 +1,5 @@
 <script lang="ts">
+  import CtaStrip from "$components/content/CtaStrip.svelte";
   import Hero from "$components/content/Hero.svelte";
   import PropertyCarousel from "$components/content/PropertyCarousel.svelte";
   import TestimonialChip from "$components/content/TestimonialChip.svelte";
@@ -38,7 +39,7 @@
 {/if}
 
 {#if data.testimonials.length > 0}
-  <section class="container-editorial pb-24 md:pb-32">
+  <section class="container-editorial py-16 md:py-24">
     <h2 class="font-display text-3xl text-primary md:text-4xl">
       {copy.home.testimonials}
     </h2>
@@ -49,3 +50,9 @@
     </div>
   </section>
 {/if}
+
+<CtaStrip
+  title={copy.ctaStrip.title}
+  ctaHref={`${base}/contact`}
+  ctaLabel={copy.nav.cta}
+/>

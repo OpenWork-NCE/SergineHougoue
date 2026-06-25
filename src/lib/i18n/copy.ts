@@ -47,6 +47,10 @@ export interface HomeCopy {
   carouselNext: string;
 }
 
+export interface CtaStripCopy {
+  title: string;
+}
+
 export interface AboutCopy {
   eyebrow: string;
   title: string;
@@ -94,6 +98,7 @@ export interface SiteCopy {
   footer: FooterCopy;
   hero: HeroCopy;
   home: HomeCopy;
+  ctaStrip: CtaStripCopy;
   about: AboutCopy;
   services: ServicesCopy;
   listings: ListingsCopy;
@@ -142,6 +147,9 @@ const fr: SiteCopy = {
     carouselAriaLabel: "Carrousel des biens en vedette",
     carouselPrevious: "Bien précédent",
     carouselNext: "Bien suivant",
+  },
+  ctaStrip: {
+    title: "Prêt à passer à l'étape suivante ?",
   },
   about: {
     eyebrow: "03 / À propos",
@@ -236,6 +244,9 @@ const en: SiteCopy = {
     carouselAriaLabel: "Featured listings carousel",
     carouselPrevious: "Previous listing",
     carouselNext: "Next listing",
+  },
+  ctaStrip: {
+    title: "Ready to take the next step?",
   },
   about: {
     eyebrow: "03 / About",
