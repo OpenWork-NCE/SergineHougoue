@@ -28,6 +28,7 @@ export interface FooterCopy {
   sitemapHeading: string;
   contactHeading: string;
   socialHeading: string;
+  hours: string;
   privacy: string;
 }
 
@@ -72,6 +73,7 @@ const fr: SiteCopy = {
     sitemapHeading: "Plan du site",
     contactHeading: "Contact",
     socialHeading: "Réseaux sociaux",
+    hours: "Lun–Ven 8h–20h\nSam–Dim 9h–17h",
     privacy: "Politique de confidentialité",
   },
   hero: {
@@ -109,6 +111,7 @@ const en: SiteCopy = {
     sitemapHeading: "Sitemap",
     contactHeading: "Contact",
     socialHeading: "Social media",
+    hours: "Mon–Fri 8am–8pm\nSat–Sun 9am–5pm",
     privacy: "Privacy policy",
   },
   hero: {

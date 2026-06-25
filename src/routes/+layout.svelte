@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from "$app/state";
   import "../app.css";
   import CookieBanner from "$components/layout/CookieBanner.svelte";
   import Footer from "$components/layout/Footer.svelte";
@@ -13,7 +14,7 @@
   let { data, children }: Props = $props();
 </script>
 
-<Nav currentPath={`/${data.locale}/`} locale={data.locale} />
+<Nav currentPath={page.url.pathname} locale={data.locale} />
 
 <main>
   {@render children?.()}

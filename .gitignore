@@ -10,3 +10,12 @@ test-results
 playwright-report
 coverage
 .env.local
+task-*.cmd
+task-*.log
+step*.cmd
+install-*.log
+probe.cmd
+wait-*.cmd
+phase1-*.cmd
+phase1-*.log
+*.cmd.log

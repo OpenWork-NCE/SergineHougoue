@@ -1,8 +1,0 @@
-
-> sergine-hougoue-immo@0.1.0 check
-> svelte-kit sync && svelte-check --tsconfig ./tsconfig.json
-
-Loading svelte-check in workspace: c:\Users\AM\Documents\Workspace\DHC\immo
-Getting Svelte diagnostics...
-
-svelte-check found 0 errors and 0 warnings

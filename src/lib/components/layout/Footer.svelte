@@ -65,8 +65,8 @@
               >serginehougoue@gmail.com</a
             >
           </li>
-          <li class="text-[#0E0E0E]/70 pt-2">
-            Lun–Ven 8h–20h<br />Sam–Dim 9h–17h
+          <li class="whitespace-pre-line text-[#0E0E0E]/70 pt-2">
+            {copy.footer.hours}
           </li>
         </ul>
       </div>
