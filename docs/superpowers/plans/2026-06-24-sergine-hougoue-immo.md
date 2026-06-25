@@ -2192,6 +2192,38 @@ git commit -m "feat(sanity): install Sanity deps and add env module + .env.examp
 
 ---
 
+## Task 2.3: Define schemas — property, post
+
+**Files:**
+
+- Create: `src/lib/sanity/schemas/{property,post}.ts`
+- Modify: `src/lib/sanity/schemas/index.ts`, `tests/unit/sanity/schemas.test.ts`
+
+**Interfaces:**
+
+- Consumes: Task 2.2 `fields.ts` helpers (`imageWithAlt`, `enumField`, `portableTextField`, `orderField`); spec section 5 `property` and `post` tables
+- Produces: Two more document schemas; `schemaTypes` grows from 4 → 6 types
+
+**i18n note:** Same as 2.2 — plain fields now; document-i18n in Task 2.4.
+
+- [ ] **Step 1: Write failing tests** — extend `schemas.test.ts`: `schemaTypes` length 6 with names `property`, `post`; property has status enum (`a-vendre`|`vendu`|`en-primeur`), type enum (8 values), photos array with alt; post has excerpt max 160, category enum (5 values), author reference to `teamMember`, seo object fields.
+
+- [ ] **Step 2: Run test** — expect FAIL.
+
+- [ ] **Step 3: Create `property.ts`** per spec: title, slug (from title), status, price, address, city, neighborhood (optional), type, bedrooms, bathrooms, area, description (portable text), features (array of strings), photos (array of image+alt), publishedAt, featured (boolean).
+
+- [ ] **Step 4: Create `post.ts`** per spec: title, slug, excerpt (max 160), coverImage (imageWithAlt), body (portable text), category enum, author (reference teamMember), publishedAt, seo object (metaTitle, metaDescription, ogImage).
+
+- [ ] **Step 5: Update `index.ts`** — append property and post to `schemaTypes`.
+
+- [ ] **Step 6: Run tests** — all schema tests pass (prior 7 + new tests).
+
+- [ ] **Step 7: `npm run check && npm run lint`**
+
+- [ ] **Step 8: Commit** — `feat(sanity): add property and post schemas`
+
+---
+
 ## Phase 2 remaining tasks (summary — expand before dispatch)
 
 | Task | What                                                           | Files                                                                                            |
