@@ -36,4 +36,13 @@ describe("getCopy", () => {
     expect(getCopy("en").footer.tagline).toContain("—");
     expect(getCopy("en").footer.tagline).not.toContain("”");
   });
+
+  it("exposes hero copy in both languages", () => {
+    expect(getCopy("fr").hero.title).toBe(
+      "Construisons votre avenir immobilier",
+    );
+    expect(getCopy("en").hero.title).toBe(
+      "Let's build your real estate future",
+    );
+  });
 });

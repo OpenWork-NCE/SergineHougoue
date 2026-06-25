@@ -31,11 +31,18 @@ export interface FooterCopy {
   privacy: string;
 }
 
+export interface HeroCopy {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+}
+
 export interface SiteCopy {
   nav: NavCopy;
   whatsapp: WhatsappCopy;
   cookie: CookieCopy;
   footer: FooterCopy;
+  hero: HeroCopy;
 }
 
 const fr: SiteCopy = {
@@ -67,6 +74,12 @@ const fr: SiteCopy = {
     socialHeading: "Réseaux sociaux",
     privacy: "Politique de confidentialité",
   },
+  hero: {
+    eyebrow: "01 / Courtier immobilier",
+    title: "Construisons votre avenir immobilier",
+    subtitle:
+      "Résidentiel et commercial — accompagnement sur mesure à Montréal et environs.",
+  },
 };
 
 const en: SiteCopy = {
@@ -97,6 +110,12 @@ const en: SiteCopy = {
     contactHeading: "Contact",
     socialHeading: "Social media",
     privacy: "Privacy policy",
+  },
+  hero: {
+    eyebrow: "01 / Real estate broker",
+    title: "Let's build your real estate future",
+    subtitle:
+      "Residential and commercial — tailored guidance in Montreal and beyond.",
   },
 };
 
