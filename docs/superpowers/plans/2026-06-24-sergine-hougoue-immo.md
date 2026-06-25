@@ -2127,7 +2127,9 @@ export function getPublicSanityConfig(): {
   const projectId = parseSanityProjectId(
     import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? "",
   );
-  const dataset = (import.meta.env.PUBLIC_SANITY_DATASET ?? "production").trim();
+  const dataset = (
+    import.meta.env.PUBLIC_SANITY_DATASET ?? "production"
+  ).trim();
   return { projectId, dataset };
 }
 ```
