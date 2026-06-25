@@ -1,5 +1,4 @@
-// Placeholder until Task 1.4 introduces $i18n/locales
-type Locale = "fr" | "en";
+﻿import type { Locale } from "$i18n/locales";
 
 declare global {
   namespace App {
