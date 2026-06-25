@@ -1986,9 +1986,175 @@ Phase 1 is complete when:
 
 ---
 
-# Phase 2 — Sanity CMS + content (Weeks 2–3, summary)
+# Phase 2 — Sanity CMS + content (Weeks 2–3)
 
 Schema fields and types are defined in detail in **section 5** of `docs/superpowers/specs/2026-06-24-sergine-hougoue-immo-design.md`. Each schema task follows TDD: tests for any computed logic, then schema code, then verify with `npm run check` and a Studio smoke test.
+
+---
+
+## Task 2.1: Provision Sanity project + install deps + `.env.example`
+
+**Files:**
+
+- Create: `.env.example`, `src/lib/sanity/env.ts`, `tests/unit/sanity/env.test.ts`
+- Modify: `package.json`, `package-lock.json`
+
+**Interfaces:**
+
+- Consumes: Phase 1 foundation (SvelteKit aliases include `$sanity` → `src/lib/sanity`)
+- Produces: Sanity npm packages installed, typed env accessors, `.env.example` documenting all required env vars (no secrets committed)
+
+**Note:** Creating the actual Sanity cloud project requires a human login at [sanity.io/manage](https://sanity.io/manage). This task installs tooling and documents env vars; the implementer creates `.env.local` with placeholder values and documents setup steps in a code comment at the top of `env.ts`. Do **not** commit `.env.local`.
+
+- [ ] **Step 1: Write the failing unit test**
+
+Write `C:\Users\AM\Documents\Workspace\DHC\immo\tests\unit\sanity\env.test.ts`:
+
+```typescript
+import { describe, it, expect } from "vitest";
+import {
+  REQUIRED_PUBLIC_ENV_KEYS,
+  REQUIRED_SERVER_ENV_KEYS,
+  parseSanityProjectId,
+} from "$sanity/env";
+
+describe("sanity env", () => {
+  it("lists all required public env keys", () => {
+    expect(REQUIRED_PUBLIC_ENV_KEYS).toEqual([
+      "PUBLIC_SANITY_PROJECT_ID",
+      "PUBLIC_SANITY_DATASET",
+      "PUBLIC_SITE_URL",
+    ]);
+  });
+
+  it("lists all required server env keys", () => {
+    expect(REQUIRED_SERVER_ENV_KEYS).toEqual([
+      "SANITY_API_TOKEN",
+      "SANITY_READ_TOKEN",
+      "RESEND_API_KEY",
+      "CONTACT_TO_EMAIL",
+      "GA4_MEASUREMENT_ID",
+      "CAL_COM_LINK",
+    ]);
+  });
+
+  it("parseSanityProjectId rejects empty string", () => {
+    expect(() => parseSanityProjectId("")).toThrow(/project id/i);
+  });
+
+  it("parseSanityProjectId accepts non-empty trimmed id", () => {
+    expect(parseSanityProjectId("  abc123  ")).toBe("abc123");
+  });
+});
+```
+
+- [ ] **Step 2: Run test** — expect failure (module not found).
+
+Run: `cd C:\Users\AM\Documents\Workspace\DHC\immo && npm run test -- tests/unit/sanity/env.test.ts`
+Expected: FAIL — cannot resolve `$sanity/env`.
+
+- [ ] **Step 3: Install Sanity dependencies**
+
+Run:
+
+```bash
+cd C:\Users\AM\Documents\Workspace\DHC\immo
+npm install sanity@^3 @sanity/client@^6 @sanity/image-url@^1 @sanity/document-internationalization@^3 @sanity/vision@^3
+```
+
+Expected: `package.json` and `package-lock.json` updated with Sanity packages.
+
+- [ ] **Step 4: Create `.env.example`**
+
+Write `C:\Users\AM\Documents\Workspace\DHC\immo\.env.example`:
+
+```dotenv
+# Sanity (create project at https://sanity.io/manage)
+PUBLIC_SANITY_PROJECT_ID=your_project_id
+PUBLIC_SANITY_DATASET=production
+SANITY_API_TOKEN=your_write_token
+SANITY_READ_TOKEN=your_read_token
+
+# Site
+PUBLIC_SITE_URL=http://localhost:5173
+
+# Contact (Phase 3)
+RESEND_API_KEY=
+CONTACT_TO_EMAIL=serginehougoue@gmail.com
+
+# Analytics (Phase 4)
+GA4_MEASUREMENT_ID=
+
+# Booking (Phase 3)
+CAL_COM_LINK=
+```
+
+- [ ] **Step 5: Create `src/lib/sanity/env.ts`**
+
+Write `C:\Users\AM\Documents\Workspace\DHC\immo\src\lib\sanity\env.ts`:
+
+```typescript
+/** Sanity + site env accessors. Copy .env.example → .env.local and fill values. */
+
+export const REQUIRED_PUBLIC_ENV_KEYS = [
+  "PUBLIC_SANITY_PROJECT_ID",
+  "PUBLIC_SANITY_DATASET",
+  "PUBLIC_SITE_URL",
+] as const;
+
+export const REQUIRED_SERVER_ENV_KEYS = [
+  "SANITY_API_TOKEN",
+  "SANITY_READ_TOKEN",
+  "RESEND_API_KEY",
+  "CONTACT_TO_EMAIL",
+  "GA4_MEASUREMENT_ID",
+  "CAL_COM_LINK",
+] as const;
+
+export type PublicEnvKey = (typeof REQUIRED_PUBLIC_ENV_KEYS)[number];
+export type ServerEnvKey = (typeof REQUIRED_SERVER_ENV_KEYS)[number];
+
+export function parseSanityProjectId(raw: string): string {
+  const id = raw.trim();
+  if (!id) throw new Error("Sanity project id is required");
+  return id;
+}
+
+export function getPublicSanityConfig(): {
+  projectId: string;
+  dataset: string;
+} {
+  const projectId = parseSanityProjectId(
+    import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? "",
+  );
+  const dataset = (import.meta.env.PUBLIC_SANITY_DATASET ?? "production").trim();
+  return { projectId, dataset };
+}
+```
+
+- [ ] **Step 6: Run tests** — expect pass.
+
+Run: `cd C:\Users\AM\Documents\Workspace\DHC\immo && npm run test -- tests/unit/sanity/env.test.ts`
+Expected: 4/4 passing.
+
+- [ ] **Step 7: Run check + lint**
+
+Run: `cd C:\Users\AM\Documents\Workspace\DHC\immo && npm run check && npm run lint`
+Expected: 0 errors.
+
+- [ ] **Step 8: Commit**
+
+Run:
+
+```bash
+cd C:\Users\AM\Documents\Workspace\DHC\immo
+git add -A
+git commit -m "feat(sanity): install Sanity deps and add env module + .env.example"
+```
+
+---
+
+## Phase 2 remaining tasks (summary — expand before dispatch)
 
 | Task | What                                                           | Files                                                                                            |
 | ---- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
