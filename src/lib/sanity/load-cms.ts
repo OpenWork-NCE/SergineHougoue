@@ -52,6 +52,10 @@ export type CmsPostsData = {
   totalPages: number;
 };
 
+export type CmsContactData = {
+  siteSettings: SiteSettings | null;
+};
+
 const EMPTY_HOME: CmsHomeData = {
   siteSettings: null,
   featuredProperties: [],
@@ -69,6 +73,10 @@ const EMPTY_LISTINGS: CmsListingsData = {
 const EMPTY_TRANSACTIONS: CmsTransactionsData = {
   soldProperties: [],
   partners: [],
+};
+
+const EMPTY_CONTACT: CmsContactData = {
+  siteSettings: null,
 };
 
 function emptyPostsData(page: number): CmsPostsData {
@@ -220,6 +228,25 @@ export async function loadCmsPostBySlug(
     return post ?? null;
   } catch {
     return null;
+  }
+}
+
+export async function loadCmsContactData(): Promise<CmsContactData> {
+  if (!isSanityConfigured()) {
+    return EMPTY_CONTACT;
+  }
+
+  try {
+    const client = createSanityClient();
+    const siteSettings = await client.fetch<SiteSettings | null>(
+      siteSettingsQuery,
+    );
+
+    return {
+      siteSettings: siteSettings ?? null,
+    };
+  } catch {
+    return EMPTY_CONTACT;
   }
 }
 

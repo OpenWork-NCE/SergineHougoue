@@ -100,6 +100,19 @@ export interface ServicesCopy {
   intro: string;
 }
 
+export interface ContactCopy {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  methodsHeading: string;
+  phoneLabel: string;
+  emailLabel: string;
+  whatsappLabel: string;
+  hoursLabel: string;
+  formHeading: string;
+  bookingHeading: string;
+}
+
 export interface PropertyDetailCopy {
   specs: string;
   description: string;
@@ -135,6 +148,7 @@ export interface SiteCopy {
   listings: ListingsCopy;
   transactions: TransactionsCopy;
   blog: BlogCopy;
+  contact: ContactCopy;
   property: PropertyCopy;
 }
 
@@ -237,6 +251,19 @@ const fr: SiteCopy = {
       byAuthor: "Par",
       publishedOn: "Publié le",
     },
+  },
+  contact: {
+    eyebrow: "06 / Contact",
+    title: "Contact",
+    intro:
+      "Une question, un projet immobilier? Écrivez-moi ou prenez rendez-vous en ligne.",
+    methodsHeading: "Coordonnées",
+    phoneLabel: "Téléphone",
+    emailLabel: "Courriel",
+    whatsappLabel: "WhatsApp",
+    hoursLabel: "Heures d'ouverture",
+    formHeading: "Envoyer un message",
+    bookingHeading: "Prendre rendez-vous",
   },
   property: {
     viewDetail: "Voir le détail",
@@ -371,6 +398,19 @@ const en: SiteCopy = {
       byAuthor: "By",
       publishedOn: "Published on",
     },
+  },
+  contact: {
+    eyebrow: "06 / Contact",
+    title: "Contact",
+    intro:
+      "Have a question or a real estate project in mind? Send me a message or book a meeting online.",
+    methodsHeading: "Get in touch",
+    phoneLabel: "Phone",
+    emailLabel: "Email",
+    whatsappLabel: "WhatsApp",
+    hoursLabel: "Hours",
+    formHeading: "Send a message",
+    bookingHeading: "Book a meeting",
   },
   property: {
     viewDetail: "View details",
