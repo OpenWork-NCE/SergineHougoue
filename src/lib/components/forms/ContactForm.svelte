@@ -39,11 +39,6 @@
     return fieldErrors[field] ? errorFieldClass : normalFieldClass;
   }
 
-  function handleIntentChange(event: Event) {
-    const target = event.currentTarget as HTMLSelectElement;
-    values.intent = target.value as ContactIntent | "";
-  }
-
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     formError = null;
@@ -197,8 +192,7 @@
     <select
       id="contact-intent"
       name="intent"
-      value={values.intent}
-      onchange={handleIntentChange}
+      bind:value={values.intent}
       class={inputClass("intent")}
       aria-invalid={fieldErrors.intent ? "true" : undefined}
       aria-describedby={fieldErrors.intent ? "contact-intent-error" : undefined}

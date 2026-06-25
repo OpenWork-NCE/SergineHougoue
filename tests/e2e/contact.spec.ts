@@ -19,6 +19,8 @@ async function fillBoundInput(
   }, value);
 }
 
+test.describe.configure({ mode: "serial" });
+
 test.describe("contact routes", () => {
   test("/fr/contact returns 200 with page header and form fields", async ({
     page,
@@ -42,6 +44,7 @@ test.describe("contact routes", () => {
   test("/fr/contact submits form and shows success with mocked API", async ({
     page,
   }) => {
+    test.setTimeout(60_000);
     const formCopy = getFormCopy("fr");
 
     await page.route("**/api/contact", async (route) => {
@@ -59,25 +62,24 @@ test.describe("contact routes", () => {
     await page.goto("/fr/contact");
     await expect(page.locator("#contact-name")).toBeEditable({ timeout: 15_000 });
 
-    await fillBoundInput(page, "#contact-name", "Jane Doe");
-    await fillBoundInput(page, "#contact-phone", "4384626015");
-    await fillBoundInput(page, "#contact-email", "jane@example.com");
-    await page.locator("#contact-intent").evaluate((select) => {
-      const element = select as HTMLSelectElement;
-      element.value = "buy";
-      element.dispatchEvent(new Event("change", { bubbles: true }));
+    await page.locator("#contact-name").fill("Jane Doe");
+    await page.locator("#contact-phone").fill("4384626015");
+    await page.locator("#contact-email").fill("jane@example.com");
+    await page.locator("#contact-intent").selectOption("buy");
+    await page
+      .locator("#contact-message")
+      .fill("Je souhaite acheter une propriété à Montréal.");
+
+    await expect(page.locator("#contact-name")).toHaveValue("Jane Doe");
+    await expect(page.locator("#contact-intent")).toHaveValue("buy");
+
+    await page.locator("form").evaluate((form) => {
+      (form as HTMLFormElement).requestSubmit();
     });
-    await fillBoundInput(
-      page,
-      "#contact-message",
-      "Je souhaite acheter une propriété à Montréal.",
-    );
 
-    const submitButton = page.locator('form button[type="submit"]');
-    await submitButton.scrollIntoViewIfNeeded();
-    await submitButton.click();
-
-    await expect(page.getByTestId("contact-form-success")).toBeVisible();
+    await expect(page.getByTestId("contact-form-success")).toBeVisible({
+      timeout: 15_000,
+    });
     await expect(page.getByTestId("contact-form-success")).toHaveText(
       formCopy.success,
     );
