@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getCopy } from "$i18n/copy";
   import type { Locale } from "$i18n/locales";
+  import LangToggle from "./LangToggle.svelte";
 
   interface Props {
     currentPath: string;
@@ -31,25 +32,29 @@
       <span class="text-gold">S</span>ergine Hougoue
     </a>
 
-    <ul class="hidden items-center gap-8 md:flex">
-      {#each links as link}
-        <li>
-          <a
-            href={link.href}
-            class="text-sm text-secondary transition-colors duration-300 hover:text-primary"
-            aria-current={currentPath === link.href ? "page" : undefined}
-          >
-            {link.label}
-          </a>
-        </li>
-      {/each}
-    </ul>
+    <div class="hidden items-center gap-6 md:flex">
+      <ul class="flex items-center gap-8">
+        {#each links as link}
+          <li>
+            <a
+              href={link.href}
+              class="text-sm text-secondary transition-colors duration-300 hover:text-primary"
+              aria-current={currentPath === link.href ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        {/each}
+      </ul>
 
-    <a
-      href={`${base}/contact`}
-      class="hidden rounded-full border border-burgundy bg-burgundy px-4 py-2 text-xs uppercase tracking-[0.08em] text-primary transition-colors hover:bg-[#8a2638] md:inline-block"
-    >
-      {copy.nav.cta}
-    </a>
+      <LangToggle currentPath={currentPath} currentLocale={locale} />
+
+      <a
+        href={`${base}/contact`}
+        class="rounded-full border border-burgundy bg-burgundy px-4 py-2 text-xs uppercase tracking-[0.08em] text-primary transition-colors hover:bg-[#8a2638]"
+      >
+        {copy.nav.cta}
+      </a>
+    </div>
   </div>
 </nav>
