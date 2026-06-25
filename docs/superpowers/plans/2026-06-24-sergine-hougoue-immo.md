@@ -2258,6 +2258,45 @@ git commit -m "feat(sanity): install Sanity deps and add env module + .env.examp
 
 ---
 
+## Task 2.5: Server client + image builder + GROQ queries + types
+
+**Files:**
+
+- Create: `src/lib/sanity/{client,image,queries,types}.ts`, `tests/unit/sanity/{queries,image}.test.ts`
+- Modify: none
+
+**Interfaces:**
+
+- Consumes: `getPublicSanityConfig()` from `$sanity/env`; `@sanity/client`, `@sanity/image-url`
+- Produces: server-only `createSanityClient()` using `SANITY_READ_TOKEN`; `urlFor(image)` builder; exported GROQ query strings; TypeScript types matching schema fields
+
+**Queries to export (for Task 2.7):**
+
+- `siteSettingsQuery` — singleton `siteSettings` document
+- `featuredPropertiesQuery` — `*[_type == "property" && featured == true] | order(publishedAt desc)`
+- `testimonialsQuery` — `*[_type == "testimonial"] | order(order asc)`
+- `teamMembersQuery` — `*[_type == "teamMember"] | order(order asc)`
+
+All queries must accept `$lang` param for document-i18n (`__i18n_lang` filter or language field per Sanity i18n plugin pattern).
+
+- [ ] **Step 1: Write failing tests** — `queries.test.ts` asserts query strings contain `_type` filters and `$lang`; `image.test.ts` asserts `urlFor` returns URL containing projectId.
+
+- [ ] **Step 2: Run tests** — FAIL.
+
+- [ ] **Step 3: Create `types.ts`** — `SanityImage`, `Property`, `Post`, `TeamMember`, `Testimonial`, `Partner`, `SiteSettings` interfaces aligned with schemas.
+
+- [ ] **Step 4: Create `queries.ts`** — export query constants/functions with language parameter.
+
+- [ ] **Step 5: Create `image.ts`** — `createImageUrlBuilder(client)` + `urlFor(source)` helper.
+
+- [ ] **Step 6: Create `client.ts`** — `createSanityClient()` server factory using `$env/static/private` `SANITY_READ_TOKEN`, `useCdn: true`, `apiVersion: '2024-01-01'`.
+
+- [ ] **Step 7: Run tests + check + lint** — pass.
+
+- [ ] **Step 8: Commit** — `feat(sanity): add server client, image builder, GROQ queries, and types`
+
+---
+
 ## Phase 2 remaining tasks (summary — expand before dispatch)
 
 | Task | What                                                           | Files                                                                                            |
