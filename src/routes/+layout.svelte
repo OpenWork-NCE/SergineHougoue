@@ -2,6 +2,7 @@
   import "../app.css";
   import Footer from "$components/layout/Footer.svelte";
   import Nav from "$components/layout/Nav.svelte";
+  import WhatsAppFab from "$components/layout/WhatsAppFab.svelte";
   import type { LayoutData } from "./$types";
 
   interface Props {
@@ -18,3 +19,5 @@
 </main>
 
 <Footer locale={data.locale} />
+
+<WhatsAppFab phone="14384626015" locale={data.locale} />
