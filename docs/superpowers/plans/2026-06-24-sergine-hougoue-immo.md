@@ -2224,6 +2224,40 @@ git commit -m "feat(sanity): install Sanity deps and add env module + .env.examp
 
 ---
 
+## Task 2.4: Configure Sanity Studio + embed at `/studio`
+
+**Files:**
+
+- Create: `sanity.config.ts`, `src/lib/sanity/structure.ts`, `src/routes/studio/[[...index]]/+page.svelte`, `src/routes/studio/[[...index]]/+page.ts`, `tests/unit/sanity/studio-config.test.ts`
+- Modify: `vite.config.ts` (if needed for Sanity Studio client bundle)
+
+**Interfaces:**
+
+- Consumes: `schemaTypes` from Task 2.2–2.3; `getPublicSanityConfig` from `$sanity/env`; `@sanity/document-internationalization`, `@sanity/vision`
+- Produces: Embedded Sanity Studio at `/studio` (SSR disabled); FR default + EN via document-i18n plugin; `siteSettings` singleton in desk structure
+
+**i18n plugin config:** `supportedLanguages: [{id:'fr', title:'Français'},{id:'en', title:'English'}]`. Apply to all document types except `siteSettings` (singleton, localized fields inline). Schema types with i18n: `property`, `post`, `teamMember`, `testimonial`, `partner`.
+
+- [ ] **Step 1: Write failing unit test** — `studio-config.test.ts` imports default export from `sanity.config.ts`, asserts `schema.types` length 6, asserts `projectId`/`dataset` resolve from env helpers, asserts structure exports singleton item for siteSettings.
+
+- [ ] **Step 2: Run test** — expect FAIL.
+
+- [ ] **Step 3: Create `src/lib/sanity/structure.ts`** — desk structure: siteSettings singleton first (`documentId: 'siteSettings'`), then remaining document types.
+
+- [ ] **Step 4: Create `sanity.config.ts`** — `defineConfig` with `structureTool`, `visionTool`, `documentInternationalization`, all `schemaTypes`, title "Sergine Hougoue Immo".
+
+- [ ] **Step 5: Create studio route** — `+page.ts` sets `export const ssr = false`; `+page.svelte` client-only `renderStudio` into `#studio` div, full viewport height.
+
+- [ ] **Step 6: Adjust `vite.config.ts`** if Studio build requires `server.fs.allow` or `optimizeDeps.include` for sanity packages.
+
+- [ ] **Step 7: Run tests + check + lint** — unit tests pass; `npm run check` 0 errors.
+
+- [ ] **Step 8: Studio smoke test** — `npm run dev`, open `http://localhost:5173/studio`, confirm `#studio` mounts (no locale redirect). Stop server.
+
+- [ ] **Step 9: Commit** — `feat(sanity): embed Sanity Studio at /studio with document i18n`
+
+---
+
 ## Phase 2 remaining tasks (summary — expand before dispatch)
 
 | Task | What                                                           | Files                                                                                            |
