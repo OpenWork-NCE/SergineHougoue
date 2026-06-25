@@ -30,9 +30,9 @@
 
 ## Verification
 
-| Command | Result |
-|---------|--------|
-| `npm run lint` | PASS |
-| `npm run check` | PASS (0 errors, 0 warnings) |
-| `npm run test` | PASS (10 files, 41 tests) |
+| Command            | Result                                    |
+| ------------------ | ----------------------------------------- |
+| `npm run lint`     | PASS                                      |
+| `npm run check`    | PASS (0 errors, 0 warnings)               |
+| `npm run test`     | PASS (10 files, 41 tests)                 |
 | `npm run test:e2e` | PASS (10 tests, chromium + mobile-chrome) |

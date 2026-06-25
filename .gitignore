@@ -19,3 +19,8 @@ wait-*.cmd
 phase1-*.cmd
 phase1-*.log
 *.cmd.log
+merge-*.cmd
+merge-*.log
+fix-*.cmd
+fix-*.log
+terminals/
