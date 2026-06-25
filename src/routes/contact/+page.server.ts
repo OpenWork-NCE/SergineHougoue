@@ -1,6 +1,8 @@
-import { CAL_COM_LINK } from "$env/static/private";
 import { loadCmsContactData } from "$sanity/load-cms";
 import type { PageServerLoad } from "./$types";
+
+// Private env - use process.env to avoid "not exported" build errors when vars not set
+const CAL_COM_LINK = process.env.CAL_COM_LINK || "";
 
 export const load: PageServerLoad = async () => {
   const { siteSettings } = await loadCmsContactData();

@@ -1,6 +1,9 @@
 import { Resend } from "resend";
-import { CONTACT_TO_EMAIL, RESEND_API_KEY } from "$env/static/private";
 import type { ContactFormData } from "$server/contact-schema";
+
+// Private env - use process.env to avoid "not exported" build errors when vars not set at build time
+const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL || "";
 
 const CONTACT_FROM_EMAIL = "Contact <onboarding@resend.dev>";
 

@@ -1,9 +1,10 @@
-import {
-  PUBLIC_SANITY_DATASET,
-  PUBLIC_SANITY_PROJECT_ID,
-} from "$env/static/public";
-
 /** Sanity + site env accessors. Copy .env.example → .env.local and fill values. */
+
+// Use import.meta.env (Vite) which is populated from process.env / Vercel env at build time.
+// Using direct access avoids strict named export errors from $env/static/public when vars are missing.
+const PUBLIC_SANITY_PROJECT_ID = (import.meta.env.PUBLIC_SANITY_PROJECT_ID as string) || "";
+const PUBLIC_SANITY_DATASET = (import.meta.env.PUBLIC_SANITY_DATASET as string) || "production";
+const PUBLIC_SITE_URL = (import.meta.env.PUBLIC_SITE_URL as string) || "";
 
 export const REQUIRED_PUBLIC_ENV_KEYS = [
   "PUBLIC_SANITY_PROJECT_ID",

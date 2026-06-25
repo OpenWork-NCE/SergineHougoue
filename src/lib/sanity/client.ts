@@ -1,6 +1,8 @@
 import { createClient } from "@sanity/client";
-import { SANITY_READ_TOKEN } from "$env/static/private";
 import { getPublicSanityConfig } from "./env";
+
+// Private env - use process.env to avoid "not exported" build errors when vars not set at build time
+const SANITY_READ_TOKEN = process.env.SANITY_READ_TOKEN || "";
 
 export function createSanityClient() {
   const { projectId, dataset } = getPublicSanityConfig();
