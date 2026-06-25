@@ -5,6 +5,9 @@ import {
   allPropertiesQuery,
   featuredPropertiesQuery,
   partnersQuery,
+  postBySlugQuery,
+  postsCountQuery,
+  postsQuery,
   propertyBySlugQuery,
   soldPropertiesQuery,
   siteSettingsQuery,
@@ -13,11 +16,14 @@ import {
 } from "./queries";
 import type {
   Partner,
+  Post,
   Property,
   SiteSettings,
   TeamMember,
   Testimonial,
 } from "./types";
+
+export const POSTS_PER_PAGE = 6;
 
 export type CmsHomeData = {
   siteSettings: SiteSettings | null;
@@ -38,6 +44,14 @@ export type CmsTransactionsData = {
   partners: Partner[];
 };
 
+export type CmsPostsData = {
+  posts: Post[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+};
+
 const EMPTY_HOME: CmsHomeData = {
   siteSettings: null,
   featuredProperties: [],
@@ -56,6 +70,16 @@ const EMPTY_TRANSACTIONS: CmsTransactionsData = {
   soldProperties: [],
   partners: [],
 };
+
+function emptyPostsData(page: number): CmsPostsData {
+  return {
+    posts: [],
+    total: 0,
+    page,
+    pageSize: POSTS_PER_PAGE,
+    totalPages: 0,
+  };
+}
 
 export async function loadCmsHomeData(lang: Locale): Promise<CmsHomeData> {
   if (!isSanityConfigured()) {
@@ -140,6 +164,62 @@ export async function loadCmsTransactionsData(
     };
   } catch {
     return EMPTY_TRANSACTIONS;
+  }
+}
+
+export async function loadCmsPosts(
+  lang: Locale,
+  page: number,
+): Promise<CmsPostsData> {
+  const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+
+  if (!isSanityConfigured()) {
+    return emptyPostsData(safePage);
+  }
+
+  try {
+    const client = createSanityClient();
+    const start = (safePage - 1) * POSTS_PER_PAGE;
+    const end = start + POSTS_PER_PAGE;
+
+    const [posts, total] = await Promise.all([
+      client.fetch<Post[]>(postsQuery, { lang, start, end }),
+      client.fetch<number>(postsCountQuery, { lang }),
+    ]);
+
+    const totalCount = total ?? 0;
+    const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE);
+
+    return {
+      posts: posts ?? [],
+      total: totalCount,
+      page: safePage,
+      pageSize: POSTS_PER_PAGE,
+      totalPages,
+    };
+  } catch {
+    return emptyPostsData(safePage);
+  }
+}
+
+export async function loadCmsPostBySlug(
+  lang: Locale,
+  slug: string,
+): Promise<Post | null> {
+  if (!isSanityConfigured()) {
+    return null;
+  }
+
+  try {
+    const client = createSanityClient();
+    const post = await client.fetch<Post | null>(postBySlugQuery, {
+      lang,
+      slug,
+    });
+
+    return post ?? null;
+  } catch {
+    return null;
   }
 }
 

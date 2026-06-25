@@ -19,3 +19,13 @@ export function formatArea(area: number, locale: Locale): string {
 
   return `${formatThousands(area, separator)} ${areaUnit}`;
 }
+
+export function formatDate(date: string, locale: Locale): string {
+  const localeTag = locale === "fr" ? "fr-CA" : "en-CA";
+
+  return new Intl.DateTimeFormat(localeTag, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(new Date(date));
+}

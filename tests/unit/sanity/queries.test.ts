@@ -4,6 +4,9 @@ import {
   allPropertiesQuery,
   featuredPropertiesQuery,
   partnersQuery,
+  postBySlugQuery,
+  postsCountQuery,
+  postsQuery,
   propertyBySlugQuery,
   siteSettingsQuery,
   soldPropertiesQuery,
@@ -88,5 +91,41 @@ describe("sanity GROQ queries", () => {
     expect(propertyBySlugQuery).toContain("description");
     expect(propertyBySlugQuery).toContain("features");
     expect(propertyBySlugQuery).toContain("photos");
+  });
+
+  it("postsQuery filters by type and language with pagination slice", () => {
+    expect(postsQuery).toContain('_type == "post"');
+    expect(postsQuery).toContain("$lang");
+    expect(postsQuery).toContain(
+      `${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang`,
+    );
+    expect(postsQuery).toContain("order(publishedAt desc)");
+    expect(postsQuery).toContain("[$start...$end]");
+    expect(postsQuery).toContain("excerpt");
+    expect(postsQuery).toContain("coverImage");
+    expect(postsQuery).toContain("author->");
+  });
+
+  it("postsCountQuery counts posts by language", () => {
+    expect(postsCountQuery).toContain("count(");
+    expect(postsCountQuery).toContain('_type == "post"');
+    expect(postsCountQuery).toContain("$lang");
+    expect(postsCountQuery).toContain(
+      `${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang`,
+    );
+  });
+
+  it("postBySlugQuery filters by type, language, and slug", () => {
+    expect(postBySlugQuery).toContain('_type == "post"');
+    expect(postBySlugQuery).toContain("$lang");
+    expect(postBySlugQuery).toContain("$slug");
+    expect(postBySlugQuery).toContain(
+      `${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang`,
+    );
+    expect(postBySlugQuery).toContain("slug.current == $slug");
+    expect(postBySlugQuery).toContain("[0]");
+    expect(postBySlugQuery).toContain("body");
+    expect(postBySlugQuery).toContain("author->");
+    expect(postBySlugQuery).toContain("seo");
   });
 });

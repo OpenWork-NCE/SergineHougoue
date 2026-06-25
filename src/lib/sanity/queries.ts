@@ -93,6 +93,42 @@ const partnerProjection = `{
   order
 }`;
 
+const postCardProjection = `{
+  _id,
+  _type,
+  language,
+  title,
+  slug,
+  excerpt,
+  coverImage,
+  category,
+  author->{
+    _id,
+    name,
+    photo
+  },
+  publishedAt
+}`;
+
+const postDetailProjection = `{
+  _id,
+  _type,
+  language,
+  title,
+  slug,
+  excerpt,
+  coverImage,
+  body,
+  category,
+  author->{
+    _id,
+    name,
+    photo
+  },
+  publishedAt,
+  seo
+}`;
+
 export const siteSettingsQuery = `*[_type == "siteSettings" && _id == "${SITE_SETTINGS_DOCUMENT_ID}"][0]${siteSettingsProjection}`;
 
 export const featuredPropertiesQuery = `*[_type == "property" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang && featured == true] | order(publishedAt desc) ${propertyCardProjection}`;
@@ -108,3 +144,9 @@ export const teamMembersQuery = `*[_type == "teamMember" && ${DOCUMENT_I18N_LANG
 export const soldPropertiesQuery = `*[_type == "property" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang && status == "vendu"] | order(publishedAt desc) ${propertyCardProjection}`;
 
 export const partnersQuery = `*[_type == "partner" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang] | order(order asc) ${partnerProjection}`;
+
+export const postsQuery = `*[_type == "post" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang] | order(publishedAt desc) [$start...$end]${postCardProjection}`;
+
+export const postsCountQuery = `count(*[_type == "post" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang])`;
+
+export const postBySlugQuery = `*[_type == "post" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang && slug.current == $slug][0]${postDetailProjection}`;

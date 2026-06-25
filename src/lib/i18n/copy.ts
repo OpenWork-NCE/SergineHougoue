@@ -1,6 +1,7 @@
 import type { Locale } from "./locales";
 import type {
   PartnerCategory,
+  PostCategory,
   PropertyStatus,
   PropertyType,
 } from "$sanity/types";
@@ -76,6 +77,23 @@ export interface TransactionsCopy {
   partnerCategories: Record<PartnerCategory, string>;
 }
 
+export interface BlogCopy {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  readMore: string;
+  categories: Record<PostCategory, string>;
+  pagination: {
+    previous: string;
+    next: string;
+    pageLabel: string;
+  };
+  detail: {
+    byAuthor: string;
+    publishedOn: string;
+  };
+}
+
 export interface ServicesCopy {
   eyebrow: string;
   title: string;
@@ -116,6 +134,7 @@ export interface SiteCopy {
   services: ServicesCopy;
   listings: ListingsCopy;
   transactions: TransactionsCopy;
+  blog: BlogCopy;
   property: PropertyCopy;
 }
 
@@ -194,6 +213,29 @@ const fr: SiteCopy = {
       notaire: "Notaires",
       inspecteur: "Inspecteurs",
       autre: "Autres partenaires",
+    },
+  },
+  blog: {
+    eyebrow: "05 / Blogue",
+    title: "Blogue",
+    intro:
+      "Conseils, tendances du marché et guides pratiques pour vos projets immobiliers à Montréal et sur la Rive-Nord.",
+    readMore: "Lire l'article",
+    categories: {
+      acheter: "Acheter",
+      vendre: "Vendre",
+      investir: "Investir",
+      "mode-de-vie": "Mode de vie",
+      marche: "Marché",
+    },
+    pagination: {
+      previous: "Page précédente",
+      next: "Page suivante",
+      pageLabel: "Page",
+    },
+    detail: {
+      byAuthor: "Par",
+      publishedOn: "Publié le",
     },
   },
   property: {
@@ -305,6 +347,29 @@ const en: SiteCopy = {
       notaire: "Notaries",
       inspecteur: "Inspectors",
       autre: "Other partners",
+    },
+  },
+  blog: {
+    eyebrow: "05 / Blog",
+    title: "Blog",
+    intro:
+      "Tips, market trends, and practical guides for your real estate projects in Montreal and the North Shore.",
+    readMore: "Read article",
+    categories: {
+      acheter: "Buying",
+      vendre: "Selling",
+      investir: "Investing",
+      "mode-de-vie": "Lifestyle",
+      marche: "Market",
+    },
+    pagination: {
+      previous: "Previous page",
+      next: "Next page",
+      pageLabel: "Page",
+    },
+    detail: {
+      byAuthor: "By",
+      publishedOn: "Published on",
     },
   },
   property: {

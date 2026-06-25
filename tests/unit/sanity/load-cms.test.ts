@@ -1,5 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { Partner, Property, SiteSettings, Testimonial } from "$sanity/types";
+import type {
+  Partner,
+  Post,
+  Property,
+  SiteSettings,
+  Testimonial,
+} from "$sanity/types";
 
 const { mockFetch, mockCreateSanityClient, mockIsSanityConfigured } =
   vi.hoisted(() => ({
@@ -19,8 +25,11 @@ vi.mock("$sanity/env", () => ({
 import {
   loadCmsHomeData,
   loadCmsListingsData,
+  loadCmsPostBySlug,
+  loadCmsPosts,
   loadCmsPropertyBySlug,
   loadCmsTransactionsData,
+  POSTS_PER_PAGE,
 } from "$sanity/load-cms";
 
 describe("loadCmsHomeData", () => {
@@ -259,6 +268,151 @@ describe("loadCmsTransactionsData", () => {
       soldProperties: [],
       partners: [],
     });
+  });
+});
+
+describe("loadCmsPosts", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockCreateSanityClient.mockReturnValue({ fetch: mockFetch });
+  });
+
+  it("returns empty paginated data when Sanity is not configured", async () => {
+    mockIsSanityConfigured.mockReturnValue(false);
+
+    await expect(loadCmsPosts("fr", 2)).resolves.toEqual({
+      posts: [],
+      total: 0,
+      page: 2,
+      pageSize: POSTS_PER_PAGE,
+      totalPages: 0,
+    });
+
+    expect(mockCreateSanityClient).not.toHaveBeenCalled();
+  });
+
+  it("fetches paginated posts and total count with locale", async () => {
+    mockIsSanityConfigured.mockReturnValue(true);
+
+    const posts = [
+      {
+        _id: "post-1",
+        _type: "post",
+        title: "Premier acheteur sur la Rive-Nord",
+        slug: { current: "premier-acheteur-rive-nord" },
+        excerpt: "Conseils pour bien préparer votre premier achat.",
+        coverImage: {
+          asset: { _ref: "image-post-1", _type: "reference" },
+        },
+        category: "acheter",
+        author: {
+          _id: "team-member-1",
+          name: "Sergine Hougoue",
+          photo: {
+            asset: { _ref: "image-author-1", _type: "reference" },
+          },
+        },
+        publishedAt: "2026-01-01T00:00:00.000Z",
+      },
+    ] satisfies Post[];
+
+    mockFetch.mockResolvedValueOnce(posts).mockResolvedValueOnce(7);
+
+    await expect(loadCmsPosts("fr", 2)).resolves.toEqual({
+      posts,
+      total: 7,
+      page: 2,
+      pageSize: POSTS_PER_PAGE,
+      totalPages: 2,
+    });
+
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('_type == "post"'),
+      { lang: "fr", start: 6, end: 12 },
+    );
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining("count("),
+      { lang: "fr" },
+    );
+  });
+
+  it("returns empty paginated data when Sanity fetch fails", async () => {
+    mockIsSanityConfigured.mockReturnValue(true);
+    mockFetch.mockRejectedValue(new Error("network error"));
+
+    await expect(loadCmsPosts("en", 1)).resolves.toEqual({
+      posts: [],
+      total: 0,
+      page: 1,
+      pageSize: POSTS_PER_PAGE,
+      totalPages: 0,
+    });
+  });
+});
+
+describe("loadCmsPostBySlug", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockCreateSanityClient.mockReturnValue({ fetch: mockFetch });
+  });
+
+  it("returns null when Sanity is not configured", async () => {
+    mockIsSanityConfigured.mockReturnValue(false);
+
+    await expect(
+      loadCmsPostBySlug("fr", "acheter-plex-montreal"),
+    ).resolves.toBeNull();
+
+    expect(mockCreateSanityClient).not.toHaveBeenCalled();
+  });
+
+  it("fetches a single post by slug and locale", async () => {
+    mockIsSanityConfigured.mockReturnValue(true);
+
+    const post = {
+      _id: "post-acheter-plex-montreal",
+      _type: "post",
+      title: "Acheter un plex à Montréal",
+      slug: { current: "acheter-plex-montreal" },
+      excerpt: "Guide pratique pour les investisseurs.",
+      coverImage: {
+        asset: { _ref: "image-post-cover", _type: "reference" },
+      },
+      body: [
+        { _type: "block", children: [{ _type: "span", text: "Contenu" }] },
+      ],
+      category: "investir",
+      author: {
+        _id: "team-member-1",
+        name: "Sergine Hougoue",
+        photo: {
+          asset: { _ref: "image-author-1", _type: "reference" },
+        },
+      },
+      publishedAt: "2026-01-01T00:00:00.000Z",
+    } satisfies Post;
+
+    mockFetch.mockResolvedValueOnce(post);
+
+    await expect(
+      loadCmsPostBySlug("fr", "acheter-plex-montreal"),
+    ).resolves.toEqual(post);
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("slug.current == $slug"),
+      { lang: "fr", slug: "acheter-plex-montreal" },
+    );
+  });
+
+  it("returns null when Sanity fetch fails", async () => {
+    mockIsSanityConfigured.mockReturnValue(true);
+    mockFetch.mockRejectedValue(new Error("network error"));
+
+    await expect(
+      loadCmsPostBySlug("en", "missing-slug"),
+    ).resolves.toBeNull();
   });
 });
 
