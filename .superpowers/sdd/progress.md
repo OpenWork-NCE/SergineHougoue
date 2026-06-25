@@ -39,8 +39,8 @@
 | ------------------------------------------------------------------- | ----------- | -------------------- | -------------------------------------------------------------------------------- |
 | 1.1 Initialize SvelteKit + TypeScript project                       | complete    | 17d7802..4451c7a     | reviewer pass; approved `vite.config.ts` exception to keep `npm run check` green |
 | 1.2 Install + configure Tailwind CSS with brand tokens              | complete    | 4451c7a..e115bab     | review clean after exact-markup follow-up and scratch cleanup                    |
-| 1.3 Configure Vitest (unit + component) and Playwright (e2e + a11y) | pending     | —                    | —                                                                                |
-| 1.4 Build the i18n locale module + unit tests                       | pending     | —                    | —                                                                                |
+| 1.3 Configure Vitest (unit + component) and Playwright (e2e + a11y) | complete    | e115bab..4f10fec     | reviewer artifact `review-e115bab-4f10fec.diff` (clean after fix-loop); re-verified on resume — check/unit/lint/e2e all green |
+| 1.4 Build the i18n locale module + unit tests                       | complete    | 0ab9b18..64154b7     | implementer fixed two plan-bugs in detectLocale/translatePath to match brief's tests; reviewer flagged Critical (UTF-8 mojibake in copy.ts that tests missed); fix dispatch `64154b7` re-authored copy.ts with proper French + 4 regression tests (18/18 unit, byte-verified À=1, é=9, em-dash=2) |
 | 1.5 Server hooks (locale redirect) + layout wiring                  | pending     | —                    | —                                                                                |
 | 1.6 Build `<Nav />` component + tests                               | pending     | —                    | —                                                                                |
 | 1.7 Build `<LangToggle />` + integrate into Nav                     | pending     | —                    | —                                                                                |
@@ -61,3 +61,5 @@
 
 Task 1.1: complete (commits 17d7802..4451c7a, review clean)
 Task 1.2: complete (commits 4451c7a..e115bab, review clean)
+Task 1.3: complete (commits e115bab..4f10fec, review clean — re-verified on resume)
+Task 1.4: complete (commits 0ab9b18..64154b7, review found Critical mojibake; fix verified byte-level + 18/18 unit green)

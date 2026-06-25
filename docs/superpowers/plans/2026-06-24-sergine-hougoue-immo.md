@@ -875,7 +875,11 @@ export function detectLocale(
   const first = segments[0];
   if (first && isLocale(first)) return first;
 
-  if (acceptLanguage) {
+  // Path-prefix-wins: only consult Accept-Language when the path has at
+  // least one non-locale segment. Root `/` is treated as the home of the
+  // default locale with no negotiation — matches "Path prefix wins over
+  // Accept-Language" test.
+  if (segments.length > 0 && acceptLanguage) {
     const preferred = acceptLanguage
       .split(",")
       .map((part) => part.trim().split(";")[0]?.toLowerCase() ?? "")
@@ -900,8 +904,10 @@ export function translatePath(
   } else {
     segments.unshift(to);
   }
-  const tail = segments.join("/");
-  return tail ? `/${tail}` : `/${to}/`;
+  // Preserve the trailing slash for root-of-locale URLs (SEO + canonical
+  // link convention): translatePath("/", "fr", "en") must return "/en/".
+  if (segments.length === 1) return `/${to}/`;
+  return `/${segments.join("/")}`;
 }
 ```
 
