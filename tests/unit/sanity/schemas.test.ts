@@ -55,13 +55,15 @@ function runValidation(
 }
 
 describe("sanity schemas", () => {
-  it("exports four schema types with expected names", () => {
-    expect(schemaTypes).toHaveLength(4);
+  it("exports six schema types with expected names", () => {
+    expect(schemaTypes).toHaveLength(6);
     expect(schemaTypes.map((t) => t.name)).toEqual([
       "siteSettings",
       "teamMember",
       "testimonial",
       "partner",
+      "property",
+      "post",
     ]);
   });
 
@@ -149,5 +151,100 @@ describe("sanity schemas", () => {
         { title: "Autre", value: "autre" },
       ]),
     );
+  });
+
+  it("property constrains status and type enums and requires photo alt text", () => {
+    const schema = findSchema("property");
+
+    const status = findField(schema, "status");
+    expect(status.type).toBe("string");
+    expect(runValidation(status)).toContain("required");
+    expect(status.options?.list).toEqual(
+      expect.arrayContaining([
+        { title: "À vendre", value: "a-vendre" },
+        { title: "Vendu", value: "vendu" },
+        { title: "En primeur", value: "en-primeur" },
+      ]),
+    );
+
+    const type = findField(schema, "type");
+    expect(type.type).toBe("string");
+    expect(runValidation(type)).toContain("required");
+    expect(type.options?.list).toHaveLength(8);
+    expect(type.options?.list).toEqual(
+      expect.arrayContaining([
+        { title: "Unifamiliale", value: "unifamiliale" },
+        { title: "Plex", value: "plex" },
+        { title: "Condo", value: "condo" },
+        { title: "Duplex", value: "duplex" },
+        { title: "Triplex", value: "triplex" },
+        { title: "Quadruplex", value: "quadruplex" },
+        { title: "Quintuplex", value: "quintuplex" },
+        { title: "Commercial", value: "commercial" },
+      ]),
+    );
+
+    const photos = findField(schema, "photos");
+    expect(photos.type).toBe("array");
+    const photoItem = photos.of?.[0];
+    expect(photoItem?.type).toBe("image");
+    const altField = photoItem?.fields?.find((f) => f.name === "alt");
+    expect(altField).toBeDefined();
+    expect(runValidation(altField!)).toContain("required");
+
+    const slug = findField(schema, "slug");
+    expect(slug.type).toBe("slug");
+    expect(slug.options?.source).toBe("title");
+
+    const neighborhood = findField(schema, "neighborhood");
+    expect(neighborhood.type).toBe("string");
+    expect(runValidation(neighborhood)).not.toContain("required");
+
+    const description = findField(schema, "description");
+    expect(description.type).toBe("array");
+    expect(description.of).toEqual(expect.arrayContaining([{ type: "block" }]));
+  });
+
+  it("post constrains excerpt, category, author reference, and seo fields", () => {
+    const schema = findSchema("post");
+
+    const excerpt = findField(schema, "excerpt");
+    expect(excerpt.type).toBe("string");
+    expect(runValidation(excerpt)).toEqual(
+      expect.arrayContaining(["required", "max:160"]),
+    );
+
+    const category = findField(schema, "category");
+    expect(category.type).toBe("string");
+    expect(runValidation(category)).toContain("required");
+    expect(category.options?.list).toEqual(
+      expect.arrayContaining([
+        { title: "Acheter", value: "acheter" },
+        { title: "Vendre", value: "vendre" },
+        { title: "Investir", value: "investir" },
+        { title: "Mode de vie", value: "mode-de-vie" },
+        { title: "Marché", value: "marche" },
+      ]),
+    );
+
+    const author = findField(schema, "author");
+    expect(author.type).toBe("reference");
+    expect(author.to).toEqual([{ type: "teamMember" }]);
+    expect(runValidation(author)).toContain("required");
+
+    const coverImage = findField(schema, "coverImage");
+    expect(coverImage.type).toBe("image");
+    const coverAlt = coverImage.fields?.find((f) => f.name === "alt");
+    expect(coverAlt).toBeDefined();
+    expect(runValidation(coverAlt!)).toContain("required");
+
+    const seo = findField(schema, "seo");
+    expect(seo.type).toBe("object");
+    const seoFieldNames = seo.fields?.map((f) => f.name);
+    expect(seoFieldNames).toEqual(
+      expect.arrayContaining(["metaTitle", "metaDescription", "ogImage"]),
+    );
+    const ogImage = seo.fields?.find((f) => f.name === "ogImage");
+    expect(ogImage?.type).toBe("image");
   });
 });
