@@ -12,16 +12,22 @@
     children?: import("svelte").Snippet;
   }
   let { data, children }: Props = $props();
+
+  const isStudio = $derived(page.url.pathname.startsWith("/studio"));
 </script>
 
-<Nav currentPath={page.url.pathname} locale={data.locale} />
-
-<main>
+{#if isStudio}
   {@render children?.()}
-</main>
+{:else}
+  <Nav currentPath={page.url.pathname} locale={data.locale} />
 
-<Footer locale={data.locale} />
+  <main>
+    {@render children?.()}
+  </main>
 
-<CookieBanner locale={data.locale} />
+  <Footer locale={data.locale} />
 
-<WhatsAppFab phone="14384626015" locale={data.locale} />
+  <CookieBanner locale={data.locale} />
+
+  <WhatsAppFab phone="14384626015" locale={data.locale} />
+{/if}

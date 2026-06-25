@@ -1,5 +1,5 @@
 import { redirect, type Handle } from "@sveltejs/kit";
-import { isLocale } from "$i18n/locales";
+import { DEFAULT_LOCALE, isLocale } from "$i18n/locales";
 import { detectLocale } from "$i18n/detectLocale";
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -12,6 +12,9 @@ export const handle: Handle = async ({ event, resolve }) => {
     pathname.startsWith("/_app") ||
     pathname.startsWith("/api")
   ) {
+    if (pathname.startsWith("/studio")) {
+      event.locals.locale = DEFAULT_LOCALE;
+    }
     return resolve(event);
   }
 
