@@ -1,25 +1,5 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
 
-const { mockPublicEnv } = vi.hoisted(() => ({
-  mockPublicEnv: {
-    PUBLIC_SANITY_PROJECT_ID: "studio-default-project",
-    PUBLIC_SANITY_DATASET: "production",
-    PUBLIC_SITE_URL: "http://localhost:5173",
-  },
-}));
-
-vi.mock("$env/static/public", () => ({
-  get PUBLIC_SANITY_PROJECT_ID() {
-    return mockPublicEnv.PUBLIC_SANITY_PROJECT_ID;
-  },
-  get PUBLIC_SANITY_DATASET() {
-    return mockPublicEnv.PUBLIC_SANITY_DATASET;
-  },
-  get PUBLIC_SITE_URL() {
-    return mockPublicEnv.PUBLIC_SITE_URL;
-  },
-}));
-
 import config, {
   getStudioSanityConfig,
   STUDIO_I18N_SCHEMA_TYPES,
@@ -28,12 +8,8 @@ import config, {
 import { SITE_SETTINGS_DOCUMENT_ID, structure } from "$sanity/structure";
 
 describe("sanity studio config", () => {
-  const originalProjectId = mockPublicEnv.PUBLIC_SANITY_PROJECT_ID;
-  const originalDataset = mockPublicEnv.PUBLIC_SANITY_DATASET;
-
   afterEach(() => {
-    mockPublicEnv.PUBLIC_SANITY_PROJECT_ID = originalProjectId;
-    mockPublicEnv.PUBLIC_SANITY_DATASET = originalDataset;
+    vi.unstubAllEnvs();
   });
 
   it("registers six schema types", () => {
@@ -49,8 +25,8 @@ describe("sanity studio config", () => {
   });
 
   it("resolves projectId and dataset from env helpers", () => {
-    mockPublicEnv.PUBLIC_SANITY_PROJECT_ID = "  abc123  ";
-    mockPublicEnv.PUBLIC_SANITY_DATASET = " staging ";
+    vi.stubEnv("PUBLIC_SANITY_PROJECT_ID", "  abc123  ");
+    vi.stubEnv("PUBLIC_SANITY_DATASET", " staging ");
 
     expect(getStudioSanityConfig()).toEqual({
       projectId: "abc123",
@@ -66,8 +42,8 @@ describe("sanity studio config", () => {
   });
 
   it("falls back to placeholder projectId when env is missing", () => {
-    mockPublicEnv.PUBLIC_SANITY_PROJECT_ID = "";
-    mockPublicEnv.PUBLIC_SANITY_DATASET = "";
+    vi.stubEnv("PUBLIC_SANITY_PROJECT_ID", "");
+    vi.stubEnv("PUBLIC_SANITY_DATASET", "");
 
     expect(getStudioSanityConfig()).toEqual({
       projectId: "placeholder",

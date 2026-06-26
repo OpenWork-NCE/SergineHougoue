@@ -1,21 +1,13 @@
-import { afterEach, describe, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/svelte";
 import BlogCard from "$components/content/BlogCard.svelte";
 import { mockPost } from "../fixtures/post";
 
 describe("<BlogCard>", () => {
-  const originalProjectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
-  const originalDataset = import.meta.env.PUBLIC_SANITY_DATASET;
-
-  afterEach(() => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = originalProjectId;
-    import.meta.env.PUBLIC_SANITY_DATASET = originalDataset;
-  });
+  // Env provided early via tests/setup.ts + vi.stubEnv (before this module + component loads)
+  // + live reads in env.ts ensure urlFor in deriveds succeeds.
 
   it("renders cover, category, title, excerpt, and read link", () => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = "test-project-id";
-    import.meta.env.PUBLIC_SANITY_DATASET = "production";
-
     const post = mockPost();
 
     render(BlogCard, {

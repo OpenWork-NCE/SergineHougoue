@@ -1,10 +1,8 @@
 /** Sanity + site env accessors. Copy .env.example → .env.local and fill values. */
 
 // Use import.meta.env (Vite) which is populated from process.env / Vercel env at build time.
-// Using direct access avoids strict named export errors from $env/static/public when vars are missing.
-const PUBLIC_SANITY_PROJECT_ID = (import.meta.env.PUBLIC_SANITY_PROJECT_ID as string) || "";
-const PUBLIC_SANITY_DATASET = (import.meta.env.PUBLIC_SANITY_DATASET as string) || "production";
-const PUBLIC_SITE_URL = (import.meta.env.PUBLIC_SITE_URL as string) || "";
+// Direct reads inside functions (not top-level consts) so tests can control values
+// via vi.stubEnv or import.meta.env mutation even after module load.
 
 export const REQUIRED_PUBLIC_ENV_KEYS = [
   "PUBLIC_SANITY_PROJECT_ID",
@@ -31,7 +29,9 @@ export function parseSanityProjectId(raw: string): string {
 }
 
 export function isSanityConfigured(): boolean {
-  const projectId = (PUBLIC_SANITY_PROJECT_ID ?? "").trim();
+  const projectId = (
+    (import.meta.env.PUBLIC_SANITY_PROJECT_ID as string) ?? ""
+  ).trim();
   return projectId.length > 0 && projectId !== "your_project_id";
 }
 
@@ -39,7 +39,11 @@ export function getPublicSanityConfig(): {
   projectId: string;
   dataset: string;
 } {
-  const projectId = parseSanityProjectId(PUBLIC_SANITY_PROJECT_ID ?? "");
-  const dataset = (PUBLIC_SANITY_DATASET ?? "production").trim();
+  const projectIdRaw =
+    (import.meta.env.PUBLIC_SANITY_PROJECT_ID as string) || "";
+  const datasetRaw =
+    (import.meta.env.PUBLIC_SANITY_DATASET as string) || "production";
+  const projectId = parseSanityProjectId(projectIdRaw);
+  const dataset = datasetRaw.trim();
   return { projectId, dataset };
 }

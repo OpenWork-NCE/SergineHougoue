@@ -43,3 +43,10 @@ vi.mock("$app/navigation", () => ({
   beforeNavigate: vi.fn(),
   afterNavigate: vi.fn(),
 }));
+
+// Provide live test env values for PUBLIC_* BEFORE any test modules load.
+// This works with lazy reads in $sanity/env so no import-order races for
+// studio config top-level or image urlFor calls in component renders.
+vi.stubEnv("PUBLIC_SANITY_PROJECT_ID", "test-project-id");
+vi.stubEnv("PUBLIC_SANITY_DATASET", "production");
+vi.stubEnv("PUBLIC_SITE_URL", "http://localhost:5173");

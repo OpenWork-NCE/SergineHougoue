@@ -13,16 +13,17 @@ describe("<Nav>", () => {
 
   it("renders the primary CTA", () => {
     render(Nav, { props: { currentPath: "/fr/", locale: "fr" } });
-    expect(
-      screen.getByRole("link", { name: "Prendre rendez-vous" }),
-    ).toBeInTheDocument();
+    // Note: both desktop and mobile CTAs render in DOM (md:hidden / md:flex); use getAll
+    const ctas = screen.getAllByRole("link", { name: "Prendre rendez-vous" });
+    expect(ctas.length).toBeGreaterThan(0);
+    expect(ctas[0]).toBeInTheDocument();
   });
 
   it("renders English copy when locale is en", () => {
     render(Nav, { props: { currentPath: "/en/", locale: "en" } });
     expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: "Book a meeting" }),
-    ).toBeInTheDocument();
+    const enCtas = screen.getAllByRole("link", { name: "Book a meeting" });
+    expect(enCtas.length).toBeGreaterThan(0);
+    expect(enCtas[0]).toBeInTheDocument();
   });
 });

@@ -1,20 +1,16 @@
-import { afterEach, describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/svelte";
 import TeamMember from "$components/content/TeamMember.svelte";
 import { mockTeamMember } from "../fixtures/teamMember";
 
 describe("<TeamMember>", () => {
-  const originalProjectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
-  const originalDataset = import.meta.env.PUBLIC_SANITY_DATASET;
-
-  afterEach(() => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = originalProjectId;
-    import.meta.env.PUBLIC_SANITY_DATASET = originalDataset;
-  });
+  // Env provided early via tests/setup.ts + vi.stubEnv (before this module + component loads)
+  // + live reads in env.ts ensure urlFor in deriveds succeeds.
 
   it("renders photo, name, role, and bio", () => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = "test-project-id";
-    import.meta.env.PUBLIC_SANITY_DATASET = "production";
+    // explicit stub for this test (setup default also sufficient)
+    vi.stubEnv("PUBLIC_SANITY_PROJECT_ID", "test-project-id");
+    vi.stubEnv("PUBLIC_SANITY_DATASET", "production");
 
     const member = mockTeamMember();
 
@@ -27,14 +23,19 @@ describe("<TeamMember>", () => {
       screen.getByText("Courtier immobilier résidentiel"),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Spécialisée dans l'accompagnement des premiers acheteurs/i),
+      screen.getByText(
+        /Spécialisée dans l'accompagnement des premiers acheteurs/i,
+      ),
     ).toBeInTheDocument();
 
     const image = screen.getByRole("img", {
       name: "Portrait de Sergine Hougoue",
     });
     expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute("src", expect.stringContaining("cdn.sanity.io"));
+    expect(image).toHaveAttribute(
+      "src",
+      expect.stringContaining("cdn.sanity.io"),
+    );
   });
 
   it("renders without photo when asset is missing", () => {

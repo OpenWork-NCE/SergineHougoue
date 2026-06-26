@@ -1,21 +1,13 @@
-import { afterEach, describe, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/svelte";
 import PropertyCard from "$components/content/PropertyCard.svelte";
 import { mockProperty } from "../fixtures/property";
 
 describe("<PropertyCard>", () => {
-  const originalProjectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
-  const originalDataset = import.meta.env.PUBLIC_SANITY_DATASET;
-
-  afterEach(() => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = originalProjectId;
-    import.meta.env.PUBLIC_SANITY_DATASET = originalDataset;
-  });
+  // Env provided early via tests/setup.ts + vi.stubEnv (before this module + component loads)
+  // + live reads in env.ts ensure urlFor in deriveds succeeds.
 
   it("renders price, address, specs, link, and image alt", () => {
-    import.meta.env.PUBLIC_SANITY_PROJECT_ID = "test-project-id";
-    import.meta.env.PUBLIC_SANITY_DATASET = "production";
-
     const property = mockProperty();
 
     render(PropertyCard, {
