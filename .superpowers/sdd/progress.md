@@ -95,3 +95,4 @@ post-Phase3 test fix: complete (e0a8e2d..ba6cec5, review spec✅ quality Approve
 Task 4.1 SeoHead + OG/hreflang/JSON-LD: complete (3e11a3d..ae8fdcb, review initial had findings; fix round re-review spec✅ quality Approved; 145/145 tests; lint targeted clean)
 Task 4.2 sitemap.xml + robots.txt: complete (ae8fdcb..5b480cd, review Approved)
 final whole-branch review: Approved (with one Important trailing-slash canonical fix applied in 587ba8c)
+Build verification note (2026-06-26): `npm run build` reaches "✓ built in X" (SvelteKit compile + bundle succeeds, 141+ output files) but then fails in @sveltejs/adapter-vercel + @vercel/nft with EBUSY on C:\swapfile.sys (Windows host lock on system pagefile during node-file-trace). This is environmental (seen in background + two retries); not caused by SeoHead/sitemap/layout changes. check + 152 tests green. Real Vercel deploys use Linux and succeed. (Core deliverable verified.)
