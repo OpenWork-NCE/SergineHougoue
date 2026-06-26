@@ -80,19 +80,19 @@
 
   const frUrl = $derived.by(() => {
     const noLocalePath = _path.replace(/^\/(fr|en)(?=\/|$)/, "") || "/";
-    const normalized = noLocalePath === "/" ? "" : noLocalePath;
+    const normalized = noLocalePath === "/" ? "/" : noLocalePath;
     return `${SITE_URL}/fr${normalized}`;
   });
 
   const enUrl = $derived.by(() => {
     const noLocalePath = _path.replace(/^\/(fr|en)(?=\/|$)/, "") || "/";
-    const normalized = noLocalePath === "/" ? "" : noLocalePath;
+    const normalized = noLocalePath === "/" ? "/" : noLocalePath;
     return `${SITE_URL}/en${normalized}`;
   });
 
   const canonicalUrl = $derived.by(() => {
     const noLocalePath = _path.replace(/^\/(fr|en)(?=\/|$)/, "") || "/";
-    const normalized = noLocalePath === "/" ? "" : noLocalePath;
+    const normalized = noLocalePath === "/" ? "/" : noLocalePath;
     return `${SITE_URL}/${_locale}${normalized}`;
   });
 
