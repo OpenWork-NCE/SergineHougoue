@@ -1,5 +1,5 @@
 import type { LayoutLoad } from "./$types";
 
 export const load: LayoutLoad = ({ data }) => {
-  return { locale: data.locale };
+  return { locale: data.locale, siteSettings: data.siteSettings };
 };
