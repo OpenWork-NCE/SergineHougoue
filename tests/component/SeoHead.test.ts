@@ -60,7 +60,7 @@ describe("<SeoHead>", () => {
     expect(desc?.getAttribute("content")).toBe("Custom desc here.");
   });
 
-  it("renders hreflang alternates and canonical based on path + locale", () => {
+  it("renders hreflang alternates and canonical based on path + locale", async () => {
     render(SeoHead, {
       props: {
         locale: "fr" as Locale,
@@ -68,6 +68,7 @@ describe("<SeoHead>", () => {
         siteSettings: mockSiteSettings(),
       },
     });
+    await tick();
 
     const frLink = document.querySelector('link[hreflang="fr"]');
     const enLink = document.querySelector('link[hreflang="en"]');
@@ -92,7 +93,7 @@ describe("<SeoHead>", () => {
     );
   });
 
-  it("renders OG tags and twitter card", () => {
+  it("renders OG tags and twitter card", async () => {
     const siteSettings = mockSiteSettings();
     render(SeoHead, {
       props: {
@@ -104,6 +105,7 @@ describe("<SeoHead>", () => {
         siteSettings,
       },
     });
+    await tick();
 
     expect(document.querySelector('meta[property="og:title"]')).toHaveAttribute(
       "content",
@@ -128,7 +130,7 @@ describe("<SeoHead>", () => {
     expect(twitterCard).toHaveAttribute("content", "summary_large_image");
   });
 
-  it("renders RealEstateAgent JSON-LD with contact from siteSettings and Quebec address", () => {
+  it("renders RealEstateAgent JSON-LD with contact from siteSettings and Quebec address", async () => {
     const siteSettings = mockSiteSettings({
       contactPhone: "438-462-6015",
       contactEmail: "serginehougoue@gmail.com",
@@ -140,13 +142,24 @@ describe("<SeoHead>", () => {
         siteSettings,
       },
     });
+    await tick();
 
     const script = document.querySelector('script[type="application/ld+json"]');
     expect(script).not.toBeNull();
     expect(script!.getAttribute("type")).toBe("application/ld+json");
     const txt = (script!.textContent || "").trim();
-    // In test env expr inside <script type=ld+json> may not expand; just verify tag + non-trivial content
-    expect(txt.length).toBeGreaterThan(5);
+    // Use data-json (evaluated attr) to get actual JSON in test env (textContent shows literal expr source due to <script> handling)
+    const jsonStr = script!.getAttribute("data-json") || txt;
+    const json = JSON.parse(jsonStr);
+    expect(json["@type"]).toBe("RealEstateAgent");
+    expect(json.telephone).toBe("+14384626015");
+    expect(json.email).toBe("serginehougoue@gmail.com");
+    expect(json.address).toBeDefined();
+    expect(json.address.addressCountry).toBe("CA");
+    expect(json.address.addressLocality).toBe("Montréal");
+    expect(json.address.addressRegion).toBe("QC");
+    expect(json.name).toBe("Sergine Hougoue");
+    expect(json.url).toBe("http://localhost:5173");
   });
 
   it("uses post seo fields when provided via overrides (for blog)", async () => {

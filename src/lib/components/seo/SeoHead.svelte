@@ -155,7 +155,7 @@
   <meta name="twitter:image" content={ogImageUrl} />
 
   <!-- JSON-LD Structured Data for RealEstateAgent -->
-  <script type="application/ld+json">
+  <script type="application/ld+json" data-testid="json-ld" data-json={JSON.stringify(_jsonLd)}>
     {JSON.stringify(_jsonLd)}
   </script>
 </svelte:head>

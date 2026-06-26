@@ -72,7 +72,7 @@
     }
     if (routeData.property) {
       const prop = routeData.property as Property;
-      return `${prop.title} — ${prop.address}, ${prop.city}. ${prop.bedrooms} bed, ${prop.bathrooms} bath, ${prop.area} sq ft.`;
+      return `${prop.title} — ${prop.address}, ${prop.city}. ${prop.bedrooms} ${copy.property.beds}, ${prop.bathrooms} ${copy.property.baths}, ${prop.area} ${copy.property.area}.`;
     }
     const p = currentPath.replace(/^\/(fr|en)/, "") || "/";
     if (p === "/" || p === "")
