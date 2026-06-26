@@ -3,6 +3,8 @@ import { createSanityClient } from "./client";
 import { isSanityConfigured } from "./env";
 import {
   allPropertiesQuery,
+  allPostsSitemapQuery,
+  allPropertiesSitemapQuery,
   featuredPropertiesQuery,
   partnersQuery,
   postBySlugQuery,
@@ -272,5 +274,45 @@ export async function loadCmsPropertyBySlug(
     return property ?? null;
   } catch {
     return null;
+  }
+}
+
+/**
+ * Load ALL properties for sitemap (includes sold; sold still have public /biens/[slug] detail pages).
+ * Follows same graceful empty + isSanityConfigured pattern as other loaders.
+ */
+export async function loadAllCmsProperties(lang: Locale): Promise<Property[]> {
+  if (!isSanityConfigured()) {
+    return [];
+  }
+
+  try {
+    const client = createSanityClient();
+    const properties = await client.fetch<Property[]>(
+      allPropertiesSitemapQuery,
+      { lang },
+    );
+
+    return properties ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Load ALL posts (unpaginated) for sitemap. Posts are always language specific.
+ */
+export async function loadAllCmsPosts(lang: Locale): Promise<Post[]> {
+  if (!isSanityConfigured()) {
+    return [];
+  }
+
+  try {
+    const client = createSanityClient();
+    const posts = await client.fetch<Post[]>(allPostsSitemapQuery, { lang });
+
+    return posts ?? [];
+  } catch {
+    return [];
   }
 }

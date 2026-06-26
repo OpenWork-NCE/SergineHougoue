@@ -150,3 +150,8 @@ export const postsQuery = `*[_type == "post" && ${DOCUMENT_I18N_LANGUAGE_FIELD} 
 export const postsCountQuery = `count(*[_type == "post" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang])`;
 
 export const postBySlugQuery = `*[_type == "post" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang && slug.current == $slug][0]${postDetailProjection}`;
+
+// Sitemap-specific: include sold properties (they link via /biens/[slug] from transactions and grids)
+export const allPropertiesSitemapQuery = `*[_type == "property" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang] | order(publishedAt desc) ${propertyCardProjection}`;
+
+export const allPostsSitemapQuery = `*[_type == "post" && ${DOCUMENT_I18N_LANGUAGE_FIELD} == $lang] | order(publishedAt desc) ${postCardProjection}`;
