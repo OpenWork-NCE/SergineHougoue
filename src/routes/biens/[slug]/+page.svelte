@@ -55,7 +55,7 @@
         <span class="text-secondary"> — {property.neighborhood}</span>
       {/if}
     </p>
-    <p class="mt-2 font-display text-3xl text-gold">{formattedPrice}</p>
+    <p class="mt-2 font-display text-3xl text-gold-text">{formattedPrice}</p>
   </header>
 
   {#if galleryImages.length > 0}
@@ -129,7 +129,7 @@
           href={mapHref}
           target="_blank"
           rel="noopener noreferrer"
-          class="mt-4 inline-flex items-center gap-2 text-sm uppercase tracking-[0.08em] text-gold transition-transform hover:translate-x-1"
+          class="mt-4 inline-flex items-center gap-2 text-sm uppercase tracking-[0.08em] text-gold-text transition-transform hover:translate-x-1"
         >
           {detailCopy.mapLink}
           <span aria-hidden="true">→</span>
@@ -138,7 +138,7 @@
 
       <a
         href={`${base}/contact`}
-        class="inline-flex items-center justify-center rounded-sm border border-gold/40 px-6 py-3 text-sm uppercase tracking-[0.08em] text-gold transition-colors hover:bg-gold/10"
+        class="inline-flex items-center justify-center rounded-sm border border-gold/40 px-6 py-3 text-sm uppercase tracking-[0.08em] text-gold-text transition-colors hover:bg-gold/10"
       >
         {detailCopy.contactCta}
       </a>

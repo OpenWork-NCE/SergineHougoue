@@ -59,21 +59,19 @@
       >
         <img
           src={photoUrl}
-          alt={member?.name ?? "Sergine Hougoue"}
+          alt={member?.name ?? copy.teamPartners.teamFallbackName}
           class="h-full w-full object-cover"
         />
       </div>
     </div>
 
     <div class="md:col-span-7 md:pt-4">
-      {#if member}
-        <p class="font-display text-3xl text-primary md:text-4xl">
-          {member.name}
-        </p>
-        <p class="mt-2 text-sm uppercase tracking-[0.08em] text-gold">
-          {member.role}
-        </p>
-      {/if}
+      <p class="font-display text-3xl text-primary md:text-4xl">
+        {member?.name ?? copy.teamPartners.teamFallbackName}
+      </p>
+      <p class="mt-2 text-sm uppercase tracking-[0.08em] text-gold-text">
+        {member?.role ?? copy.teamPartners.teamFallbackRole}
+      </p>
     </div>
   </div>
 </section>

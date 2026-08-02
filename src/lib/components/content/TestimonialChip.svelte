@@ -50,7 +50,7 @@
     {/if}
 
     <div>
-      <p class="text-sm uppercase tracking-[0.08em] text-gold">
+      <p class="text-sm uppercase tracking-[0.08em] text-gold-text">
         {testimonial.authorName}
       </p>
       {#if testimonial.authorContext}

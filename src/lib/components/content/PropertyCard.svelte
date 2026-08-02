@@ -52,7 +52,7 @@
     </div>
 
     <div class="p-5 space-y-2.5">
-      <div class="font-display text-2xl text-gold tracking-tight">{formattedPrice}</div>
+      <div class="font-display text-2xl text-gold-text tracking-tight">{formattedPrice}</div>
 
       <div>
         <p class="font-medium text-primary leading-snug">{property.address}{property.city ? `, ${property.city}` : ''}</p>

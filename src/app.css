@@ -16,8 +16,10 @@
     --accent: #6e1f2e;
     --state-hover: rgba(14, 14, 14, 0.06);
     --brand-burgundy: #6e1f2e;
-    /* Readable gold on cream for text/icons; fills still read as brand gold */
-    --brand-gold: #8a6a1f;
+    /* Locked brand gold (fills, borders, decorative accents) */
+    --brand-gold: #c9a24a;
+    /* Readable gold for body/UI text on cream (WCAG AA) */
+    --brand-gold-text: #8a6a1f;
     --text-on-brand: #f5f2ec;
   }
 
@@ -33,6 +35,7 @@
     --state-hover: rgba(255, 255, 255, 0.06);
     --brand-burgundy: #6e1f2e;
     --brand-gold: #c9a24a;
+    --brand-gold-text: #c9a24a;
     --text-on-brand: #f5f2ec;
   }
 

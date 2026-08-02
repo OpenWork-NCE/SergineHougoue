@@ -72,7 +72,7 @@
         {#if member}
           <div class="mt-6">
             <p class="font-display text-3xl text-primary">{member.name}</p>
-            <p class="mt-1 text-sm uppercase tracking-[0.08em] text-gold">
+            <p class="mt-1 text-sm uppercase tracking-[0.08em] text-gold-text">
               {member.role}
             </p>
           </div>

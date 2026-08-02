@@ -33,6 +33,7 @@
     <a
       href={`${base}/`}
       class="font-display text-2xl md:text-3xl lg:text-4xl tracking-tight text-primary flex items-center min-h-11"
+      aria-label="Sergine Hougoue"
     >
       <span class="text-burgundy">S</span>ergine Hougoue
     </a>

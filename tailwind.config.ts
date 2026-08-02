@@ -15,6 +15,7 @@ const config: Config = {
         accent: "var(--accent)",
         burgundy: "var(--brand-burgundy)",
         gold: "var(--brand-gold)",
+        "gold-text": "var(--brand-gold-text)",
         "on-brand": "var(--text-on-brand)",
       },
       fontFamily: {

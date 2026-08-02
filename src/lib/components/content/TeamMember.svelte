@@ -31,7 +31,7 @@
 
   <div class={photoUrl ? "" : "max-w-3xl"}>
     <h2 class="font-display text-4xl text-primary">{member.name}</h2>
-    <p class="mt-2 text-sm uppercase tracking-[0.08em] text-gold">
+    <p class="mt-2 text-sm uppercase tracking-[0.08em] text-gold-text">
       {member.role}
     </p>
     {#if member.bio?.length}

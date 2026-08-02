@@ -37,7 +37,7 @@
             onkeydown={(event) => handleKeydown(event, index)}
           >
             <span
-              class="font-display text-2xl tabular-nums text-gold"
+              class="font-display text-2xl tabular-nums text-gold-text"
               aria-hidden="true"
             >
               {String(index + 1).padStart(2, "0")}

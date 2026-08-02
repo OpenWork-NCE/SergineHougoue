@@ -104,6 +104,8 @@ export interface TeamPartnersCopy {
   teamHeading: string;
   partnersHeading: string;
   emptyPartners: string;
+  teamFallbackName: string;
+  teamFallbackRole: string;
   partnerCategories: Record<PartnerCategory, string>;
 }
 
@@ -314,6 +316,8 @@ const fr: SiteCopy = {
     teamHeading: "L'équipe",
     partnersHeading: "Nos partenaires de confiance",
     emptyPartners: "Aucun partenaire pour le moment.",
+    teamFallbackName: "Sergine Hougoue",
+    teamFallbackRole: "Courtière immobilière certifiée OACIQ",
     partnerCategories: {
       preteur: "Prêteurs",
       "courtier-hypothecaire": "Courtiers hypothécaires",
@@ -521,6 +525,8 @@ const en: SiteCopy = {
     teamHeading: "The team",
     partnersHeading: "Our trusted partners",
     emptyPartners: "No partners listed yet.",
+    teamFallbackName: "Sergine Hougoue",
+    teamFallbackRole: "OACIQ-certified real estate broker",
     partnerCategories: {
       preteur: "Lenders",
       "courtier-hypothecaire": "Mortgage brokers",
