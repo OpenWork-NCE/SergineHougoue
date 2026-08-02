@@ -20,3 +20,13 @@ test("home page has no critical accessibility violations", async ({ page }) => {
 
   expect(accessibilityScanResults.violations).toEqual([]);
 });
+
+test("home shows Quebec territory regions", async ({ page }) => {
+  await page.goto("/fr/");
+  await expect(
+    page.getByRole("heading", { name: /Partout au Québec/i }),
+  ).toBeVisible();
+  const territory = page.locator('section[aria-labelledby="territory-heading"]');
+  await expect(territory.getByText("Montréal", { exact: true })).toBeVisible();
+  await expect(territory.getByText("Montérégie", { exact: true })).toBeVisible();
+});

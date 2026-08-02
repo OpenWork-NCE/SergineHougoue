@@ -3,12 +3,14 @@
   import PropertyCard from "$components/content/PropertyCard.svelte";
   import TestimonialChip from "$components/content/TestimonialChip.svelte";
   import { getCopy } from "$i18n/copy";
+  import { getQuebecRegions } from "$i18n/regions";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
 
   const copy = $derived(getCopy(data.locale));
   const base = $derived(`/${data.locale}`);
+  const regions = getQuebecRegions();
 
   // Simple client-side filters inspired by Allys (makes sense for properties)
   let activeType = $state("All");
@@ -70,6 +72,25 @@
     </div>
   </section>
 {/if}
+
+<section
+  class="container-editorial py-14 md:py-20 border-t border-[color:var(--border-hairline)]"
+  aria-labelledby="territory-heading"
+>
+  <h2 id="territory-heading" class="font-display text-3xl text-primary mb-3">
+    {copy.home.territoryTitle}
+  </h2>
+  <p class="text-secondary max-w-2xl mb-8">{copy.home.territoryIntro}</p>
+  <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+    {#each regions as region}
+      <li
+        class="rounded-lg border border-[color:var(--border-hairline)] bg-surface px-3 py-2 text-sm text-primary"
+      >
+        {region}
+      </li>
+    {/each}
+  </ul>
+</section>
 
 <!-- Restructured CTA -->
 <section class="container-editorial py-16 md:py-20 text-center border-t border-[color:var(--border-hairline)]">

@@ -56,6 +56,8 @@ export interface HomeCopy {
   carouselAriaLabel: string;
   carouselPrevious: string;
   carouselNext: string;
+  territoryTitle: string;
+  territoryIntro: string;
 }
 
 export interface CtaStripCopy {
@@ -220,6 +222,9 @@ const fr: SiteCopy = {
     carouselAriaLabel: "Carrousel des biens en vedette",
     carouselPrevious: "Bien précédent",
     carouselNext: "Bien suivant",
+    territoryTitle: "Partout au Québec",
+    territoryIntro:
+      "J'accompagne acheteurs et vendeurs dans les 17 régions administratives du Québec.",
   },
   ctaStrip: {
     title: "Prêt à passer à l'étape suivante ?",
@@ -417,6 +422,9 @@ const en: SiteCopy = {
     carouselAriaLabel: "Featured listings carousel",
     carouselPrevious: "Previous listing",
     carouselNext: "Next listing",
+    territoryTitle: "Across Quebec",
+    territoryIntro:
+      "I support buyers and sellers across Quebec's 17 administrative regions.",
   },
   ctaStrip: {
     title: "Ready to take the next step?",
