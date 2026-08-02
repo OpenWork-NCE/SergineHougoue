@@ -4,6 +4,7 @@ import type {
   Post,
   Property,
   SiteSettings,
+  TeamMember,
   Testimonial,
 } from "$sanity/types";
 
@@ -28,6 +29,7 @@ import {
   loadCmsPostBySlug,
   loadCmsPosts,
   loadCmsPropertyBySlug,
+  loadCmsTeamPartnersData,
   loadCmsTransactionsData,
   POSTS_PER_PAGE,
 } from "$sanity/load-cms";
@@ -198,13 +200,12 @@ describe("loadCmsTransactionsData", () => {
 
     await expect(loadCmsTransactionsData("fr")).resolves.toEqual({
       soldProperties: [],
-      partners: [],
     });
 
     expect(mockCreateSanityClient).not.toHaveBeenCalled();
   });
 
-  it("fetches sold properties and partners with locale", async () => {
+  it("fetches sold properties with locale and omits partners", async () => {
     mockIsSanityConfigured.mockReturnValue(true);
 
     const soldProperties = [
@@ -225,6 +226,63 @@ describe("loadCmsTransactionsData", () => {
       },
     ] satisfies Property[];
 
+    mockFetch.mockResolvedValueOnce(soldProperties);
+
+    const result = await loadCmsTransactionsData("fr");
+
+    expect(result).toEqual({ soldProperties });
+    expect(result).not.toHaveProperty("partners");
+
+    expect(mockFetch).toHaveBeenCalledOnce();
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('status == "vendu"'),
+      { lang: "fr" },
+    );
+  });
+
+  it("returns empty data when Sanity fetch fails", async () => {
+    mockIsSanityConfigured.mockReturnValue(true);
+    mockFetch.mockRejectedValue(new Error("network error"));
+
+    await expect(loadCmsTransactionsData("en")).resolves.toEqual({
+      soldProperties: [],
+    });
+  });
+});
+
+describe("loadCmsTeamPartnersData", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockCreateSanityClient.mockReturnValue({ fetch: mockFetch });
+  });
+
+  it("returns empty data when Sanity is not configured", async () => {
+    mockIsSanityConfigured.mockReturnValue(false);
+
+    await expect(loadCmsTeamPartnersData("fr")).resolves.toEqual({
+      teamMembers: [],
+      partners: [],
+    });
+
+    expect(mockCreateSanityClient).not.toHaveBeenCalled();
+  });
+
+  it("fetches team members and partners with locale", async () => {
+    mockIsSanityConfigured.mockReturnValue(true);
+
+    const teamMembers = [
+      {
+        _id: "team-member-1",
+        _type: "teamMember",
+        name: "Sergine Hougoue",
+        role: "Courtier immobilier résidentiel",
+        photo: {
+          asset: { _ref: "image-team-1", _type: "reference" },
+        },
+        order: 0,
+      },
+    ] satisfies TeamMember[];
+
     const partners = [
       {
         _id: "partner-1",
@@ -237,20 +295,31 @@ describe("loadCmsTransactionsData", () => {
         category: "preteur",
         order: 0,
       },
+      {
+        _id: "partner-2",
+        _type: "partner",
+        name: "Courtier Hypo",
+        logo: {
+          asset: { _ref: "image-partner-2", _type: "reference" },
+        },
+        url: "https://hypo.example.com",
+        category: "courtier-hypothecaire",
+        order: 1,
+      },
     ] satisfies Partner[];
 
     mockFetch
-      .mockResolvedValueOnce(soldProperties)
+      .mockResolvedValueOnce(teamMembers)
       .mockResolvedValueOnce(partners);
 
-    await expect(loadCmsTransactionsData("fr")).resolves.toEqual({
-      soldProperties,
+    await expect(loadCmsTeamPartnersData("fr")).resolves.toEqual({
+      teamMembers,
       partners,
     });
 
     expect(mockFetch).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('status == "vendu"'),
+      expect.stringContaining('_type == "teamMember"'),
       { lang: "fr" },
     );
     expect(mockFetch).toHaveBeenNthCalledWith(
@@ -264,8 +333,8 @@ describe("loadCmsTransactionsData", () => {
     mockIsSanityConfigured.mockReturnValue(true);
     mockFetch.mockRejectedValue(new Error("network error"));
 
-    await expect(loadCmsTransactionsData("en")).resolves.toEqual({
-      soldProperties: [],
+    await expect(loadCmsTeamPartnersData("en")).resolves.toEqual({
+      teamMembers: [],
       partners: [],
     });
   });

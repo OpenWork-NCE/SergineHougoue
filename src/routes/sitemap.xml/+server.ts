@@ -15,6 +15,7 @@ const STATIC_PATHS = [
   "blog",
   "services",
   "transactions",
+  "equipe-partenaires",
   "a-propos",
   "contact",
   "politique-confidentialite",

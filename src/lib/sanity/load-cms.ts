@@ -44,6 +44,10 @@ export type CmsListingsData = {
 
 export type CmsTransactionsData = {
   soldProperties: Property[];
+};
+
+export type CmsTeamPartnersData = {
+  teamMembers: TeamMember[];
   partners: Partner[];
 };
 
@@ -76,6 +80,10 @@ const EMPTY_LISTINGS: CmsListingsData = {
 
 const EMPTY_TRANSACTIONS: CmsTransactionsData = {
   soldProperties: [],
+};
+
+const EMPTY_TEAM_PARTNERS: CmsTeamPartnersData = {
+  teamMembers: [],
   partners: [],
 };
 
@@ -167,17 +175,39 @@ export async function loadCmsTransactionsData(
 
   try {
     const client = createSanityClient();
-    const [soldProperties, partners] = await Promise.all([
-      client.fetch<Property[]>(soldPropertiesQuery, { lang }),
+    const soldProperties = await client.fetch<Property[]>(
+      soldPropertiesQuery,
+      { lang },
+    );
+
+    return {
+      soldProperties: soldProperties ?? [],
+    };
+  } catch {
+    return EMPTY_TRANSACTIONS;
+  }
+}
+
+export async function loadCmsTeamPartnersData(
+  lang: Locale,
+): Promise<CmsTeamPartnersData> {
+  if (!isSanityConfigured()) {
+    return EMPTY_TEAM_PARTNERS;
+  }
+
+  try {
+    const client = createSanityClient();
+    const [teamMembers, partners] = await Promise.all([
+      client.fetch<TeamMember[]>(teamMembersQuery, { lang }),
       client.fetch<Partner[]>(partnersQuery, { lang }),
     ]);
 
     return {
-      soldProperties: soldProperties ?? [],
+      teamMembers: teamMembers ?? [],
       partners: partners ?? [],
     };
   } catch {
-    return EMPTY_TRANSACTIONS;
+    return EMPTY_TEAM_PARTNERS;
   }
 }
 

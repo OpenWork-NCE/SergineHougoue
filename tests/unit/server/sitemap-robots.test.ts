@@ -54,6 +54,12 @@ describe("GET /sitemap.xml", () => {
     expect(xml).toContain("<loc>http://localhost:5173/en/services</loc>");
     expect(xml).toContain("<loc>http://localhost:5173/fr/transactions</loc>");
     expect(xml).toContain("<loc>http://localhost:5173/en/transactions</loc>");
+    expect(xml).toContain(
+      "<loc>http://localhost:5173/fr/equipe-partenaires</loc>",
+    );
+    expect(xml).toContain(
+      "<loc>http://localhost:5173/en/equipe-partenaires</loc>",
+    );
     expect(xml).toContain("<loc>http://localhost:5173/fr/a-propos</loc>");
     expect(xml).toContain("<loc>http://localhost:5173/en/a-propos</loc>");
     expect(xml).toContain("<loc>http://localhost:5173/fr/contact</loc>");

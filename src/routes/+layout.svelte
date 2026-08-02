@@ -53,6 +53,8 @@
       return `${copy.services.title}${brand ? ` | ${brand}` : ""}`;
     if (p.startsWith("/transactions"))
       return `${copy.transactions.title}${brand ? ` | ${brand}` : ""}`;
+    if (p.startsWith("/equipe-partenaires"))
+      return `${copy.teamPartners.title}${brand ? ` | ${brand}` : ""}`;
     if (p.startsWith("/contact"))
       return `${copy.contact.title}${brand ? ` | ${brand}` : ""}`;
     if (p.startsWith("/politique-confidentialite"))
@@ -85,6 +87,8 @@
     if (p.startsWith("/a-propos")) return copy.about.intro || "";
     if (p.startsWith("/services")) return copy.services.intro || "";
     if (p.startsWith("/transactions")) return copy.transactions.intro || "";
+    if (p.startsWith("/equipe-partenaires"))
+      return copy.teamPartners.intro || "";
     return siteSettings?.defaultSEO?.metaDescription || "";
   });
 

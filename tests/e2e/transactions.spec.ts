@@ -17,6 +17,9 @@ test.describe("transactions routes", () => {
     await expect(
       page.getByRole("heading", { name: copy.transactions.soldHeading }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /partenaires de confiance/i }),
+    ).toHaveCount(0);
   });
 
   test("/en/transactions returns 200 with English page header", async ({
