@@ -26,4 +26,19 @@ describe("<Nav>", () => {
     expect(enCtas.length).toBeGreaterThan(0);
     expect(enCtas[0]).toBeInTheDocument();
   });
+
+  it("renders team partners link and larger wordmark", () => {
+    render(Nav, { props: { currentPath: "/fr/", locale: "fr" } });
+    expect(
+      screen.getByRole("link", { name: "Équipe et partenaires" }),
+    ).toHaveAttribute("href", "/fr/equipe-partenaires");
+    // Accessible name is "S ergine Hougoue" because the burgundy S is in a <span>
+    const brand = screen.getByRole("link", { name: /S\s*ergine Hougoue/i });
+    expect(brand.className).toMatch(/text-2xl/);
+  });
+
+  it("renders theme toggle", () => {
+    render(Nav, { props: { currentPath: "/fr/", locale: "fr" } });
+    expect(screen.getAllByRole("button").length).toBeGreaterThan(0);
+  });
 });

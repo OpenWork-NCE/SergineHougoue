@@ -12,9 +12,15 @@ export interface NavCopy {
   listings: string;
   transactions: string;
   blog: string;
+  teamPartners: string;
   about: string;
   contact: string;
   cta: string;
+}
+
+export interface ThemeCopy {
+  toLight: string;
+  toDark: string;
 }
 
 export interface WhatsappCopy {
@@ -151,6 +157,7 @@ export interface PropertyCopy {
 
 export interface SiteCopy {
   nav: NavCopy;
+  theme: ThemeCopy;
   whatsapp: WhatsappCopy;
   cookie: CookieCopy;
   footer: FooterCopy;
@@ -173,9 +180,14 @@ const fr: SiteCopy = {
     listings: "Biens",
     transactions: "Transactions",
     blog: "Blogue",
+    teamPartners: "Équipe et partenaires",
     about: "À propos",
     contact: "Contact",
     cta: "Prendre rendez-vous",
+  },
+  theme: {
+    toLight: "Passer en mode clair",
+    toDark: "Passer en mode sombre",
   },
   whatsapp: {
     defaultMessage: "Bonjour Sergine, je vous contacte depuis votre site web.",
@@ -355,9 +367,14 @@ const en: SiteCopy = {
     listings: "Listings",
     transactions: "Transactions",
     blog: "Blog",
+    teamPartners: "Team & partners",
     about: "About",
     contact: "Contact",
     cta: "Book a meeting",
+  },
+  theme: {
+    toLight: "Switch to light mode",
+    toDark: "Switch to dark mode",
   },
   whatsapp: {
     defaultMessage: "Hello Sergine, I am reaching out from your website.",

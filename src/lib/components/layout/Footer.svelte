@@ -17,12 +17,13 @@
     { href: `${base}/biens`, label: copy.nav.listings },
     { href: `${base}/transactions`, label: copy.nav.transactions },
     { href: `${base}/blog`, label: copy.nav.blog },
+    { href: `${base}/equipe-partenaires`, label: copy.nav.teamPartners },
     { href: `${base}/a-propos`, label: copy.nav.about },
     { href: `${base}/contact`, label: copy.nav.contact },
   ]);
 </script>
 
-<footer class="bg-canvas border-t border-white/10 mt-16 lg:mt-24 text-primary">
+<footer class="bg-canvas border-t border-[color:var(--border-hairline)] mt-16 lg:mt-24 text-primary">
   <div class="container-editorial py-12 lg:py-16">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10">
       <!-- Brand -->
