@@ -1,10 +1,25 @@
 <!doctype html>
-<html lang="%sveltekit.lang%" data-theme="dark">
+<html lang="%sveltekit.lang%" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <title>Sergine Hougoue Immo</title>
     <link rel="icon" href="%sveltekit.assets%/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        try {
+          var key = "sergine_theme";
+          var t = localStorage.getItem(key);
+          if (t === "light" || t === "dark") {
+            document.documentElement.setAttribute("data-theme", t);
+          } else {
+            document.documentElement.setAttribute("data-theme", "light");
+          }
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
