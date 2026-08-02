@@ -3,6 +3,7 @@ import { enumField, orderField } from "./fields";
 
 const partnerCategories = [
   { title: "Prêteur", value: "preteur" },
+  { title: "Courtier hypothécaire", value: "courtier-hypothecaire" },
   { title: "Notaire", value: "notaire" },
   { title: "Inspecteur", value: "inspecteur" },
   { title: "Autre", value: "autre" },

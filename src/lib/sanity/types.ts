@@ -126,7 +126,12 @@ export type Testimonial = {
   order: number;
 };
 
-export type PartnerCategory = "preteur" | "notaire" | "inspecteur" | "autre";
+export type PartnerCategory =
+  | "preteur"
+  | "courtier-hypothecaire"
+  | "notaire"
+  | "inspecteur"
+  | "autre";
 
 export type Partner = {
   _id: string;

@@ -146,6 +146,7 @@ describe("sanity schemas", () => {
     expect(category.options?.list).toEqual(
       expect.arrayContaining([
         { title: "Prêteur", value: "preteur" },
+        { title: "Courtier hypothécaire", value: "courtier-hypothecaire" },
         { title: "Notaire", value: "notaire" },
         { title: "Inspecteur", value: "inspecteur" },
         { title: "Autre", value: "autre" },

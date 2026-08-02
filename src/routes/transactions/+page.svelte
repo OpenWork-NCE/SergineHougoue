@@ -6,8 +6,10 @@
   import type { Partner, PartnerCategory } from "$sanity/types";
   import type { PageData } from "./$types";
 
+  // Temporary: partners move to /equipe-partenaires in Task 8
   const PARTNER_CATEGORY_ORDER: PartnerCategory[] = [
     "preteur",
+    "courtier-hypothecaire",
     "notaire",
     "inspecteur",
     "autre",
@@ -21,7 +23,7 @@
   const partnersByCategory = $derived(
     PARTNER_CATEGORY_ORDER.map((category) => ({
       category,
-      label: copy.transactions.partnerCategories[category],
+      label: copy.teamPartners.partnerCategories[category],
       partners: data.partners.filter(
         (partner) => partner.category === category,
       ),
@@ -54,7 +56,7 @@
 
 {#if data.partners.length > 0}
   <section class="container-editorial border-t border-[color:var(--border-hairline)] py-16 md:py-20">
-    <h2 class="eyebrow mb-8 text-burgundy">{copy.transactions.partnersHeading}</h2>
+    <h2 class="eyebrow mb-8 text-burgundy">{copy.teamPartners.partnersHeading}</h2>
 
     <div class="space-y-12">
       {#each partnersByCategory as group (group.category)}

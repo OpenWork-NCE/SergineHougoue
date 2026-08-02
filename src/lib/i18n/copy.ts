@@ -95,7 +95,15 @@ export interface TransactionsCopy {
   title: string;
   intro: string;
   soldHeading: string;
+}
+
+export interface TeamPartnersCopy {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  teamHeading: string;
   partnersHeading: string;
+  emptyPartners: string;
   partnerCategories: Record<PartnerCategory, string>;
 }
 
@@ -170,6 +178,7 @@ export interface SiteCopy {
   services: ServicesCopy;
   listings: ListingsCopy;
   transactions: TransactionsCopy;
+  teamPartners: TeamPartnersCopy;
   blog: BlogCopy;
   contact: ContactCopy;
   property: PropertyCopy;
@@ -294,12 +303,20 @@ const fr: SiteCopy = {
   transactions: {
     eyebrow: "04 / Transactions",
     title: "Transactions",
-    intro:
-      "Découvrez les propriétés vendues récemment et les partenaires de confiance qui accompagnent chaque transaction.",
+    intro: "Découvrez les propriétés vendues récemment à Montréal et environs.",
     soldHeading: "Propriétés vendues",
+  },
+  teamPartners: {
+    eyebrow: "06 / Équipe et partenaires",
+    title: "Équipe et partenaires",
+    intro:
+      "Rencontrez Sergine et le réseau de partenaires de confiance qui accompagnent chaque transaction.",
+    teamHeading: "L'équipe",
     partnersHeading: "Nos partenaires de confiance",
+    emptyPartners: "Aucun partenaire pour le moment.",
     partnerCategories: {
       preteur: "Prêteurs",
+      "courtier-hypothecaire": "Courtiers hypothécaires",
       notaire: "Notaires",
       inspecteur: "Inspecteurs",
       autre: "Autres partenaires",
@@ -493,12 +510,20 @@ const en: SiteCopy = {
   transactions: {
     eyebrow: "04 / Transactions",
     title: "Transactions",
-    intro:
-      "Explore recently closed deals and the trusted partners who support every transaction.",
+    intro: "Explore recently closed deals in Montreal and surrounding areas.",
     soldHeading: "Sold properties",
+  },
+  teamPartners: {
+    eyebrow: "06 / Team & partners",
+    title: "Team & partners",
+    intro:
+      "Meet Sergine and the trusted partner network that supports every transaction.",
+    teamHeading: "The team",
     partnersHeading: "Our trusted partners",
+    emptyPartners: "No partners listed yet.",
     partnerCategories: {
       preteur: "Lenders",
+      "courtier-hypothecaire": "Mortgage brokers",
       notaire: "Notaries",
       inspecteur: "Inspectors",
       autre: "Other partners",
