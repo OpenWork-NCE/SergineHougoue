@@ -8,7 +8,7 @@
   let { eyebrow, title, intro }: Props = $props();
 </script>
 
-<header class="container-editorial py-16 md:py-20 border-b border-white/10">
+<header class="container-editorial py-16 md:py-20 border-b border-[color:var(--border-hairline)]">
   <p class="eyebrow mb-2 text-burgundy">{eyebrow}</p>
   <h1 class="font-display text-5xl md:text-6xl text-primary tracking-tight">
     {title}

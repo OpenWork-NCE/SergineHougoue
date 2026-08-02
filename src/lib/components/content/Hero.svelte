@@ -34,7 +34,7 @@
         <img
           src={imageSrc}
           alt="Profil"
-          class="w-full h-auto max-h-[480px] md:max-h-[520px] object-cover rounded-2xl shadow-xl border border-white/10"
+          class="w-full h-auto max-h-[480px] md:max-h-[520px] object-cover rounded-2xl shadow-xl border border-[color:var(--border-hairline)]"
         />
       </div>
     {/if}

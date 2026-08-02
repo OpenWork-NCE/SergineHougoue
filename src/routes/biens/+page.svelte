@@ -19,7 +19,7 @@
   );
 </script>
 
-<div class="border-b border-white/10">
+<div class="border-b border-[color:var(--border-hairline)]">
   <div class="container-editorial py-8">
     <p class="eyebrow text-burgundy">{copy.listings.eyebrow}</p>
     <h1 class="font-display text-5xl text-primary mt-2">{copy.listings.title}</h1>
@@ -28,7 +28,7 @@
 </div>
 
 <!-- Filter bar -->
-<div class="border-b border-white/10 bg-surface sticky top-16 z-40">
+<div class="border-b border-[color:var(--border-hairline)] bg-surface sticky top-16 z-40">
   <div class="container-editorial py-4 flex flex-wrap gap-2 items-center">
     {#each types as t}
       <button onclick={() => activeType = t} class="filter-pill {activeType === t ? 'active' : ''}">{t}</button>

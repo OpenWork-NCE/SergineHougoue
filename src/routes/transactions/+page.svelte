@@ -53,7 +53,7 @@
 </section>
 
 {#if data.partners.length > 0}
-  <section class="container-editorial border-t border-white/10 py-16 md:py-20">
+  <section class="container-editorial border-t border-[color:var(--border-hairline)] py-16 md:py-20">
     <h2 class="eyebrow mb-8 text-burgundy">{copy.transactions.partnersHeading}</h2>
 
     <div class="space-y-12">

@@ -33,7 +33,7 @@
           class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       {:else}
-        <div class="h-full w-full bg-white/5" aria-hidden="true"></div>
+        <div class="h-full w-full bg-surface" aria-hidden="true"></div>
       {/if}
 
       <span class="absolute left-3 top-3 rounded-lg px-3 py-1 text-[10px] font-medium uppercase tracking-wider bg-gold text-canvas">

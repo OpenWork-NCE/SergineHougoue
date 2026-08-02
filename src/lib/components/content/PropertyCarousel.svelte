@@ -86,7 +86,7 @@
   <div class="mb-6 flex justify-end gap-3">
     <button
       type="button"
-      class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gold transition-colors hover:border-gold/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1a]"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[color:var(--border-hairline)] text-gold transition-colors hover:border-gold/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
       aria-label={copy.home.carouselPrevious}
       onclick={scrollPrev}
     >
@@ -94,7 +94,7 @@
     </button>
     <button
       type="button"
-      class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gold transition-colors hover:border-gold/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1a]"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[color:var(--border-hairline)] text-gold transition-colors hover:border-gold/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
       aria-label={copy.home.carouselNext}
       onclick={scrollNext}
     >

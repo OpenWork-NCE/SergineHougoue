@@ -39,7 +39,7 @@
           class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       {:else}
-        <div class="h-full w-full bg-white/5" aria-hidden="true"></div>
+        <div class="h-full w-full bg-surface" aria-hidden="true"></div>
       {/if}
 
       {#if property.status !== "a-vendre"}

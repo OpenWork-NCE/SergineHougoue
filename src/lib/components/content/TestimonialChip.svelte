@@ -22,7 +22,7 @@
 </script>
 
 <article
-  class="min-w-[min(100%,20rem)] flex-1 rounded-sm border border-white/10 bg-white/[0.02] p-6 md:min-w-[18rem] md:max-w-[24rem]"
+  class="min-w-[min(100%,20rem)] flex-1 rounded-sm border border-[color:var(--border-hairline)] bg-elevated p-6 md:min-w-[18rem] md:max-w-[24rem]"
 >
   <div
     role="img"
@@ -30,7 +30,7 @@
     class="flex gap-0.5 text-sm text-gold"
   >
     {#each Array.from({ length: 5 }, (_, index) => index) as index (index)}
-      <span aria-hidden="true" class={index < testimonial.rating ? "" : "text-white/20"}
+      <span aria-hidden="true" class={index < testimonial.rating ? "" : "text-muted"}
         >★</span
       >
     {/each}

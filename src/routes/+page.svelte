@@ -33,7 +33,7 @@
 
 <!-- Allys-style filter bar (adapted, only sensible filters) -->
 {#if data.featuredProperties.length > 0}
-  <div class="border-y border-white/10 bg-surface">
+  <div class="border-y border-[color:var(--border-hairline)] bg-surface">
     <div class="container-editorial py-4 flex flex-wrap items-center gap-3">
       <span class="text-xs uppercase tracking-wider text-secondary mr-2">Filter by type</span>
       {#each types as type}
@@ -61,7 +61,7 @@
 {/if}
 
 {#if data.testimonials.length > 0}
-  <section class="container-editorial py-12 md:py-16 border-t border-white/10">
+  <section class="container-editorial py-12 md:py-16 border-t border-[color:var(--border-hairline)]">
     <h2 class="font-display text-3xl text-primary mb-8">{copy.home.testimonials}</h2>
     <div class="flex flex-wrap gap-6">
       {#each data.testimonials as testimonial (testimonial._id)}
@@ -72,7 +72,7 @@
 {/if}
 
 <!-- Restructured CTA -->
-<section class="container-editorial py-16 md:py-20 text-center border-t border-white/10">
+<section class="container-editorial py-16 md:py-20 text-center border-t border-[color:var(--border-hairline)]">
   <h2 class="font-display text-3xl text-primary mb-4">{copy.ctaStrip.title}</h2>
   <a href={`${base}/contact`} class="btn-primary inline-block mt-2">{copy.nav.cta}</a>
 </section>

@@ -40,7 +40,7 @@
         </p>
       {/if}
 
-      <div class="pt-4 border-t border-white/10">
+      <div class="pt-4 border-t border-[color:var(--border-hairline)]">
         <h3 class="font-display text-xl text-primary mb-3">{copy.about.journeyTitle}</h3>
         <p>
           {copy.about.journey}
@@ -62,7 +62,7 @@
 
     <div class="md:col-span-5 mt-8 md:mt-0">
       <div class="sticky top-24">
-        <div class="aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-surface">
+        <div class="aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--border-hairline)] bg-surface">
           <img
             src={photoUrl}
             alt={member?.name ?? "Sergine Hougoue"}
@@ -83,7 +83,7 @@
 </section>
 
 <!-- Expertise -->
-<section class="border-t border-white/10 py-16 md:py-20 bg-surface/50">
+<section class="border-t border-[color:var(--border-hairline)] py-16 md:py-20 bg-surface/50">
   <div class="container-editorial">
     <div class="max-w-2xl mb-10">
       <p class="eyebrow text-burgundy">{copy.about.expertiseTitle}</p>
@@ -118,7 +118,7 @@
 {/if}
 
 <!-- Final CTA -->
-<section class="border-t border-white/10 py-16 md:py-20">
+<section class="border-t border-[color:var(--border-hairline)] py-16 md:py-20">
   <div class="container-editorial text-center">
     <h2 class="font-display text-3xl text-primary mb-4">{copy.about.ctaTitle}</h2>
     <p class="text-secondary max-w-md mx-auto mb-8">{copy.about.ctaSubtitle}</p>

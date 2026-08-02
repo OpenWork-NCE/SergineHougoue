@@ -44,7 +44,7 @@
 </script>
 
 <article class="container-editorial pb-16 md:pb-20">
-  <header class="py-12 md:py-16 border-b border-white/10">
+  <header class="py-12 md:py-16 border-b border-[color:var(--border-hairline)]">
     <p class="eyebrow mb-2 text-burgundy">{copy.listings.eyebrow}</p>
     <h1 class="font-display text-5xl text-balance text-primary md:text-6xl tracking-tight">
       {property.title}

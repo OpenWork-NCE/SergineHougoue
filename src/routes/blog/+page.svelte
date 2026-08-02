@@ -34,7 +34,7 @@
 
   {#if showPagination}
     <nav
-      class="mt-12 flex items-center justify-between border-t border-white/10 pt-6 text-sm"
+      class="mt-12 flex items-center justify-between border-t border-[color:var(--border-hairline)] pt-6 text-sm"
       aria-label={copy.blog.pagination.pageLabel}
     >
       {#if previousHref}
