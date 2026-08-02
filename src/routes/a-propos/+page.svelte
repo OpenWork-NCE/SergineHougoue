@@ -90,7 +90,7 @@
       <h2 class="font-display text-3xl text-primary mt-2">{copy.about.expertiseTitle}</h2>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each copy.about.expertise as area}
         <div class="card p-8">
           <h3 class="font-display text-2xl mb-3">{area.title}</h3>

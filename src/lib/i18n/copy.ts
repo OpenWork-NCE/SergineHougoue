@@ -258,6 +258,16 @@ const fr: SiteCopy = {
         description:
           "Mise en valeur de votre bien, stratégie de prix et négociation optimale pour maximiser sa valeur.",
       },
+      {
+        title: "Flip immobilier",
+        description:
+          "Stratégie d'achat, de rénovation et de revente pour maximiser la plus-value sur des projets de flip résidentiels.",
+      },
+      {
+        title: "Location de propriétés",
+        description:
+          "Accompagnement des propriétaires bailleurs : mise en location, critères locataires et optimisation de la rentabilité locative.",
+      },
     ],
     testimonialsTitle: "Ce que mes clients disent",
     testimonialsHeading: "Témoignages",
@@ -444,6 +454,16 @@ const en: SiteCopy = {
         title: "Property sales",
         description:
           "Showcasing your property, pricing strategy, and optimal negotiation to maximize its value.",
+      },
+      {
+        title: "Property flip",
+        description:
+          "Buy–renovate–resell strategy to maximize value on residential flip projects.",
+      },
+      {
+        title: "Property rentals",
+        description:
+          "Support for landlord owners: listing for rent, tenant criteria, and rental yield optimization.",
       },
     ],
     testimonialsTitle: "What my clients say",
