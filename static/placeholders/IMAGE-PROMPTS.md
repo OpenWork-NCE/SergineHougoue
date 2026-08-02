@@ -1,8 +1,8 @@
 # Images à générer / fournir — Sergine Hougoue Immo
 
 **But :** inventaire des visuels pour la refonte.  
-**Statut (2026-08-02) :** fichiers générés déposés sous **`static/`** (URLs `/nom.webp`), pas sous `static/placeholders/`.  
-**Manque optionnel :** `team-sergine-portrait.webp` (4:5) — interim : `/Profil.png`.
+**Statut (2026-08-02) :** inventaire **complet** sous **`static/`** (URLs `/nom.webp`).  
+Inclut `team-sergine-portrait.webp` (1600×2000) et `hero-home-portrait.webp` (variante hero).
 
 ### Style global (à coller dans chaque prompt)
 
