@@ -80,7 +80,7 @@
     <section>
       <h2 class="font-display text-3xl text-primary mb-6">{detailCopy.specs}</h2>
       <div class="card p-6">
-        <dl class="divide-y divide-white/10">
+        <dl class="divide-y divide-[color:var(--border-hairline)]">
           {#each specs as spec (spec.label)}
             <div class="flex py-3 justify-between text-sm">
               <dt class="uppercase tracking-[0.08em] text-secondary">{spec.label}</dt>
