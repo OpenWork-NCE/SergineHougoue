@@ -9,7 +9,7 @@ export interface FormValidationCopy {
   phoneMin: string;
   emailInvalid: string;
   intentRequired: string;
-  messageMin: string;
+  messageMax: string;
 }
 
 export interface FormCopy {
@@ -39,7 +39,7 @@ const fr: FormCopy = {
     phone: "Téléphone",
     email: "Courriel",
     intent: "Motif de contact",
-    message: "Message",
+    message: "Message (optionnel)",
   },
   intentPlaceholder: "Sélectionnez un motif",
   intents: {
@@ -57,7 +57,7 @@ const fr: FormCopy = {
     phoneMin: "Le téléphone doit comporter au moins 10 caractères",
     emailInvalid: "Adresse courriel invalide",
     intentRequired: "Veuillez sélectionner un motif",
-    messageMin: "Le message doit comporter au moins 10 caractères",
+    messageMax: "Le message est trop long",
   },
   calEmbed: {
     ariaLabel: "Calendrier de prise de rendez-vous",
@@ -72,7 +72,7 @@ const en: FormCopy = {
     phone: "Phone",
     email: "Email",
     intent: "Reason for contact",
-    message: "Message",
+    message: "Message (optional)",
   },
   intentPlaceholder: "Select a reason",
   intents: {
@@ -90,7 +90,7 @@ const en: FormCopy = {
     phoneMin: "Phone must be at least 10 characters",
     emailInvalid: "Invalid email address",
     intentRequired: "Please select a reason",
-    messageMin: "Message must be at least 10 characters",
+    messageMax: "Message is too long",
   },
   calEmbed: {
     ariaLabel: "Appointment booking calendar",
@@ -126,7 +126,7 @@ export function createContactFormSchema(validation: FormValidationCopy) {
       required_error: validation.intentRequired,
       invalid_type_error: validation.intentRequired,
     }),
-    message: z.string().trim().min(10, validation.messageMin),
+    message: z.string().trim().max(2000, validation.messageMax),
   });
 }
 

@@ -79,6 +79,23 @@ describe("POST /api/contact", () => {
     });
   });
 
+  it("returns 200 when message is empty", async () => {
+    const response = await POST(
+      makeEvent({
+        ...validPayload,
+        message: "",
+      }),
+    );
+    const payload = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(payload).toEqual({ ok: true });
+    expect(sendContactEmail).toHaveBeenCalledWith({
+      ...validPayload,
+      message: "",
+    });
+  });
+
   it("returns 500 when Resend fails", async () => {
     vi.mocked(sendContactEmail).mockResolvedValue({
       ok: false,

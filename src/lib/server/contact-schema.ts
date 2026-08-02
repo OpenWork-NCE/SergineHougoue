@@ -7,7 +7,7 @@ export const contactFormSchema = z.object({
   phone: z.string().trim().min(10, "Phone must be at least 10 characters"),
   email: z.string().trim().email("Invalid email address"),
   intent: z.enum(contactIntents),
-  message: z.string().trim().min(10, "Message must be at least 10 characters"),
+  message: z.string().trim().max(2000, "Message is too long").default(""),
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;

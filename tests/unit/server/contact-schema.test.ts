@@ -55,12 +55,27 @@ describe("contactFormSchema", () => {
     }
   });
 
-  it("rejects a message shorter than 10 characters", () => {
+  it("accepts an empty message", () => {
     const result = contactFormSchema.safeParse({
       ...validPayload,
-      message: "Too short",
+      message: "",
     });
+    expect(result.success).toBe(true);
+  });
 
+  it("accepts a short message without min length", () => {
+    const result = contactFormSchema.safeParse({
+      ...validPayload,
+      message: "Hi",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects a message longer than 2000 characters", () => {
+    const result = contactFormSchema.safeParse({
+      ...validPayload,
+      message: "a".repeat(2001),
+    });
     expect(result.success).toBe(false);
     if (!result.success) {
       expect(result.error.flatten().fieldErrors.message).toBeDefined();

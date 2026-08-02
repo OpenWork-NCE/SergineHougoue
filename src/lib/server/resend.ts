@@ -21,6 +21,11 @@ function escapeHtml(value: string): string {
 }
 
 function buildContactEmailHtml(data: ContactFormData): string {
+  const messageBody =
+    data.message.trim().length > 0
+      ? escapeHtml(data.message).replaceAll("\n", "<br />")
+      : "(no message)";
+
   return `
     <h1>New contact form submission</h1>
     <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
@@ -28,7 +33,7 @@ function buildContactEmailHtml(data: ContactFormData): string {
     <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
     <p><strong>Intent:</strong> ${escapeHtml(data.intent)}</p>
     <p><strong>Message:</strong></p>
-    <p>${escapeHtml(data.message).replaceAll("\n", "<br />")}</p>
+    <p>${messageBody}</p>
   `.trim();
 }
 

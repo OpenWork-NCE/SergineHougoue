@@ -85,6 +85,43 @@ test.describe("contact routes", () => {
     );
   });
 
+  test("/fr/contact submits without message", async ({ page }) => {
+    test.setTimeout(60_000);
+    const formCopy = getFormCopy("fr");
+
+    await page.route("**/api/contact", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true }),
+      });
+    });
+
+    await page.addInitScript(() => {
+      localStorage.setItem("sergine_cookie_consent", "accepted");
+    });
+
+    await page.goto("/fr/contact");
+    await expect(page.locator("#contact-name")).toBeEditable({ timeout: 15_000 });
+
+    await page.locator("#contact-name").fill("Jane Doe");
+    await page.locator("#contact-phone").fill("4384626015");
+    await page.locator("#contact-email").fill("jane@example.com");
+    await page.locator("#contact-intent").selectOption("buy");
+    // do not fill message
+
+    await page.locator("form").evaluate((form) => {
+      (form as HTMLFormElement).requestSubmit();
+    });
+
+    await expect(page.getByTestId("contact-form-success")).toBeVisible({
+      timeout: 15_000,
+    });
+    await expect(page.getByTestId("contact-form-success")).toHaveText(
+      formCopy.success,
+    );
+  });
+
   test("/en/contact returns 200 with English page header", async ({ page }) => {
     const copy = getCopy("en");
     const response = await page.goto("/en/contact");
