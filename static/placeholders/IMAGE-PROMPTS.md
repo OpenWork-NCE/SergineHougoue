@@ -1,8 +1,8 @@
 # Images à générer / fournir — Sergine Hougoue Immo
 
-**But :** inventaire des visuels manquants pour la refonte.  
-**Toi :** génère (IA) ou fais shooter (photographe), puis dépose les fichiers aux **chemins cibles**.  
-**Priorité :** P0 d’abord (hero + portrait + OG).
+**But :** inventaire des visuels pour la refonte.  
+**Statut (2026-08-02) :** fichiers générés déposés sous **`static/`** (URLs `/nom.webp`), pas sous `static/placeholders/`.  
+**Manque optionnel :** `team-sergine-portrait.webp` (4:5) — interim : `/Profil.png`.
 
 ### Style global (à coller dans chaque prompt)
 
