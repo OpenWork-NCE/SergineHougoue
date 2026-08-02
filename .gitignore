@@ -28,3 +28,20 @@ terminals/
 .firecrawl/
 DESIGN-allys.md
 .worktrees/
+
+# Agent / SDD execution artifacts (do not commit)
+.superpowers/
+*.cmd
+# Task logs at repo root only — keep package logs out of this pattern for nested if any
+/task-*.log
+/task-*.cmd
+/phase*.log
+/phase*.cmd
+/build-sdd*.log
+/fix-prettier.log
+/merge-phase*.log
+/terminals/
+/test-results/
+/playwright-report/
+.firecrawl/
+.worktrees/
