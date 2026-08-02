@@ -57,7 +57,7 @@
         <button
           type="button"
           onclick={accept}
-          class="rounded-full border border-burgundy bg-burgundy px-4 py-2 text-xs uppercase tracking-[0.08em] text-primary transition-colors hover:bg-[#8a2638]"
+          class="rounded-full border border-burgundy bg-burgundy px-4 py-2 text-xs uppercase tracking-[0.08em] text-on-brand transition-colors hover:bg-[#8a2638]"
         >
           {copy.cookie.accept}
         </button>

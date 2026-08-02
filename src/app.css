@@ -10,12 +10,15 @@
     --bg-elevated: #faf7f2;
     --text-primary: #0e0e0e;
     --text-secondary: #5c574f;
-    --text-muted: #8a847a;
+    /* Darkened for WCAG AA on cream canvas (was #8a847a @ 3.31:1) */
+    --text-muted: #6b6660;
     --border-hairline: rgba(14, 14, 14, 0.08);
     --accent: #6e1f2e;
     --state-hover: rgba(14, 14, 14, 0.06);
     --brand-burgundy: #6e1f2e;
-    --brand-gold: #c9a24a;
+    /* Readable gold on cream for text/icons; fills still read as brand gold */
+    --brand-gold: #8a6a1f;
+    --text-on-brand: #f5f2ec;
   }
 
   [data-theme="dark"] {
@@ -30,6 +33,7 @@
     --state-hover: rgba(255, 255, 255, 0.06);
     --brand-burgundy: #6e1f2e;
     --brand-gold: #c9a24a;
+    --text-on-brand: #f5f2ec;
   }
 
   html {
@@ -96,18 +100,18 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold text-primary bg-burgundy transition-all duration-300 hover:bg-[#8a2638] hover:scale-[1.02] active:scale-[0.985];
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold text-on-brand bg-burgundy transition-all duration-300 hover:bg-[#8a2638] hover:scale-[1.02] active:scale-[0.985];
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm border border-burgundy text-burgundy hover:bg-burgundy hover:text-primary transition-all duration-300;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm border border-burgundy text-burgundy hover:bg-burgundy hover:text-on-brand transition-all duration-300;
   }
 
   .filter-pill {
     @apply px-4 py-1.5 text-sm font-medium rounded-full border border-[color:var(--border-hairline)] text-secondary transition-all duration-200 hover:border-burgundy hover:text-burgundy cursor-pointer;
   }
   .filter-pill.active {
-    @apply bg-burgundy text-primary border-burgundy;
+    @apply bg-burgundy text-on-brand border-burgundy;
   }
 
   .input {

@@ -231,7 +231,7 @@
 
   <button
     type="submit"
-    class="rounded-full border border-burgundy bg-burgundy px-6 py-3 text-xs uppercase tracking-[0.08em] text-primary transition-colors hover:bg-[#8a2638] disabled:cursor-not-allowed disabled:opacity-60"
+    class="rounded-full border border-burgundy bg-burgundy px-6 py-3 text-xs uppercase tracking-[0.08em] text-on-brand transition-colors hover:bg-[#8a2638] disabled:cursor-not-allowed disabled:opacity-60"
     disabled={status === "submitting"}
   >
     {status === "submitting" ? copy.submitting : copy.submit}

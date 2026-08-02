@@ -38,7 +38,7 @@
 
       <!-- Navigation -->
       <div>
-        <h3 class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary">{copy.footer.sitemapHeading}</h3>
+        <h2 class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary">{copy.footer.sitemapHeading}</h2>
         <ul class="space-y-1.5 text-sm">
           {#each sitemap as link}
             <li><a href={link.href} class="text-secondary hover:text-primary transition-colors duration-200">{link.label}</a></li>
@@ -48,7 +48,7 @@
 
       <!-- Contact -->
       <div>
-        <h3 class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary">{copy.footer.contactHeading}</h3>
+        <h2 class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary">{copy.footer.contactHeading}</h2>
         <ul class="space-y-1.5 text-sm">
           <li><a href="tel:4384626015" class="hover:text-burgundy transition-colors">438-462-6015</a></li>
           <li><a href="mailto:serginehougoue@gmail.com" class="hover:text-burgundy transition-colors">serginehougoue@gmail.com</a></li>
@@ -58,7 +58,7 @@
 
       <!-- Legal / Extra -->
       <div>
-        <h3 class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary">Legal</h3>
+        <h2 class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary">Legal</h2>
         <ul class="space-y-1.5 text-sm">
           <li><a href={`${base}/politique-confidentialite`} class="text-secondary hover:text-primary transition-colors">{copy.footer.privacy}</a></li>
         </ul>

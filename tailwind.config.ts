@@ -15,6 +15,7 @@ const config: Config = {
         accent: "var(--accent)",
         burgundy: "var(--brand-burgundy)",
         gold: "var(--brand-gold)",
+        "on-brand": "var(--text-on-brand)",
       },
       fontFamily: {
         display: ["Fraunces", "ui-serif", "Georgia", "serif"],
@@ -36,7 +37,8 @@ const config: Config = {
       },
       boxShadow: {
         card: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-        "card-hover": "0 10px 15px -3px rgb(0 0 0 / 0.2), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
+        "card-hover":
+          "0 10px 15px -3px rgb(0 0 0 / 0.2), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
       },
       transitionDuration: {
         fast: "200ms",

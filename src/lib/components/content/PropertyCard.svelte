@@ -44,7 +44,7 @@
 
       {#if property.status !== "a-vendre"}
         <span
-          class="absolute left-3 top-3 rounded-lg px-3 py-1 text-[10px] font-medium uppercase tracking-wider {property.status === 'vendu' ? 'bg-burgundy text-primary' : 'bg-gold text-canvas'}"
+          class="absolute left-3 top-3 rounded-lg px-3 py-1 text-[10px] font-medium uppercase tracking-wider {property.status === 'vendu' ? 'bg-burgundy text-on-brand' : 'bg-gold text-canvas'}"
         >
           {statusLabel}
         </span>
