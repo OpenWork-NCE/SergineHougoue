@@ -16,8 +16,13 @@ test.describe("locale shell chrome", () => {
 
       await expect(
         page
-          .getByRole("navigation", { name: "Primary" })
+          .getByRole("navigation", { name: copy.navChrome.primaryNav })
           .getByRole("link", { name: copy.nav.services }),
+      ).toBeVisible();
+      await expect(
+        page
+          .getByRole("navigation", { name: copy.navChrome.primaryNav })
+          .getByRole("link", { name: copy.nav.listings }),
       ).toBeVisible();
 
       await expect(page.getByText(copy.footer.tagline)).toBeVisible();

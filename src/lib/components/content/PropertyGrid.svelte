@@ -13,7 +13,7 @@
 </script>
 
 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-  {#each properties as property (property._id)}
-    <PropertyCard {property} {locale} {basePath} />
+  {#each properties as property, i (property._id)}
+    <PropertyCard {property} {locale} {basePath} fallbackIndex={i} />
   {/each}
 </div>

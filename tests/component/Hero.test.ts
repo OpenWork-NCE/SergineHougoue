@@ -4,7 +4,7 @@ import Hero from "$components/content/Hero.svelte";
 import { getCopy } from "$i18n/copy";
 
 describe("<Hero>", () => {
-  it("renders eyebrow, H1, subtitle, and CTA href", () => {
+  it("renders full-bleed hero with dual CTAs when image provided", () => {
     const copy = getCopy("fr");
 
     render(Hero, {
@@ -14,6 +14,12 @@ describe("<Hero>", () => {
         subtitle: copy.hero.subtitle,
         ctaHref: "/fr/contact",
         ctaLabel: copy.nav.cta,
+        secondaryCtaHref: "/fr/biens",
+        secondaryCtaLabel: copy.hero.secondaryCta,
+        scrollCue: copy.hero.scrollCue,
+        imageSrc: "/hero-home.webp",
+        imageAlt: "Hero",
+        variant: "full",
       },
     });
 
@@ -29,21 +35,29 @@ describe("<Hero>", () => {
       "href",
       "/fr/contact",
     );
+    expect(
+      screen.getByRole("link", { name: copy.hero.secondaryCta }),
+    ).toHaveAttribute("href", "/fr/biens");
+
+    const image = document.querySelector("img");
+    expect(image).not.toBeNull();
+    expect(image).toHaveAttribute("src", "/hero-home.webp");
   });
 
-  it("renders optional image when imageSrc is provided", () => {
-    const { container } = render(Hero, {
+  it("renders compact variant without image", () => {
+    render(Hero, {
       props: {
         eyebrow: "01 / Test",
         title: "Test title",
         ctaHref: "/fr/contact",
         ctaLabel: "CTA",
-        imageSrc: "/placeholders/hero.jpg",
+        variant: "full",
       },
     });
 
-    const image = container.querySelector("img");
-    expect(image).not.toBeNull();
-    expect(image).toHaveAttribute("src", "/placeholders/hero.jpg");
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Test title" }),
+    ).toBeInTheDocument();
+    expect(document.querySelector("img")).toBeNull();
   });
 });

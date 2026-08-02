@@ -9,9 +9,9 @@
     --bg-surface: #ede8df;
     --bg-elevated: #faf7f2;
     --text-primary: #0e0e0e;
-    --text-secondary: #5c574f;
-    /* Darkened for WCAG AA on cream canvas (was #8a847a @ 3.31:1) */
-    --text-muted: #6b6660;
+    /* Darkened for WCAG AA on cream canvas */
+    --text-secondary: #4a463f;
+    --text-muted: #5c574f;
     --border-hairline: rgba(14, 14, 14, 0.08);
     --accent: #6e1f2e;
     --state-hover: rgba(14, 14, 14, 0.06);
@@ -90,28 +90,35 @@
 
 @layer components {
   .container-editorial {
-    @apply mx-auto w-full max-w-[1280px] px-6 md:px-8 lg:px-10;
+    @apply mx-auto w-full max-w-[1360px] px-5 sm:px-6 md:px-8 lg:px-12;
+  }
+
+  .section-y {
+    @apply py-16 md:py-24 lg:py-28;
   }
 
   .eyebrow {
-    @apply text-xs uppercase tracking-[0.08em] text-secondary;
+    @apply text-xs uppercase tracking-[0.1em] text-secondary font-medium;
   }
 
-  /* Allys-inspired clean components, adapted to current dark + burgundy theme */
   .card {
-    @apply bg-surface border border-[color:var(--border-hairline)] rounded-xl overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5;
+    @apply bg-surface border border-[color:var(--border-hairline)] rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-card-hover;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold text-on-brand bg-burgundy transition-all duration-300 hover:bg-[#8a2638] hover:scale-[1.02] active:scale-[0.985];
+    @apply inline-flex min-h-11 items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold text-on-brand bg-burgundy transition-all duration-300 hover:bg-[#8a2638] hover:scale-[1.02] active:scale-[0.985] cursor-pointer;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm border border-burgundy text-burgundy hover:bg-burgundy hover:text-on-brand transition-all duration-300;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm border border-burgundy text-burgundy hover:bg-burgundy hover:text-on-brand transition-all duration-300 cursor-pointer;
+  }
+
+  .btn-ghost {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-medium border border-[color:var(--border-hairline)] bg-transparent text-primary backdrop-blur-sm transition-all duration-300 hover:border-burgundy hover:text-burgundy cursor-pointer;
   }
 
   .filter-pill {
-    @apply px-4 py-1.5 text-sm font-medium rounded-full border border-[color:var(--border-hairline)] text-secondary transition-all duration-200 hover:border-burgundy hover:text-burgundy cursor-pointer;
+    @apply min-h-10 px-4 py-1.5 text-sm font-medium rounded-full border border-[color:var(--border-hairline)] text-secondary transition-all duration-200 hover:border-burgundy hover:text-burgundy cursor-pointer;
   }
   .filter-pill.active {
     @apply bg-burgundy text-on-brand border-burgundy;
@@ -124,19 +131,81 @@
   .editorial-transition {
     transition: all 700ms cubic-bezier(0.22, 1, 0.36, 1);
   }
+
+  /* Scroll reveal (paired with $lib/actions/reveal) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 550ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 550ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hero-enter {
+    animation: hero-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero-enter-delay {
+    animation: hero-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+  }
+  .hero-enter-delay-2 {
+    animation: hero-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+  }
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  .text-display {
+    font-size: clamp(2.35rem, 5.5vw, 4.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .text-section {
+    font-size: clamp(1.65rem, 3vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-enter,
+  .hero-enter-delay,
+  .hero-enter-delay-2 {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

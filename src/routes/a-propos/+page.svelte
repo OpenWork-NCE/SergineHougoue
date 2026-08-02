@@ -3,6 +3,7 @@
   import PortableTextRenderer from "$components/content/PortableTextRenderer.svelte";
   import TestimonialChip from "$components/content/TestimonialChip.svelte";
   import { getCopy } from "$i18n/copy";
+  import { MEDIA } from "$lib/media";
   import { urlFor } from "$sanity/image";
   import type { PageData } from "./$types";
 
@@ -14,7 +15,7 @@
   const photoUrl = $derived(
     member?.photo?.asset
       ? urlFor(member.photo).width(800).height(1000).fit("crop").url()
-      : "/Profil.png"
+      : MEDIA.teamPortrait,
   );
 
   const testimonials = $derived(data.testimonials ?? []);
@@ -69,14 +70,14 @@
             class="h-full w-full object-cover"
           />
         </div>
-        {#if member}
-          <div class="mt-6">
-            <p class="font-display text-3xl text-primary">{member.name}</p>
-            <p class="mt-1 text-sm uppercase tracking-[0.08em] text-gold-text">
-              {member.role}
-            </p>
-          </div>
-        {/if}
+        <div class="mt-6">
+          <p class="font-display text-3xl text-primary">
+            {member?.name ?? "Sergine Hougoue"}
+          </p>
+          <p class="mt-1 text-sm uppercase tracking-[0.08em] text-gold-text">
+            {member?.role ?? copy.teamPartners.teamFallbackRole}
+          </p>
+        </div>
       </div>
     </div>
   </div>

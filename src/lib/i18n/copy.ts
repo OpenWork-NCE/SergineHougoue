@@ -38,6 +38,8 @@ export interface CookieCopy {
 export interface FooterCopy {
   tagline: string;
   sitemapHeading: string;
+  exploreHeading: string;
+  resourcesHeading: string;
   contactHeading: string;
   socialHeading: string;
   hours: string;
@@ -48,16 +50,30 @@ export interface HeroCopy {
   eyebrow: string;
   title: string;
   subtitle: string;
+  secondaryCta: string;
+  scrollCue: string;
 }
 
 export interface HomeCopy {
   featuredProperties: string;
+  viewAllListings: string;
+  filterAll: string;
   testimonials: string;
   carouselAriaLabel: string;
   carouselPrevious: string;
   carouselNext: string;
   territoryTitle: string;
   territoryIntro: string;
+  whyTitle: string;
+  whyIntro: string;
+  why: Array<{ title: string; description: string }>;
+  emptyListings: string;
+}
+
+export interface NavChromeCopy {
+  openMenu: string;
+  closeMenu: string;
+  primaryNav: string;
 }
 
 export interface CtaStripCopy {
@@ -88,6 +104,8 @@ export interface ListingsCopy {
   eyebrow: string;
   title: string;
   intro: string;
+  filterAll: string;
+  countLabel: string;
 }
 
 export interface TransactionsCopy {
@@ -169,6 +187,7 @@ export interface PropertyCopy {
 
 export interface SiteCopy {
   nav: NavCopy;
+  navChrome: NavChromeCopy;
   theme: ThemeCopy;
   whatsapp: WhatsappCopy;
   cookie: CookieCopy;
@@ -198,6 +217,11 @@ const fr: SiteCopy = {
     contact: "Contact",
     cta: "Prendre rendez-vous",
   },
+  navChrome: {
+    openMenu: "Ouvrir le menu",
+    closeMenu: "Fermer le menu",
+    primaryNav: "Navigation principale",
+  },
   theme: {
     toLight: "Passer en mode clair",
     toDark: "Passer en mode sombre",
@@ -216,19 +240,25 @@ const fr: SiteCopy = {
     tagline:
       "Courtier immobilier résidentiel et commercial — VENDIRECT, certifiée OACIQ.",
     sitemapHeading: "Plan du site",
+    exploreHeading: "Explorer",
+    resourcesHeading: "Ressources",
     contactHeading: "Contact",
     socialHeading: "Réseaux sociaux",
     hours: "Lun–Ven 8h–20h\nSam–Dim 9h–17h",
     privacy: "Politique de confidentialité",
   },
   hero: {
-    eyebrow: "01 / Courtier immobilier",
+    eyebrow: "Courtier OACIQ · VENDIRECT",
     title: "Construisons votre avenir immobilier",
     subtitle:
-      "Résidentiel et commercial — accompagnement sur mesure à Montréal et environs.",
+      "Accompagnement résidentiel et commercial, humain et rigoureux, partout au Québec.",
+    secondaryCta: "Voir les biens",
+    scrollCue: "Défiler",
   },
   home: {
     featuredProperties: "Biens en vedette",
+    viewAllListings: "Tous les biens",
+    filterAll: "Tous",
     testimonials: "Témoignages",
     carouselAriaLabel: "Carrousel des biens en vedette",
     carouselPrevious: "Bien précédent",
@@ -236,6 +266,28 @@ const fr: SiteCopy = {
     territoryTitle: "Partout au Québec",
     territoryIntro:
       "J'accompagne acheteurs et vendeurs dans les 17 régions administratives du Québec.",
+    whyTitle: "Une approche qui fait la différence",
+    whyIntro:
+      "Clarté, stratégie et réseau — pour avancer avec confiance à chaque étape.",
+    why: [
+      {
+        title: "Écoute réelle",
+        description:
+          "Vos objectifs et contraintes guident chaque recommandation, sans pression.",
+      },
+      {
+        title: "Lecture du marché",
+        description:
+          "Analyse précise des secteurs, des prix et du timing pour décider sereinement.",
+      },
+      {
+        title: "Réseau de confiance",
+        description:
+          "Notaires, inspecteurs et courtiers hypothécaires sélectionnés pour vous.",
+      },
+    ],
+    emptyListings:
+      "Les biens en vedette seront affichés dès leur publication. Contactez-moi pour vos recherches actuelles.",
   },
   ctaStrip: {
     title: "Prêt à passer à l'étape suivante ?",
@@ -301,6 +353,8 @@ const fr: SiteCopy = {
     title: "Biens",
     intro:
       "Découvrez les propriétés résidentielles et commerciales actuellement offertes à Montréal et environs.",
+    filterAll: "Tous",
+    countLabel: "biens",
   },
   transactions: {
     eyebrow: "04 / Transactions",
@@ -408,6 +462,11 @@ const en: SiteCopy = {
     contact: "Contact",
     cta: "Book a meeting",
   },
+  navChrome: {
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    primaryNav: "Primary navigation",
+  },
   theme: {
     toLight: "Switch to light mode",
     toDark: "Switch to dark mode",
@@ -426,19 +485,25 @@ const en: SiteCopy = {
     tagline:
       "Residential and commercial real estate broker — VENDIRECT, OACIQ certified.",
     sitemapHeading: "Sitemap",
+    exploreHeading: "Explore",
+    resourcesHeading: "Resources",
     contactHeading: "Contact",
     socialHeading: "Social media",
     hours: "Mon–Fri 8am–8pm\nSat–Sun 9am–5pm",
     privacy: "Privacy policy",
   },
   hero: {
-    eyebrow: "01 / Real estate broker",
+    eyebrow: "OACIQ broker · VENDIRECT",
     title: "Let's build your real estate future",
     subtitle:
-      "Residential and commercial — tailored guidance in Montreal and beyond.",
+      "Residential and commercial guidance — human, rigorous, across Quebec.",
+    secondaryCta: "View listings",
+    scrollCue: "Scroll",
   },
   home: {
     featuredProperties: "Featured listings",
+    viewAllListings: "All listings",
+    filterAll: "All",
     testimonials: "Testimonials",
     carouselAriaLabel: "Featured listings carousel",
     carouselPrevious: "Previous listing",
@@ -446,6 +511,28 @@ const en: SiteCopy = {
     territoryTitle: "Across Quebec",
     territoryIntro:
       "I support buyers and sellers across Quebec's 17 administrative regions.",
+    whyTitle: "An approach that stands apart",
+    whyIntro:
+      "Clarity, strategy, and a trusted network — so you move forward with confidence.",
+    why: [
+      {
+        title: "Real listening",
+        description:
+          "Your goals and constraints shape every recommendation, without pressure.",
+      },
+      {
+        title: "Market fluency",
+        description:
+          "Precise reads on neighbourhoods, pricing, and timing for calm decisions.",
+      },
+      {
+        title: "Trusted network",
+        description:
+          "Notaries, inspectors, and mortgage brokers carefully selected for you.",
+      },
+    ],
+    emptyListings:
+      "Featured listings will appear once published. Contact me for your current search.",
   },
   ctaStrip: {
     title: "Ready to take the next step?",
@@ -510,6 +597,8 @@ const en: SiteCopy = {
     title: "Listings",
     intro:
       "Browse residential and commercial properties currently available in Montreal and surrounding areas.",
+    filterAll: "All",
+    countLabel: "listings",
   },
   transactions: {
     eyebrow: "04 / Transactions",

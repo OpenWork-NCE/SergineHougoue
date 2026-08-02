@@ -38,8 +38,8 @@
   intro={copy.contact.intro}
 />
 
-<section class="container-editorial pb-16 md:pb-20">
-  <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+<section class="container-editorial py-14 md:py-20">
+  <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-start">
     <div class="space-y-8">
       <h2 class="eyebrow text-burgundy">{copy.contact.methodsHeading}</h2>
 

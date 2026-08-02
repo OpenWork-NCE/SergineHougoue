@@ -2,6 +2,7 @@
   import type { Property } from "$sanity/types";
   import type { Locale } from "$i18n/locales";
   import { getCopy } from "$i18n/copy";
+  import { propertyFallbackImage } from "$lib/media";
   import { formatArea, formatPrice } from "$utils/format";
   import { urlFor } from "$sanity/image";
 
@@ -9,9 +10,10 @@
     property: Property;
     locale: Locale;
     basePath: string;
+    fallbackIndex?: number;
   }
 
-  let { property, locale, basePath }: Props = $props();
+  let { property, locale, basePath, fallbackIndex = 0 }: Props = $props();
 
   const copy = $derived(getCopy(locale));
   const detailHref = $derived(`${basePath}/biens/${property.slug.current}`);
@@ -20,7 +22,9 @@
   const statusLabel = $derived(copy.property.statuses[property.status]);
   const photo = $derived(property.photos?.[0]);
   const imageSrc = $derived(
-    photo ? urlFor(photo).width(800).height(600).url() : null,
+    photo?.asset?._ref
+      ? urlFor(photo).width(800).height(600).url()
+      : propertyFallbackImage(fallbackIndex),
   );
   const imageAlt = $derived(photo?.alt?.trim() || property.title);
   const specs = $derived(
@@ -28,19 +32,17 @@
   );
 </script>
 
-<!-- Restructured Property Card inspired by Allys cleanliness + current burgundy theme -->
 <article class="card group">
   <a href={detailHref} class="block focus-visible:outline-none">
-    <div class="relative aspect-[4/3] overflow-hidden">
-      {#if imageSrc}
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-      {:else}
-        <div class="h-full w-full bg-surface" aria-hidden="true"></div>
-      {/if}
+    <div class="relative aspect-[4/3] overflow-hidden bg-surface">
+      <img
+        src={imageSrc}
+        alt={imageAlt}
+        class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+        loading="lazy"
+        width="800"
+        height="600"
+      />
 
       {#if property.status !== "a-vendre"}
         <span

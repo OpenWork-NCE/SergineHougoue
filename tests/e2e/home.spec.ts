@@ -11,7 +11,21 @@ test("home page renders the bootstrap heading", async ({ page }) => {
 });
 
 test("home page has no critical accessibility violations", async ({ page }) => {
-  await page.goto("/");
+  // Stable theme for contrast checks (avoid dark/light residue from other tests)
+  await page.addInitScript(() => {
+    localStorage.setItem("sergine_theme", "light");
+    localStorage.setItem("sergine_cookie_consent", "accepted");
+  });
+  await page.goto("/fr/");
+  await page.locator("html").evaluate((el) => {
+    el.setAttribute("data-theme", "light");
+    // Instantly finish scroll-reveals (no mid-transition opacity) before contrast checks
+    document.querySelectorAll(".reveal").forEach((node) => {
+      const el = node as HTMLElement;
+      el.style.transition = "none";
+      el.classList.add("is-visible");
+    });
+  });
 
   // AxeBuilder currently types `page` against a newer playwright-core version.
   const accessibilityScanResults = await new AxeBuilder({

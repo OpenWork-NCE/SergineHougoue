@@ -66,7 +66,7 @@
         // fallthrough
       }
     }
-    return `${SITE_URL}/Profil.png`;
+    return `${SITE_URL}/og-default.webp`;
   }
 
   const ogImageUrl = resolveOgImageUrl(ogImage);

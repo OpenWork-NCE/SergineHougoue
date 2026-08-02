@@ -1,6 +1,7 @@
 <script lang="ts">
   import PageHeader from "$components/content/PageHeader.svelte";
   import { getCopy } from "$i18n/copy";
+  import { MEDIA } from "$lib/media";
   import { urlFor } from "$sanity/image";
   import type { Partner, PartnerCategory } from "$sanity/types";
   import type { PageData } from "./$types";
@@ -21,7 +22,7 @@
   const photoUrl = $derived(
     member?.photo?.asset
       ? urlFor(member.photo).width(800).height(1000).fit("crop").url()
-      : "/Profil.png",
+      : MEDIA.teamPortrait,
   );
 
   const partnersByCategory = $derived(

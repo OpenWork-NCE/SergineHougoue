@@ -11,59 +11,112 @@
   const base = $derived(`/${locale}`);
   const year = new Date().getFullYear();
 
-  const sitemap = $derived([
-    { href: `${base}/`, label: copy.nav.home },
-    { href: `${base}/services`, label: copy.nav.services },
+  const explore = $derived([
     { href: `${base}/biens`, label: copy.nav.listings },
-    { href: `${base}/transactions`, label: copy.nav.transactions },
-    { href: `${base}/blog`, label: copy.nav.blog },
-    { href: `${base}/equipe-partenaires`, label: copy.nav.teamPartners },
+    { href: `${base}/services`, label: copy.nav.services },
     { href: `${base}/a-propos`, label: copy.nav.about },
     { href: `${base}/contact`, label: copy.nav.contact },
   ]);
+
+  const resources = $derived([
+    { href: `${base}/transactions`, label: copy.nav.transactions },
+    { href: `${base}/blog`, label: copy.nav.blog },
+    { href: `${base}/equipe-partenaires`, label: copy.nav.teamPartners },
+    {
+      href: `${base}/politique-confidentialite`,
+      label: copy.footer.privacy,
+    },
+  ]);
 </script>
 
-<footer class="bg-canvas border-t border-[color:var(--border-hairline)] mt-16 lg:mt-24 text-primary">
-  <div class="container-editorial py-12 lg:py-16">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10">
-      <!-- Brand -->
-      <div class="col-span-2 md:col-span-1">
-        <a href={`${base}/`} class="font-display text-xl tracking-tight flex items-center">
+<footer
+  class="mt-16 border-t border-[color:var(--border-hairline)] bg-surface text-primary lg:mt-24"
+>
+  <div class="container-editorial py-14 lg:py-20">
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-4">
+        <a
+          href={`${base}/`}
+          class="font-display text-2xl tracking-tight flex items-center"
+          aria-label="Sergine Hougoue"
+        >
           <span class="text-burgundy">S</span>ergine Hougoue
         </a>
-        <p class="mt-3 text-sm text-secondary max-w-[200px]">
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-secondary">
           {copy.footer.tagline}
         </p>
       </div>
 
-      <!-- Navigation -->
-      <div>
-        <h2 class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary">{copy.footer.sitemapHeading}</h2>
-        <ul class="space-y-1.5 text-sm">
-          {#each sitemap as link}
-            <li><a href={link.href} class="text-secondary hover:text-primary transition-colors duration-200">{link.label}</a></li>
+      <div class="lg:col-span-2">
+        <h2
+          class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary"
+        >
+          {copy.footer.exploreHeading}
+        </h2>
+        <ul class="space-y-2.5 text-sm">
+          {#each explore as link}
+            <li>
+              <a
+                href={link.href}
+                class="text-secondary transition-colors duration-200 hover:text-primary"
+                >{link.label}</a
+              >
+            </li>
           {/each}
         </ul>
       </div>
 
-      <!-- Contact -->
-      <div>
-        <h2 class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary">{copy.footer.contactHeading}</h2>
-        <ul class="space-y-1.5 text-sm">
-          <li><a href="tel:4384626015" class="hover:text-burgundy transition-colors">438-462-6015</a></li>
-          <li><a href="mailto:serginehougoue@gmail.com" class="hover:text-burgundy transition-colors">serginehougoue@gmail.com</a></li>
-          <li class="pt-2 text-xs text-muted whitespace-pre-line">{copy.footer.hours}</li>
+      <div class="lg:col-span-3">
+        <h2
+          class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary"
+        >
+          {copy.footer.resourcesHeading}
+        </h2>
+        <ul class="space-y-2.5 text-sm">
+          {#each resources as link}
+            <li>
+              <a
+                href={link.href}
+                class="text-secondary transition-colors duration-200 hover:text-primary"
+                >{link.label}</a
+              >
+            </li>
+          {/each}
         </ul>
       </div>
 
-      <!-- Legal / Extra -->
-      <div>
-        <h2 class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary">Legal</h2>
-        <ul class="space-y-1.5 text-sm">
-          <li><a href={`${base}/politique-confidentialite`} class="text-secondary hover:text-primary transition-colors">{copy.footer.privacy}</a></li>
+      <div class="lg:col-span-3">
+        <h2
+          class="text-xs font-semibold uppercase tracking-[0.1em] mb-4 text-secondary"
+        >
+          {copy.footer.contactHeading}
+        </h2>
+        <ul class="space-y-2.5 text-sm">
+          <li>
+            <a
+              href="tel:4384626015"
+              class="hover:text-burgundy transition-colors">438-462-6015</a
+            >
+          </li>
+          <li>
+            <a
+              href="mailto:serginehougoue@gmail.com"
+              class="hover:text-burgundy transition-colors break-all"
+              >serginehougoue@gmail.com</a
+            >
+          </li>
+          <li class="pt-1 text-xs text-muted whitespace-pre-line">
+            {copy.footer.hours}
+          </li>
         </ul>
-        <p class="mt-8 text-[10px] text-muted">© {year} Sergine Hougoue — VENDIRECT</p>
       </div>
+    </div>
+
+    <div
+      class="mt-12 flex flex-col gap-2 border-t border-[color:var(--border-hairline)] pt-8 text-xs text-muted sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} Sergine Hougoue — VENDIRECT</p>
+      <p class="text-secondary/80">OACIQ · Québec</p>
     </div>
   </div>
 </footer>

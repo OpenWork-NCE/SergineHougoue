@@ -7,7 +7,8 @@ describe("<Footer>", () => {
   it("renders the tagline in French for fr locale", () => {
     render(Footer, { props: { locale: "fr" } });
     expect(screen.getByText(getCopy("fr").footer.tagline)).toBeInTheDocument();
-    expect(screen.getByText(/Plan du site/)).toBeInTheDocument();
+    expect(screen.getByText(/Explorer/)).toBeInTheDocument();
+    expect(screen.getByText(/Ressources/)).toBeInTheDocument();
   });
 
   it("renders the tagline in English for en locale", () => {
@@ -15,7 +16,19 @@ describe("<Footer>", () => {
     expect(
       screen.getByText(/Residential and commercial real estate broker/),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Sitemap/)).toBeInTheDocument();
+    expect(screen.getByText(/Explore/)).toBeInTheDocument();
+    expect(screen.getByText(/Resources/)).toBeInTheDocument();
+  });
+
+  it("puts secondary links in footer resources", () => {
+    render(Footer, { props: { locale: "fr" } });
+    expect(
+      screen.getByRole("link", { name: "Équipe et partenaires" }),
+    ).toHaveAttribute("href", "/fr/equipe-partenaires");
+    expect(screen.getByRole("link", { name: "Blogue" })).toHaveAttribute(
+      "href",
+      "/fr/blog",
+    );
   });
 
   it("renders phone and email links", () => {
