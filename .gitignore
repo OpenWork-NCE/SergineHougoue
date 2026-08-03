@@ -1,15 +1,43 @@
+# Dependencies & build
 node_modules
 .svelte-kit
 build
+.vercel
+coverage
+
+# Env (keep example)
 .env
 .env.*
 !.env.example
-.vercel
+.env.local
+
+# OS / IDE
 .DS_Store
+.idea
+.vscode
+
+# Test & Playwright
 test-results
 playwright-report
-coverage
-.env.local
+/test-results/
+/playwright-report/
+
+# Agent / SDD / superpowers (never ship)
+.superpowers/
+docs/superpowers/
+.claude/
+.worktrees/
+.firecrawl/
+DESIGN-allys.md
+
+# Client brainstorm dumps (never ship)
+Utilities to Brainstorm/
+
+# Source-only sold photos (site uses static/properties/sold/)
+static/propriétés/
+static/proprietes/
+
+# Misc agent / local scripts noise
 task-*.cmd
 task-*.log
 step*.cmd
@@ -24,15 +52,7 @@ merge-*.log
 fix-*.cmd
 fix-*.log
 terminals/
-
-.firecrawl/
-DESIGN-allys.md
-.worktrees/
-
-# Agent / SDD execution artifacts (do not commit)
-.superpowers/
 *.cmd
-# Task logs at repo root only — keep package logs out of this pattern for nested if any
 /task-*.log
 /task-*.cmd
 /phase*.log
@@ -41,7 +61,3 @@ DESIGN-allys.md
 /fix-prettier.log
 /merge-phase*.log
 /terminals/
-/test-results/
-/playwright-report/
-.firecrawl/
-.worktrees/
