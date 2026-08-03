@@ -50,3 +50,27 @@ vi.mock("$app/navigation", () => ({
 vi.stubEnv("PUBLIC_SANITY_PROJECT_ID", "test-project-id");
 vi.stubEnv("PUBLIC_SANITY_DATASET", "production");
 vi.stubEnv("PUBLIC_SITE_URL", "http://localhost:5173");
+
+// Proxy to import.meta.env so vi.stubEnv() updates are visible to $env/dynamic/*
+vi.mock("$env/dynamic/public", () => ({
+  env: new Proxy(
+    {} as Record<string, string | undefined>,
+    {
+      get(_target, prop: string) {
+        return (import.meta.env as Record<string, string | undefined>)[prop];
+      },
+    },
+  ),
+}));
+
+vi.mock("$env/dynamic/private", () => ({
+  env: new Proxy(
+    {} as Record<string, string | undefined>,
+    {
+      get(_target, prop: string) {
+        return (import.meta.env as Record<string, string | undefined>)[prop] ??
+          process.env[prop];
+      },
+    },
+  ),
+}));

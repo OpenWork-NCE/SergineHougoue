@@ -5,12 +5,16 @@ function formatThousands(value: number, separator: string): string {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 }
 
+/**
+ * Format a listing price in Canadian dollars (CAD).
+ * FR-CA: "749 000 $ CA" — EN-CA: "CAD $749,000"
+ */
 export function formatPrice(price: number, locale: Locale): string {
   if (locale === "fr") {
-    return `${formatThousands(price, " ")} $`;
+    return `${formatThousands(price, " ")} $ CA`;
   }
 
-  return `$${formatThousands(price, ",")}`;
+  return `CAD $${formatThousands(price, ",")}`;
 }
 
 export function formatArea(area: number, locale: Locale): string {

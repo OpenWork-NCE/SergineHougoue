@@ -1,6 +1,10 @@
 import { createClient } from "@sanity/client";
 import { config } from "dotenv";
-import { getSeedDocuments } from "../src/lib/sanity/seed-data.js";
+import {
+  buildPropertySeedDocument,
+  getPropertySeeds,
+  getSeedDocuments,
+} from "../src/lib/sanity/seed-data.js";
 import { SITE_SETTINGS_DOCUMENT_ID } from "../src/lib/sanity/structure.js";
 
 config({ path: ".env.local" });
@@ -28,40 +32,70 @@ const client = createClient({
   useCdn: false,
 });
 
+const force = process.argv.includes("--force");
+
 async function seedSanity(): Promise<void> {
   const existingSiteSettings = await client.fetch<string | null>(
     `*[_type == "siteSettings" && _id == $id][0]._id`,
     { id: SITE_SETTINGS_DOCUMENT_ID },
   );
 
-  if (existingSiteSettings) {
+  // Base seed (settings, testimonials, team) — skip if already present unless --force.
+  if (!existingSiteSettings || force) {
+    const documents = getSeedDocuments();
+    const nonPropertyDocs = documents.filter((d) => d._type !== "property");
+    const transaction = client.transaction();
+    for (const document of nonPropertyDocs) {
+      transaction.createOrReplace(document);
+    }
+    await transaction.commit();
     console.log(
-      `siteSettings (${SITE_SETTINGS_DOCUMENT_ID}) already exists — skipping seed.`,
+      `Seeded ${nonPropertyDocs.length} non-property documents (settings / team / testimonials).`,
     );
-    return;
+  } else {
+    console.log(
+      `siteSettings (${SITE_SETTINGS_DOCUMENT_ID}) already exists — base seed skipped (use --force to re-seed).`,
+    );
   }
 
-  const documents = getSeedDocuments();
-  const transaction = client.transaction();
+  // Always upsert all property documents (active listings + sold portfolio).
+  // Image files live under static/; CMS stores imagePath until Studio assets are used.
+  const propertySeeds = getPropertySeeds();
+  const languages = ["fr", "en"] as const;
+  const propertyDocs = propertySeeds.flatMap((seed) =>
+    languages.map((language) => buildPropertySeedDocument(seed, language)),
+  );
 
-  for (const document of documents) {
-    transaction.createOrReplace(document);
+  const chunkSize = 20;
+  for (let i = 0; i < propertyDocs.length; i += chunkSize) {
+    const chunk = propertyDocs.slice(i, i + chunkSize);
+    const transaction = client.transaction();
+    for (const document of chunk) {
+      transaction.createOrReplace(document);
+    }
+    await transaction.commit();
   }
 
-  await transaction.commit();
-
-  const counts = documents.reduce<Record<string, number>>((acc, document) => {
-    acc[document._type] = (acc[document._type] ?? 0) + 1;
-    return acc;
-  }, {});
-
-  console.log(`Seeded ${documents.length} documents:`);
-  for (const [type, count] of Object.entries(counts)) {
-    console.log(`  - ${type}: ${count}`);
-  }
+  const soldCount = propertySeeds.filter((s) => s.status === "vendu").length;
+  const listingCount = propertySeeds.filter((s) => s.status !== "vendu").length;
+  console.log(
+    `Upserted ${propertyDocs.length} property documents (${listingCount} active, ${soldCount} sold) × 2 langs.`,
+  );
 }
 
 seedSanity().catch((error: unknown) => {
   console.error("Sanity seed failed:", error);
+  const message = error instanceof Error ? error.message : String(error);
+  if (message.includes("Insufficient permissions") || message.includes("403")) {
+    console.error(`
+The SANITY_API_TOKEN in .env.local needs Editor (or higher) write permissions
+to create/update documents. Create a token at:
+  https://www.sanity.io/manage → Project → API → Tokens → Add API token (Editor)
+Then re-run: npm run seed:sanity
+
+Alternatively import the NDJSON dump:
+  npx sanity dataset import scripts/property-seed.ndjson production --replace
+`);
+  }
   process.exit(1);
 });

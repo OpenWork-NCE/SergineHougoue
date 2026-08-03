@@ -33,6 +33,8 @@ const propertyCardProjection = `{
   bathrooms,
   area,
   photos,
+  imagePath,
+  imageAlt,
   publishedAt,
   featured
 }`;
@@ -55,6 +57,8 @@ const propertyDetailProjection = `{
   description,
   features,
   photos,
+  imagePath,
+  imageAlt,
   publishedAt,
   featured
 }`;

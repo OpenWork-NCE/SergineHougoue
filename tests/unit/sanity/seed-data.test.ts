@@ -44,6 +44,16 @@ describe("getSeedDocuments", () => {
     expect(featuredCount).toBeGreaterThanOrEqual(2);
   });
 
+  it("includes sold portfolio properties with status vendu", () => {
+    const sold = documents.filter(
+      (doc) => doc._type === "property" && doc.status === "vendu",
+    );
+    expect(sold.length).toBeGreaterThanOrEqual(8);
+    expect(sold.every((doc) => typeof doc.imagePath === "string")).toBe(true);
+    // No fabricated prices on sold seed portfolio
+    expect(sold.every((doc) => doc.price === undefined)).toBe(true);
+  });
+
   it("assigns a stable _id to every document", () => {
     const ids = documents.map((doc) => doc._id);
     expect(ids.every((id) => typeof id === "string" && id.length > 0)).toBe(

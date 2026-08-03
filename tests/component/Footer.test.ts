@@ -25,7 +25,7 @@ describe("<Footer>", () => {
     expect(
       screen.getByRole("link", { name: "Équipe et partenaires" }),
     ).toHaveAttribute("href", "/fr/equipe-partenaires");
-    expect(screen.getByRole("link", { name: "Blogue" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute(
       "href",
       "/fr/blog",
     );

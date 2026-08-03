@@ -18,9 +18,13 @@
 
 <section class="container-editorial pb-16 md:pb-24">
   <h2 class="eyebrow mb-8 text-burgundy">{copy.transactions.soldHeading}</h2>
-  <PropertyGrid
-    properties={data.soldProperties}
-    locale={data.locale}
-    basePath={base}
-  />
+  {#if data.soldProperties.length > 0}
+    <PropertyGrid
+      properties={data.soldProperties}
+      locale={data.locale}
+      basePath={base}
+    />
+  {:else}
+    <p class="text-secondary">{copy.transactions.emptySold}</p>
+  {/if}
 </section>

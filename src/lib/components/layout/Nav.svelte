@@ -16,10 +16,12 @@
   const copy = $derived(getCopy(locale));
   const base = $derived(`/${locale}`);
 
-  /** Primary nav only — secondary links live in the footer. */
+  /** Primary nav — équipe/partenaires remains in footer + mobile secondary. */
   const links = $derived([
     { href: `${base}/biens`, label: copy.nav.listings },
+    { href: `${base}/transactions`, label: copy.nav.transactions },
     { href: `${base}/services`, label: copy.nav.services },
+    { href: `${base}/blog`, label: copy.nav.blog },
     { href: `${base}/a-propos`, label: copy.nav.about },
     { href: `${base}/contact`, label: copy.nav.contact },
   ]);
@@ -205,16 +207,6 @@
         {copy.nav.cta}
       </a>
       <ul class="space-y-2 pt-2 text-sm text-secondary">
-        <li>
-          <a href={`${base}/transactions`} class="hover:text-primary" onclick={closeMenu}
-            >{copy.nav.transactions}</a
-          >
-        </li>
-        <li>
-          <a href={`${base}/blog`} class="hover:text-primary" onclick={closeMenu}
-            >{copy.nav.blog}</a
-          >
-        </li>
         <li>
           <a
             href={`${base}/equipe-partenaires`}

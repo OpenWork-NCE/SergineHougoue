@@ -27,16 +27,13 @@
   const photo = $derived(property.photos?.[0]);
 
   const imageSrc = $derived(
-    property.staticImageSrc
-      ? property.staticImageSrc
-      : photo?.asset?._ref
-        ? urlFor(photo).width(800).height(600).url()
-        : propertyFallbackImage(fallbackIndex),
+    photo?.asset?._ref
+      ? urlFor(photo).width(800).height(600).url()
+      : property.imagePath?.trim() ||
+        propertyFallbackImage(fallbackIndex),
   );
   const imageAlt = $derived(
-    property.photoAlt?.trim() ||
-      photo?.alt?.trim() ||
-      property.title,
+    photo?.alt?.trim() || property.imageAlt?.trim() || property.title,
   );
 
   const hasPrice = $derived(
@@ -63,7 +60,7 @@
       <img
         src={imageSrc}
         alt={imageAlt}
-        class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+        class="absolute inset-0 size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         loading="lazy"
         width="800"
         height="600"

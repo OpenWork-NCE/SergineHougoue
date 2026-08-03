@@ -47,13 +47,31 @@ export const property = defineType({
       name: "price",
       title: "Price (CAD)",
       type: "number",
-      validation: (rule) => rule.required().min(0),
+      description:
+        "Required for active listings. Optional for sold portfolio when undisclosed.",
+      validation: (rule) =>
+        rule.min(0).custom((value, context) => {
+          const status = (context.document as { status?: string } | undefined)
+            ?.status;
+          if (status === "vendu") return true;
+          if (typeof value === "number" && Number.isFinite(value)) return true;
+          return "Price is required for active listings";
+        }),
     }),
     defineField({
       name: "address",
       title: "Address",
       type: "string",
-      validation: (rule) => rule.required(),
+      description:
+        "Required for active listings. Optional for sold portfolio when undisclosed.",
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const status = (context.document as { status?: string } | undefined)
+            ?.status;
+          if (status === "vendu") return true;
+          if (typeof value === "string" && value.trim().length > 0) return true;
+          return "Address is required for active listings";
+        }),
     }),
     defineField({
       name: "city",
@@ -75,19 +93,22 @@ export const property = defineType({
       name: "bedrooms",
       title: "Bedrooms",
       type: "number",
-      validation: (rule) => rule.required().min(0),
+      description: "Optional for sold portfolio when unknown.",
+      validation: (rule) => rule.min(0),
     }),
     defineField({
       name: "bathrooms",
       title: "Bathrooms",
       type: "number",
-      validation: (rule) => rule.required().min(0),
+      description: "Optional for sold portfolio when unknown.",
+      validation: (rule) => rule.min(0),
     }),
     defineField({
       name: "area",
       title: "Area (sq ft)",
       type: "number",
-      validation: (rule) => rule.required().min(0),
+      description: "Optional for sold portfolio when unknown.",
+      validation: (rule) => rule.min(0),
     }),
     portableTextField({ name: "description", title: "Description" }),
     defineField({
@@ -118,6 +139,25 @@ export const property = defineType({
           ],
         }),
       ],
+    }),
+    defineField({
+      name: "imagePath",
+      title: "Public image path (fallback)",
+      type: "string",
+      description:
+        "Optional path under the site public root when no Sanity photo is set, e.g. /properties/sold/condo.webp. Prefer uploading to Photos.",
+      validation: (rule) =>
+        rule.custom((value) => {
+          if (value == null || value === "") return true;
+          if (typeof value === "string" && value.startsWith("/")) return true;
+          return "Path must start with /";
+        }),
+    }),
+    defineField({
+      name: "imageAlt",
+      title: "Fallback image alt text",
+      type: "string",
+      description: "Used with public image path when photos are empty.",
     }),
     defineField({
       name: "publishedAt",

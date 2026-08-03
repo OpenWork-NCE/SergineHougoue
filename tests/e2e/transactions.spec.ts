@@ -20,9 +20,16 @@ test.describe("transactions routes", () => {
     await expect(
       page.getByRole("heading", { name: /partenaires de confiance/i }),
     ).toHaveCount(0);
-    // Static sold portfolio always available (titles are card text, not h1)
-    await expect(page.getByText("Condo vendu à Montréal")).toBeVisible();
-    await expect(page.getByText("Vendu").first()).toBeVisible();
+    // Sold cards come from Sanity; if CMS is empty, page still renders shell
+    const soldCard = page.getByText("Condo vendu à Montréal");
+    if ((await soldCard.count()) > 0) {
+      await expect(soldCard).toBeVisible();
+      await expect(page.getByText("Vendu").first()).toBeVisible();
+    } else {
+      await expect(
+        page.getByRole("heading", { name: copy.transactions.soldHeading }),
+      ).toBeVisible();
+    }
   });
 
 

@@ -27,6 +27,11 @@ import type {
 
 export const POSTS_PER_PAGE = 6;
 
+function logCmsError(context: string, error: unknown): void {
+  // Silent empty fallbacks stay, but surface the real cause in server logs.
+  console.error(`[cms] ${context}:`, error);
+}
+
 export type CmsHomeData = {
   siteSettings: SiteSettings | null;
   featuredProperties: Property[];
@@ -119,7 +124,8 @@ export async function loadCmsHomeData(lang: Locale): Promise<CmsHomeData> {
       featuredProperties: featuredProperties ?? [],
       testimonials: testimonials ?? [],
     };
-  } catch {
+  } catch (error) {
+    logCmsError("loadCmsHomeData", error);
     return EMPTY_HOME;
   }
 }
@@ -140,7 +146,8 @@ export async function loadCmsAboutData(lang: Locale): Promise<CmsAboutData> {
       teamMembers: teamMembers ?? [],
       testimonials: testimonials ?? [],
     };
-  } catch {
+  } catch (error) {
+    logCmsError("loadCmsAboutData", error);
     return EMPTY_ABOUT;
   }
 }
@@ -161,7 +168,8 @@ export async function loadCmsListingsData(
     return {
       properties: properties ?? [],
     };
-  } catch {
+  } catch (error) {
+    logCmsError("loadCmsListingsData", error);
     return EMPTY_LISTINGS;
   }
 }
@@ -183,7 +191,8 @@ export async function loadCmsTransactionsData(
     return {
       soldProperties: soldProperties ?? [],
     };
-  } catch {
+  } catch (error) {
+    logCmsError("loadCmsTransactionsData", error);
     return EMPTY_TRANSACTIONS;
   }
 }
@@ -206,7 +215,8 @@ export async function loadCmsTeamPartnersData(
       teamMembers: teamMembers ?? [],
       partners: partners ?? [],
     };
-  } catch {
+  } catch (error) {
+    logCmsError("loadCmsTeamPartnersData", error);
     return EMPTY_TEAM_PARTNERS;
   }
 }
@@ -241,7 +251,8 @@ export async function loadCmsPosts(
       pageSize: POSTS_PER_PAGE,
       totalPages,
     };
-  } catch {
+  } catch (error) {
+    logCmsError("loadCmsPosts", error);
     return emptyPostsData(safePage);
   }
 }
@@ -262,7 +273,8 @@ export async function loadCmsPostBySlug(
     });
 
     return post ?? null;
-  } catch {
+  } catch (error) {
+    logCmsError("loadCmsPostBySlug", error);
     return null;
   }
 }
@@ -281,7 +293,8 @@ export async function loadCmsContactData(): Promise<CmsContactData> {
     return {
       siteSettings: siteSettings ?? null,
     };
-  } catch {
+  } catch (error) {
+    logCmsError("loadCmsContactData", error);
     return EMPTY_CONTACT;
   }
 }
@@ -302,7 +315,8 @@ export async function loadCmsPropertyBySlug(
     });
 
     return property ?? null;
-  } catch {
+  } catch (error) {
+    logCmsError("loadCmsPropertyBySlug", error);
     return null;
   }
 }
@@ -324,7 +338,8 @@ export async function loadAllCmsProperties(lang: Locale): Promise<Property[]> {
     );
 
     return properties ?? [];
-  } catch {
+  } catch (error) {
+    logCmsError("loadAllCmsProperties", error);
     return [];
   }
 }
@@ -342,7 +357,8 @@ export async function loadAllCmsPosts(lang: Locale): Promise<Post[]> {
     const posts = await client.fetch<Post[]>(allPostsSitemapQuery, { lang });
 
     return posts ?? [];
-  } catch {
+  } catch (error) {
+    logCmsError("loadAllCmsPosts", error);
     return [];
   }
 }

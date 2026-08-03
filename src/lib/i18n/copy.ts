@@ -113,6 +113,7 @@ export interface TransactionsCopy {
   title: string;
   intro: string;
   soldHeading: string;
+  emptySold: string;
 }
 
 export interface TeamMemberCopy {
@@ -190,6 +191,12 @@ export interface PropertyDetailCopy {
   type: string;
   status: string;
   price: string;
+  gallery: string;
+  galleryPrevious: string;
+  galleryNext: string;
+  thumbnails: string;
+  backToListings: string;
+  backToTransactions: string;
 }
 
 export interface PropertyCopy {
@@ -228,7 +235,7 @@ const fr: SiteCopy = {
     services: "Services",
     listings: "Biens",
     transactions: "Transactions",
-    blog: "Blogue",
+    blog: "Blog",
     teamPartners: "Équipe et partenaires",
     about: "À propos",
     contact: "Contact",
@@ -378,6 +385,8 @@ const fr: SiteCopy = {
     title: "Transactions",
     intro: "Découvrez les propriétés vendues récemment à Montréal et environs.",
     soldHeading: "Propriétés vendues",
+    emptySold:
+      "Les transactions récentes seront affichées dès leur publication dans le CMS.",
   },
   teamPartners: {
     eyebrow: "06 / Équipe et partenaires",
@@ -437,8 +446,8 @@ const fr: SiteCopy = {
     },
   },
   blog: {
-    eyebrow: "05 / Blogue",
-    title: "Blogue",
+    eyebrow: "05 / Blog",
+    title: "Blog",
     intro:
       "Conseils, tendances du marché et guides pratiques pour vos projets immobiliers à Montréal et sur la Rive-Nord.",
     readMore: "Lire l'article",
@@ -486,7 +495,13 @@ const fr: SiteCopy = {
       contactCta: "Demander une visite",
       type: "Type",
       status: "Statut",
-      price: "Prix",
+      price: "Prix (CAD)",
+      gallery: "Photos du bien",
+      galleryPrevious: "Photo précédente",
+      galleryNext: "Photo suivante",
+      thumbnails: "Miniatures des photos",
+      backToListings: "Retour aux biens",
+      backToTransactions: "Retour aux transactions",
     },
     types: {
       unifamiliale: "Unifamiliale",
@@ -661,6 +676,8 @@ const en: SiteCopy = {
     title: "Transactions",
     intro: "Explore recently closed deals in Montreal and surrounding areas.",
     soldHeading: "Sold properties",
+    emptySold:
+      "Recent transactions will appear once published in the CMS.",
   },
   teamPartners: {
     eyebrow: "06 / Team & partners",
@@ -767,7 +784,13 @@ const en: SiteCopy = {
       contactCta: "Request a visit",
       type: "Type",
       status: "Status",
-      price: "Price",
+      price: "Price (CAD)",
+      gallery: "Property photos",
+      galleryPrevious: "Previous photo",
+      galleryNext: "Next photo",
+      thumbnails: "Photo thumbnails",
+      backToListings: "Back to listings",
+      backToTransactions: "Back to transactions",
     },
     types: {
       unifamiliale: "Single-family",

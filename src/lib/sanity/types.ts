@@ -64,17 +64,22 @@ export type Property = {
   title: string;
   slug: SanitySlug;
   status: PropertyStatus;
-  price: number;
-  address: string;
+  /** Omit / null when undisclosed (common for sold portfolio). */
+  price?: number | null;
+  /** Street address — optional for sold portfolio. */
+  address?: string;
   city: string;
   neighborhood?: string;
   type: PropertyType;
-  bedrooms: number;
-  bathrooms: number;
-  area: number;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  area?: number | null;
   description?: PortableTextBlock[];
   features?: string[];
   photos?: SanityImage[];
+  /** Public site path fallback when photos is empty, e.g. /properties/sold/x.webp */
+  imagePath?: string;
+  imageAlt?: string;
   publishedAt: string;
   featured?: boolean;
 };

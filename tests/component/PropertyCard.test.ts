@@ -18,7 +18,7 @@ describe("<PropertyCard>", () => {
       },
     });
 
-    expect(screen.getByText("749 000 $")).toBeInTheDocument();
+    expect(screen.getByText("749 000 $ CA")).toBeInTheDocument();
     expect(
       screen.getByText("4521 rue Saint-Dominique, Montréal"),
     ).toBeInTheDocument();
@@ -38,19 +38,18 @@ describe("<PropertyCard>", () => {
 
   it("renders sold portfolio card without fake price or specs", () => {
     const property = mockProperty({
-      _id: "static-sold-condo-montreal",
+      _id: "property-condo-vendu-montreal-fr",
       title: "Condo vendu à Montréal",
       slug: { current: "condo-vendu-montreal" },
       status: "vendu",
-      price: null,
+      price: undefined,
       address: undefined,
-      bedrooms: null,
-      bathrooms: null,
-      area: null,
+      bedrooms: undefined,
+      bathrooms: undefined,
+      area: undefined,
       photos: undefined,
-      staticImageSrc: "/properties/sold/condo-vendu-montreal.jpeg",
-      photoAlt: "Façade condo Montréal",
-      source: "static",
+      imagePath: "/properties/sold/condo-vendu-montreal.webp",
+      imageAlt: "Façade condo Montréal",
       city: "Montréal",
       type: "condo",
     });
@@ -64,11 +63,9 @@ describe("<PropertyCard>", () => {
     expect(screen.getByText("Condo vendu à Montréal")).toBeInTheDocument();
     expect(screen.getByText("Montréal")).toBeInTheDocument();
     expect(screen.queryByText(/ch\./)).not.toBeInTheDocument();
-    expect(screen.getByRole("img")).toHaveAttribute(
+    expect(screen.getByRole("img", { name: "Façade condo Montréal" })).toHaveAttribute(
       "src",
-      "/properties/sold/condo-vendu-montreal.jpeg",
+      "/properties/sold/condo-vendu-montreal.webp",
     );
   });
 });
-
-

@@ -45,17 +45,23 @@ type PropertySeed = {
     | "quadruplex"
     | "quintuplex"
     | "commercial";
-  price: number;
-  address: string;
+  /** Omit when undisclosed (sold portfolio). */
+  price?: number;
+  address?: string;
   city: string;
-  neighborhood: string;
-  bedrooms: number;
-  bathrooms: number;
-  area: number;
-  features: { fr: string[]; en: string[] };
+  neighborhood?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number;
+  features?: { fr: string[]; en: string[] };
+  /**
+   * Public path served by the site (under static/), stored on the CMS document
+   * as imagePath until a Sanity photo asset is uploaded in Studio.
+   */
+  imagePath?: string;
   copy: {
-    fr: { title: string; description: string };
-    en: { title: string; description: string };
+    fr: { title: string; description: string; photoAlt: string };
+    en: { title: string; description: string; photoAlt: string };
   };
 };
 
@@ -82,11 +88,13 @@ const PROPERTY_SEEDS: PropertySeed[] = [
         title: "Duplex lumineux à Rosemont",
         description:
           "Duplex bien entretenu avec revenus locatifs solides, idéal pour propriétaire occupant ou investisseur sur la Rive-Nord de Montréal.",
+        photoAlt: "Façade du duplex à Rosemont",
       },
       en: {
         title: "Bright duplex in Rosemont",
         description:
           "Well-maintained duplex with solid rental income, ideal for an owner-occupant or investor on Montreal's north shore.",
+        photoAlt: "Façade of a duplex in Rosemont",
       },
     },
   },
@@ -112,11 +120,13 @@ const PROPERTY_SEEDS: PropertySeed[] = [
         title: "Condo moderne à Griffintown",
         description:
           "Condo contemporain au coeur de Griffintown, à distance de marche des cafés, du canal Lachine et du centre-ville.",
+        photoAlt: "Intérieur d’un condo à Griffintown",
       },
       en: {
         title: "Modern condo in Griffintown",
         description:
           "Contemporary condo in the heart of Griffintown, walking distance to cafés, the Lachine Canal, and downtown.",
+        photoAlt: "Interior of a condo in Griffintown",
       },
     },
   },
@@ -142,15 +152,210 @@ const PROPERTY_SEEDS: PropertySeed[] = [
         title: "Maison unifamiliale à Laval",
         description:
           "Propriété spacieuse dans un quartier paisible de Laval, parfaite pour une famille cherchant espace et tranquillité.",
+        photoAlt: "Façade d’une maison unifamiliale à Laval",
       },
       en: {
         title: "Single-family home in Laval",
         description:
           "Spacious property in a quiet Laval neighbourhood, perfect for a family seeking space and calm.",
+        photoAlt: "Façade of a single-family home in Laval",
+      },
+    },
+  },
+  // --- Sold portfolio (client photos; no fabricated price/specs) ---
+  {
+    id: "property-condo-vendu-montreal",
+    slug: "condo-vendu-montreal",
+    featured: false,
+    status: "vendu",
+    type: "condo",
+    city: "Montréal",
+    imagePath: "/properties/sold/condo-vendu-montreal.webp",
+    copy: {
+      fr: {
+        title: "Condo vendu à Montréal",
+        description:
+          "Transaction réalisée à Montréal. Contactez Sergine pour un accompagnement similaire sur votre projet.",
+        photoAlt: "Façade extérieure d’un immeuble de condos à Montréal",
+      },
+      en: {
+        title: "Condo sold in Montreal",
+        description:
+          "Closed transaction in Montreal. Contact Sergine for similar guidance on your project.",
+        photoAlt: "Exterior façade of a condo building in Montreal",
+      },
+    },
+  },
+  {
+    id: "property-duplex-vendu-chateauguay",
+    slug: "duplex-vendu-chateauguay",
+    featured: false,
+    status: "vendu",
+    type: "duplex",
+    city: "Châteauguay",
+    imagePath: "/properties/sold/duplex-vendu-chateauguay.webp",
+    copy: {
+      fr: {
+        title: "Duplex vendu à Châteauguay",
+        description:
+          "Transaction réalisée à Châteauguay. Contactez Sergine pour un accompagnement similaire sur votre projet.",
+        photoAlt: "Façade extérieure d’un duplex à Châteauguay",
+      },
+      en: {
+        title: "Duplex sold in Châteauguay",
+        description:
+          "Closed transaction in Châteauguay. Contact Sergine for similar guidance on your project.",
+        photoAlt: "Exterior façade of a duplex in Châteauguay",
+      },
+    },
+  },
+  {
+    id: "property-duplex-vendu-drummondville",
+    slug: "duplex-vendu-drummondville",
+    featured: false,
+    status: "vendu",
+    type: "duplex",
+    city: "Drummondville",
+    imagePath: "/properties/sold/duplex-vendu-drummondville.webp",
+    copy: {
+      fr: {
+        title: "Duplex vendu à Drummondville",
+        description:
+          "Transaction réalisée à Drummondville. Contactez Sergine pour un accompagnement similaire sur votre projet.",
+        photoAlt: "Façade extérieure d’un duplex à Drummondville",
+      },
+      en: {
+        title: "Duplex sold in Drummondville",
+        description:
+          "Closed transaction in Drummondville. Contact Sergine for similar guidance on your project.",
+        photoAlt: "Exterior façade of a duplex in Drummondville",
+      },
+    },
+  },
+  {
+    id: "property-duplex-neuf-vendu-sorel-tracy",
+    slug: "duplex-neuf-vendu-sorel-tracy",
+    featured: false,
+    status: "vendu",
+    type: "duplex",
+    city: "Sorel-Tracy",
+    imagePath: "/properties/sold/duplex-neuf-vendu-sorel-tracy.webp",
+    copy: {
+      fr: {
+        title: "Duplex neuf vendu à Sorel-Tracy",
+        description:
+          "Transaction réalisée à Sorel-Tracy. Contactez Sergine pour un accompagnement similaire sur votre projet.",
+        photoAlt: "Façade extérieure d’un duplex neuf à Sorel-Tracy",
+      },
+      en: {
+        title: "New duplex sold in Sorel-Tracy",
+        description:
+          "Closed transaction in Sorel-Tracy. Contact Sergine for similar guidance on your project.",
+        photoAlt: "Exterior façade of a new duplex in Sorel-Tracy",
+      },
+    },
+  },
+  {
+    id: "property-duplex-vendu-saint-jerome",
+    slug: "duplex-vendu-saint-jerome",
+    featured: false,
+    status: "vendu",
+    type: "duplex",
+    city: "Saint-Jérôme",
+    imagePath: "/properties/sold/duplex-vendu-saint-jerome.webp",
+    copy: {
+      fr: {
+        title: "Duplex vendu à Saint-Jérôme",
+        description:
+          "Transaction réalisée à Saint-Jérôme. Contactez Sergine pour un accompagnement similaire sur votre projet.",
+        photoAlt: "Façade extérieure d’un duplex à Saint-Jérôme",
+      },
+      en: {
+        title: "Duplex sold in Saint-Jérôme",
+        description:
+          "Closed transaction in Saint-Jérôme. Contact Sergine for similar guidance on your project.",
+        photoAlt: "Exterior façade of a duplex in Saint-Jérôme",
+      },
+    },
+  },
+  {
+    id: "property-duplex-vendu-salaberry-de-valleyfield",
+    slug: "duplex-vendu-salaberry-de-valleyfield",
+    featured: false,
+    status: "vendu",
+    type: "duplex",
+    city: "Salaberry-de-Valleyfield",
+    imagePath: "/properties/sold/duplex-vendu-salaberry-de-valleyfield.webp",
+    copy: {
+      fr: {
+        title: "Duplex vendu à Salaberry-de-Valleyfield",
+        description:
+          "Transaction réalisée à Salaberry-de-Valleyfield. Contactez Sergine pour un accompagnement similaire sur votre projet.",
+        photoAlt:
+          "Façade extérieure d’un duplex à Salaberry-de-Valleyfield",
+      },
+      en: {
+        title: "Duplex sold in Salaberry-de-Valleyfield",
+        description:
+          "Closed transaction in Salaberry-de-Valleyfield. Contact Sergine for similar guidance on your project.",
+        photoAlt:
+          "Exterior façade of a duplex in Salaberry-de-Valleyfield",
+      },
+    },
+  },
+  {
+    id: "property-maison-etages-vendue-chateauguay",
+    slug: "maison-etages-vendue-chateauguay",
+    featured: false,
+    status: "vendu",
+    type: "unifamiliale",
+    city: "Châteauguay",
+    imagePath: "/properties/sold/maison-etages-vendue-chateauguay.webp",
+    copy: {
+      fr: {
+        title: "Maison à étages vendue à Châteauguay",
+        description:
+          "Transaction réalisée à Châteauguay. Contactez Sergine pour un accompagnement similaire sur votre projet.",
+        photoAlt: "Façade extérieure d’une maison à étages à Châteauguay",
+      },
+      en: {
+        title: "Two-storey house sold in Châteauguay",
+        description:
+          "Closed transaction in Châteauguay. Contact Sergine for similar guidance on your project.",
+        photoAlt: "Exterior façade of a two-storey house in Châteauguay",
+      },
+    },
+  },
+  {
+    id: "property-maison-plain-pied-vendue-saint-jerome",
+    slug: "maison-plain-pied-vendue-saint-jerome",
+    featured: false,
+    status: "vendu",
+    type: "unifamiliale",
+    city: "Saint-Jérôme",
+    imagePath: "/properties/sold/maison-plain-pied-vendue-saint-jerome.webp",
+    copy: {
+      fr: {
+        title: "Maison de plain-pied vendue à Saint-Jérôme",
+        description:
+          "Transaction réalisée à Saint-Jérôme. Contactez Sergine pour un accompagnement similaire sur votre projet.",
+        photoAlt:
+          "Façade extérieure d’une maison de plain-pied à Saint-Jérôme",
+      },
+      en: {
+        title: "Bungalow sold in Saint-Jérôme",
+        description:
+          "Closed transaction in Saint-Jérôme. Contact Sergine for similar guidance on your project.",
+        photoAlt: "Exterior façade of a bungalow in Saint-Jérôme",
       },
     },
   },
 ];
+
+/** Property seeds used by the Sanity seed script (createOrReplace). */
+export function getPropertySeeds(): PropertySeed[] {
+  return PROPERTY_SEEDS;
+}
 
 type TestimonialSeed = {
   id: string;
@@ -223,30 +428,64 @@ const TEAM_MEMBER_SEED = {
 function propertyDocument(
   seed: PropertySeed,
   language: SupportedLanguage,
+  photos?: SeedDocument["photos"],
 ): SeedDocument {
   const localized = seed.copy[language];
-  const features = seed.features[language];
+  const features = seed.features?.[language];
 
-  return {
+  const doc: SeedDocument = {
     _id: `${seed.id}-${language}`,
     _type: "property",
     language,
     title: localized.title,
     slug: slug(seed.slug),
     status: seed.status,
-    price: seed.price,
-    address: seed.address,
     city: seed.city,
-    neighborhood: seed.neighborhood,
     type: seed.type,
-    bedrooms: seed.bedrooms,
-    bathrooms: seed.bathrooms,
-    area: seed.area,
     description: [block(localized.description, `${seed.id}-${language}-desc`)],
-    features,
     publishedAt: "2026-01-15T12:00:00.000Z",
     featured: seed.featured,
   };
+
+  if (typeof seed.price === "number") doc.price = seed.price;
+  if (seed.address) doc.address = seed.address;
+  if (seed.neighborhood) doc.neighborhood = seed.neighborhood;
+  if (typeof seed.bedrooms === "number") doc.bedrooms = seed.bedrooms;
+  if (typeof seed.bathrooms === "number") doc.bathrooms = seed.bathrooms;
+  if (typeof seed.area === "number") doc.area = seed.area;
+  if (features?.length) doc.features = features;
+  if (photos) doc.photos = photos;
+  if (seed.imagePath) {
+    doc.imagePath = seed.imagePath;
+    doc.imageAlt = localized.photoAlt;
+  }
+
+  return doc;
+}
+
+/** Build a property document for a language, optionally with Sanity image refs. */
+export function buildPropertySeedDocument(
+  seed: PropertySeed,
+  language: SupportedLanguage,
+  imageAssetId?: string,
+): SeedDocument {
+  const localized = seed.copy[language];
+  const photos =
+    imageAssetId != null
+      ? [
+          {
+            _type: "image",
+            _key: `${seed.id}-photo`,
+            asset: {
+              _type: "reference",
+              _ref: imageAssetId,
+            },
+            alt: localized.photoAlt,
+          },
+        ]
+      : undefined;
+
+  return propertyDocument(seed, language, photos);
 }
 
 function testimonialDocument(

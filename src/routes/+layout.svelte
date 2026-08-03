@@ -73,13 +73,7 @@
       return post.seo?.metaDescription || post.excerpt;
     }
     if (routeData.property) {
-      const prop = routeData.property as Property & {
-        staticImageSrc?: string;
-        bedrooms?: number | null;
-        bathrooms?: number | null;
-        area?: number | null;
-        address?: string;
-      };
+      const prop = routeData.property as Property;
       const bits = [prop.title, prop.address, prop.city].filter(Boolean);
       if (
         typeof prop.bedrooms === "number" &&

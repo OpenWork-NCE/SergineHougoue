@@ -47,6 +47,6 @@ describe("<Nav>", () => {
     expect(
       screen.getByRole("link", { name: "Équipe et partenaires" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Blogue" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Blog" })).toBeInTheDocument();
   });
 });
