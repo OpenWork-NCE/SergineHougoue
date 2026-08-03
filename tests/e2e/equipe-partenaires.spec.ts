@@ -13,6 +13,12 @@ test.describe("equipe-partenaires routes", () => {
       page.getByRole("heading", { name: copy.teamPartners.teamHeading }),
     ).toBeVisible();
     await expect(
+      page.getByRole("heading", { name: copy.teamPartners.networkHeading }),
+    ).toBeVisible();
+    await expect(page.getByText("Steve Djeuga")).toBeVisible();
+    await expect(page.getByText("Sara", { exact: true })).toBeVisible();
+    await expect(page.getByText("Guy", { exact: true })).toBeVisible();
+    await expect(
       page.getByRole("heading", { name: copy.teamPartners.partnersHeading }),
     ).toBeVisible();
   });

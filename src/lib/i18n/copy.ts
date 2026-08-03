@@ -115,15 +115,28 @@ export interface TransactionsCopy {
   soldHeading: string;
 }
 
+export interface TeamMemberCopy {
+  name: string;
+  role: string;
+  photoAlt: string;
+}
+
 export interface TeamPartnersCopy {
   eyebrow: string;
   title: string;
   intro: string;
   teamHeading: string;
+  networkHeading: string;
   partnersHeading: string;
   emptyPartners: string;
   teamFallbackName: string;
   teamFallbackRole: string;
+  members: {
+    sergine: TeamMemberCopy;
+    steve: TeamMemberCopy;
+    sara: TeamMemberCopy;
+    guy: TeamMemberCopy;
+  };
   partnerCategories: Record<PartnerCategory, string>;
 }
 
@@ -366,12 +379,35 @@ const fr: SiteCopy = {
     eyebrow: "06 / Équipe et partenaires",
     title: "Équipe et partenaires",
     intro:
-      "Rencontrez Sergine et le réseau de partenaires de confiance qui accompagnent chaque transaction.",
+      "Rencontrez Sergine et les professionnels de confiance qui accompagnent chaque transaction — hypothèque, inspection et plus.",
     teamHeading: "L'équipe",
+    networkHeading: "Réseau de confiance",
     partnersHeading: "Nos partenaires de confiance",
     emptyPartners: "Aucun partenaire pour le moment.",
     teamFallbackName: "Sergine Hougoue",
     teamFallbackRole: "Courtière immobilière certifiée OACIQ",
+    members: {
+      sergine: {
+        name: "Sergine Hougoue",
+        role: "Courtière immobilière certifiée OACIQ",
+        photoAlt: "Portrait de Sergine Hougoue",
+      },
+      steve: {
+        name: "Steve Djeuga",
+        role: "Courtier hypothécaire",
+        photoAlt: "Portrait de Steve Djeuga, courtier hypothécaire",
+      },
+      sara: {
+        name: "Sara",
+        role: "Spécialiste hypothécaire",
+        photoAlt: "Portrait de Sara, spécialiste hypothécaire",
+      },
+      guy: {
+        name: "Guy",
+        role: "Inspecteur en bâtiment",
+        photoAlt: "Portrait de Guy, inspecteur en bâtiment",
+      },
+    },
     partnerCategories: {
       preteur: "Prêteurs",
       "courtier-hypothecaire": "Courtiers hypothécaires",
@@ -610,12 +646,35 @@ const en: SiteCopy = {
     eyebrow: "06 / Team & partners",
     title: "Team & partners",
     intro:
-      "Meet Sergine and the trusted partner network that supports every transaction.",
+      "Meet Sergine and the trusted professionals who support every transaction — mortgage, inspection, and more.",
     teamHeading: "The team",
+    networkHeading: "Trusted network",
     partnersHeading: "Our trusted partners",
     emptyPartners: "No partners listed yet.",
     teamFallbackName: "Sergine Hougoue",
     teamFallbackRole: "OACIQ-certified real estate broker",
+    members: {
+      sergine: {
+        name: "Sergine Hougoue",
+        role: "OACIQ-certified real estate broker",
+        photoAlt: "Portrait of Sergine Hougoue",
+      },
+      steve: {
+        name: "Steve Djeuga",
+        role: "Mortgage broker",
+        photoAlt: "Portrait of Steve Djeuga, mortgage broker",
+      },
+      sara: {
+        name: "Sara",
+        role: "Mortgage specialist",
+        photoAlt: "Portrait of Sara, mortgage specialist",
+      },
+      guy: {
+        name: "Guy",
+        role: "Building inspector",
+        photoAlt: "Portrait of Guy, building inspector",
+      },
+    },
     partnerCategories: {
       preteur: "Lenders",
       "courtier-hypothecaire": "Mortgage brokers",

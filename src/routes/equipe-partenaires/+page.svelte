@@ -1,7 +1,9 @@
 <script lang="ts">
   import PageHeader from "$components/content/PageHeader.svelte";
+  import TeamMemberCard from "$components/content/TeamMemberCard.svelte";
   import { getCopy } from "$i18n/copy";
   import { MEDIA } from "$lib/media";
+  import { getStaticTeamRoster } from "$lib/team/roster";
   import { urlFor } from "$sanity/image";
   import type { Partner, PartnerCategory } from "$sanity/types";
   import type { PageData } from "./$types";
@@ -17,13 +19,32 @@
   let { data }: { data: PageData } = $props();
 
   const copy = $derived(getCopy(data.locale));
-  const member = $derived(data.teamMembers[0]);
 
-  const photoUrl = $derived(
-    member?.photo?.asset
-      ? urlFor(member.photo).width(800).height(1000).fit("crop").url()
-      : MEDIA.teamPortrait,
-  );
+  /** Static roster (Sergine + Steve + Sara + Guy); CMS can override Sergine photo/name/role. */
+  const team = $derived.by(() => {
+    const roster = getStaticTeamRoster(data.locale);
+    const cmsLead = data.teamMembers[0];
+
+    return roster.map((member) => {
+      if (member.id !== "sergine" || !cmsLead) return member;
+
+      const cmsPhoto =
+        cmsLead.photo?.asset?._ref
+          ? urlFor(cmsLead.photo).width(800).height(1000).fit("crop").url()
+          : null;
+
+      return {
+        ...member,
+        name: cmsLead.name?.trim() || member.name,
+        role: cmsLead.role?.trim() || member.role,
+        photoSrc: cmsPhoto || member.photoSrc || MEDIA.teamPortrait,
+        photoAlt: cmsLead.photo?.alt?.trim() || member.photoAlt,
+      };
+    });
+  });
+
+  const lead = $derived(team.find((m) => m.isLead) ?? team[0]);
+  const network = $derived(team.filter((m) => !m.isLead));
 
   const partnersByCategory = $derived(
     PARTNER_CATEGORY_ORDER.map((category) => ({
@@ -50,33 +71,54 @@
   intro={copy.teamPartners.intro}
 />
 
-<section class="container-editorial pb-16">
-  <h2 class="eyebrow mb-6 text-burgundy">{copy.teamPartners.teamHeading}</h2>
+<!-- Lead: Sergine -->
+<section class="container-editorial pb-12 md:pb-16">
+  <h2 class="eyebrow mb-8 text-burgundy">{copy.teamPartners.teamHeading}</h2>
 
-  <div class="grid items-start gap-10 md:grid-cols-12">
-    <div class="md:col-span-5">
-      <div
-        class="aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--border-hairline)] bg-surface"
-      >
-        <img
-          src={photoUrl}
-          alt={member?.name ?? copy.teamPartners.teamFallbackName}
-          class="h-full w-full object-cover"
-        />
+  {#if lead}
+    <div class="grid items-center gap-10 md:grid-cols-12 md:gap-12">
+      <div class="md:col-span-5">
+        <div
+          class="aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--border-hairline)] bg-surface"
+        >
+          <img
+            src={lead.photoSrc}
+            alt={lead.photoAlt}
+            class="h-full w-full object-cover object-top"
+            width="800"
+            height="1000"
+          />
+        </div>
+      </div>
+      <div class="md:col-span-7 md:pt-2">
+        <p class="font-display text-3xl text-primary md:text-4xl lg:text-5xl">
+          {lead.name}
+        </p>
+        <p class="mt-3 text-sm uppercase tracking-[0.1em] text-gold-text">
+          {lead.role}
+        </p>
       </div>
     </div>
+  {/if}
+</section>
 
-    <div class="md:col-span-7 md:pt-4">
-      <p class="font-display text-3xl text-primary md:text-4xl">
-        {member?.name ?? copy.teamPartners.teamFallbackName}
-      </p>
-      <p class="mt-2 text-sm uppercase tracking-[0.08em] text-gold-text">
-        {member?.role ?? copy.teamPartners.teamFallbackRole}
-      </p>
+<!-- Network professionals: Steve, Sara, Guy -->
+<section
+  class="border-t border-[color:var(--border-hairline)] bg-surface/40 py-14 md:py-20"
+>
+  <div class="container-editorial">
+    <h2 class="eyebrow mb-8 text-burgundy">
+      {copy.teamPartners.networkHeading}
+    </h2>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {#each network as member (member.id)}
+        <TeamMemberCard {member} />
+      {/each}
     </div>
   </div>
 </section>
 
+<!-- CMS partner logos (optional) -->
 <section
   class="container-editorial border-t border-[color:var(--border-hairline)] py-16 md:py-20"
 >

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-label="Portrait par défaut">
+  <rect width="800" height="1000" fill="#EDE8DF"/>
+  <circle cx="400" cy="380" r="120" fill="#C9B8A8"/>
+  <ellipse cx="400" cy="720" rx="200" ry="180" fill="#C9B8A8"/>
+  <rect x="0" y="0" width="800" height="1000" fill="#6E1F2E" opacity="0.06"/>
+</svg>
