@@ -73,8 +73,24 @@
       return post.seo?.metaDescription || post.excerpt;
     }
     if (routeData.property) {
-      const prop = routeData.property as Property;
-      return `${prop.title} — ${prop.address}, ${prop.city}. ${prop.bedrooms} ${copy.property.beds}, ${prop.bathrooms} ${copy.property.baths}, ${prop.area} ${copy.property.area}.`;
+      const prop = routeData.property as Property & {
+        staticImageSrc?: string;
+        bedrooms?: number | null;
+        bathrooms?: number | null;
+        area?: number | null;
+        address?: string;
+      };
+      const bits = [prop.title, prop.address, prop.city].filter(Boolean);
+      if (
+        typeof prop.bedrooms === "number" &&
+        typeof prop.bathrooms === "number" &&
+        typeof prop.area === "number"
+      ) {
+        bits.push(
+          `${prop.bedrooms} ${copy.property.beds}, ${prop.bathrooms} ${copy.property.baths}, ${prop.area} ${copy.property.area}`,
+        );
+      }
+      return bits.join(" — ");
     }
     const p = currentPath.replace(/^\/(fr|en)/, "") || "/";
     if (p === "/" || p === "")

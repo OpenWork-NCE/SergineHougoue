@@ -3,15 +3,15 @@
   import { browser } from "$app/environment";
   import emblaCarouselSvelte from "embla-carousel-svelte";
   import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
-  import type { Property } from "$sanity/types";
   import type { Locale } from "$i18n/locales";
   import { getCopy } from "$i18n/copy";
+  import type { DisplayProperty } from "$lib/properties/types";
   import ChevronLeft from "lucide-svelte/icons/chevron-left";
   import ChevronRight from "lucide-svelte/icons/chevron-right";
   import PropertyCard from "./PropertyCard.svelte";
 
   interface Props {
-    properties: Property[];
+    properties: DisplayProperty[];
     locale: Locale;
     basePath: string;
   }

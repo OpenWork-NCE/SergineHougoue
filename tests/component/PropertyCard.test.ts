@@ -35,4 +35,40 @@ describe("<PropertyCard>", () => {
     });
     expect(image).toBeInTheDocument();
   });
+
+  it("renders sold portfolio card without fake price or specs", () => {
+    const property = mockProperty({
+      _id: "static-sold-condo-montreal",
+      title: "Condo vendu à Montréal",
+      slug: { current: "condo-vendu-montreal" },
+      status: "vendu",
+      price: null,
+      address: undefined,
+      bedrooms: null,
+      bathrooms: null,
+      area: null,
+      photos: undefined,
+      staticImageSrc: "/properties/sold/condo-vendu-montreal.jpeg",
+      photoAlt: "Façade condo Montréal",
+      source: "static",
+      city: "Montréal",
+      type: "condo",
+    });
+
+    render(PropertyCard, {
+      props: { property, locale: "fr", basePath: "/fr" },
+    });
+
+    // Badge + price-area both show "Vendu" when price unknown
+    expect(screen.getAllByText("Vendu").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText("Condo vendu à Montréal")).toBeInTheDocument();
+    expect(screen.getByText("Montréal")).toBeInTheDocument();
+    expect(screen.queryByText(/ch\./)).not.toBeInTheDocument();
+    expect(screen.getByRole("img")).toHaveAttribute(
+      "src",
+      "/properties/sold/condo-vendu-montreal.jpeg",
+    );
+  });
 });
+
+

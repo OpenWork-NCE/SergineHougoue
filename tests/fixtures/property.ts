@@ -1,6 +1,8 @@
-import type { Property } from "$sanity/types";
+import type { DisplayProperty } from "$lib/properties/types";
 
-export function mockProperty(overrides: Partial<Property> = {}): Property {
+export function mockProperty(
+  overrides: Partial<DisplayProperty> = {},
+): DisplayProperty {
   return {
     _id: "property-duplex-rosemont",
     _type: "property",
@@ -15,6 +17,7 @@ export function mockProperty(overrides: Partial<Property> = {}): Property {
     bathrooms: 2,
     area: 1_850,
     publishedAt: "2026-01-01T00:00:00.000Z",
+    source: "cms",
     photos: [
       {
         _type: "image",

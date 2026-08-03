@@ -117,7 +117,7 @@ describe("GET /sitemap.xml", () => {
     expect(xml).toContain("<lastmod>2026-01-15"); // from post
   });
 
-  it("is graceful when no CMS data (still has statics, no crash)", async () => {
+  it("is graceful when no CMS data (still has statics + sold portfolio)", async () => {
     vi.mocked(loadAllCmsProperties).mockResolvedValue([]);
     vi.mocked(loadAllCmsPosts).mockResolvedValue([]);
 
@@ -126,9 +126,14 @@ describe("GET /sitemap.xml", () => {
 
     expect(response.status).toBe(200);
     expect(xml).toContain("<loc>http://localhost:5173/fr/</loc>");
-    expect(xml).not.toContain("/biens/duplex"); // no dynamic
+    // Static sold portfolio always listed
+    expect(xml).toContain(
+      "<loc>http://localhost:5173/fr/biens/condo-vendu-montreal</loc>",
+    );
+    expect(xml).not.toContain("/biens/duplex-rosemont"); // no CMS dynamic
   });
 });
+
 
 describe("GET /robots.txt", () => {
   beforeEach(() => {

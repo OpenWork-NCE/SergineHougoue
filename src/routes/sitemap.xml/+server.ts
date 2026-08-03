@@ -4,6 +4,7 @@ import {
   loadAllCmsProperties,
   loadCmsContactData,
 } from "$sanity/load-cms";
+import { getStaticSoldSlugs } from "$lib/properties/sold-static";
 import type { Locale } from "$i18n/locales";
 
 const LOCALES: Locale[] = ["fr", "en"];
@@ -45,15 +46,25 @@ export const GET: RequestHandler = async () => {
 
     // Dynamic: properties (all including sold, per lang) -> /${locale}/biens/${slug}
     const properties = await loadAllCmsProperties(locale);
+    const seenPropertySlugs = new Set<string>();
     for (const property of properties) {
       const slug = property.slug?.current;
       if (slug) {
+        seenPropertySlugs.add(slug);
         const loc = `${SITE_URL}/${locale}/biens/${slug}`;
         const lastmod = property.publishedAt || now;
         urlEntries.push(
           `  <url>\n    <loc>${escapeXml(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`,
         );
       }
+    }
+    // Static sold portfolio (closed deals from client photos)
+    for (const slug of getStaticSoldSlugs()) {
+      if (seenPropertySlugs.has(slug)) continue;
+      const loc = `${SITE_URL}/${locale}/biens/${slug}`;
+      urlEntries.push(
+        `  <url>\n    <loc>${escapeXml(loc)}</loc>\n    <lastmod>${now}</lastmod>\n  </url>`,
+      );
     }
 
     // Dynamic: posts (per lang) -> /${locale}/blog/${slug}

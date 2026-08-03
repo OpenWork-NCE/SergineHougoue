@@ -3,6 +3,8 @@
   import { getCopy } from "$i18n/copy";
   import { urlFor } from "$sanity/image";
   import { formatArea, formatPrice } from "$utils/format";
+  import ArrowRight from "lucide-svelte/icons/arrow-right";
+  import MapPin from "lucide-svelte/icons/map-pin";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
@@ -11,60 +13,108 @@
   const base = $derived(`/${data.locale}`);
   const property = $derived(data.property);
   const detailCopy = $derived(copy.property.detail);
-  const formattedPrice = $derived(formatPrice(property.price, data.locale));
   const typeLabel = $derived(copy.property.types[property.type]);
   const statusLabel = $derived(copy.property.statuses[property.status]);
+
+  const hasPrice = $derived(
+    typeof property.price === "number" && Number.isFinite(property.price),
+  );
+  const hasAddress = $derived(Boolean(property.address?.trim()));
+
   const mapQuery = $derived(
-    encodeURIComponent(`${property.address}, ${property.city}`),
+    encodeURIComponent(
+      [property.address, property.city].filter(Boolean).join(", "),
+    ),
   );
   const mapHref = $derived(
     `https://www.google.com/maps/search/?api=1&query=${mapQuery}`,
   );
-  const galleryImages = $derived(
-    (property.photos ?? []).map((photo, index) => ({
+
+  const galleryImages = $derived.by(() => {
+    if (property.staticImageSrc) {
+      return [
+        {
+          src: property.staticImageSrc,
+          alt: property.photoAlt?.trim() || property.title,
+        },
+      ];
+    }
+    return (property.photos ?? []).map((photo, index) => ({
       src: urlFor(photo)
-        .width(index === 0 ? 800 : 400)
-        .height(index === 0 ? 600 : 300)
+        .width(index === 0 ? 1200 : 600)
+        .height(index === 0 ? 800 : 400)
         .fit("crop")
         .url(),
       alt: photo.alt?.trim() || property.title,
-    })),
-  );
-  const specs = $derived([
-    { label: copy.property.beds, value: String(property.bedrooms) },
-    { label: copy.property.baths, value: String(property.bathrooms) },
-    {
-      label: copy.property.area,
-      value: formatArea(property.area, data.locale),
-    },
-    { label: detailCopy.type, value: typeLabel },
-    { label: detailCopy.status, value: statusLabel },
-    { label: detailCopy.price, value: formattedPrice },
-  ]);
+    }));
+  });
+
+  const specs = $derived.by(() => {
+    const rows: { label: string; value: string }[] = [
+      { label: detailCopy.type, value: typeLabel },
+      { label: detailCopy.status, value: statusLabel },
+    ];
+    if (typeof property.bedrooms === "number") {
+      rows.push({
+        label: copy.property.beds,
+        value: String(property.bedrooms),
+      });
+    }
+    if (typeof property.bathrooms === "number") {
+      rows.push({
+        label: copy.property.baths,
+        value: String(property.bathrooms),
+      });
+    }
+    if (typeof property.area === "number" && property.area > 0) {
+      rows.push({
+        label: copy.property.area,
+        value: formatArea(property.area, data.locale),
+      });
+    }
+    if (hasPrice) {
+      rows.push({
+        label: detailCopy.price,
+        value: formatPrice(property.price!, data.locale),
+      });
+    }
+    return rows;
+  });
 </script>
 
 <article class="container-editorial pb-16 md:pb-20">
-  <header class="py-12 md:py-16 border-b border-[color:var(--border-hairline)]">
+  <header class="border-b border-[color:var(--border-hairline)] py-12 md:py-16">
     <p class="eyebrow mb-2 text-burgundy">{copy.listings.eyebrow}</p>
-    <h1 class="font-display text-5xl text-balance text-primary md:text-6xl tracking-tight">
+    <h1
+      class="font-display text-balance text-5xl tracking-tight text-primary md:text-6xl"
+    >
       {property.title}
     </h1>
-    <p class="mt-3 text-lg text-secondary">
-      {property.address}, {property.city}
-      {#if property.neighborhood}
-        <span class="text-secondary"> — {property.neighborhood}</span>
-      {/if}
+    <p class="mt-3 flex items-center gap-2 text-lg text-secondary">
+      <MapPin class="size-4 shrink-0 text-burgundy" aria-hidden="true" />
+      <span>
+        {#if hasAddress}{property.address}, {/if}{property.city}
+        {#if property.neighborhood}
+          <span> — {property.neighborhood}</span>
+        {/if}
+      </span>
     </p>
-    <p class="mt-2 font-display text-3xl text-gold-text">{formattedPrice}</p>
+    {#if hasPrice}
+      <p class="mt-3 font-display text-3xl text-gold-text">
+        {formatPrice(property.price!, data.locale)}
+      </p>
+    {:else if property.status === "vendu"}
+      <p class="mt-3 font-display text-3xl text-burgundy">{statusLabel}</p>
+    {/if}
   </header>
 
   {#if galleryImages.length > 0}
-    <section aria-label="Property photos" class="grid gap-4 md:grid-cols-2">
+    <section aria-label="Property photos" class="mt-8 grid gap-4 md:grid-cols-2">
       {#each galleryImages as image, index (image.src)}
         <div
           class={index === 0
-            ? "aspect-[4/3] overflow-hidden rounded-sm md:col-span-2"
-            : "aspect-[4/3] overflow-hidden rounded-sm"}
+            ? "aspect-[4/3] overflow-hidden rounded-2xl md:col-span-2"
+            : "aspect-[4/3] overflow-hidden rounded-2xl"}
         >
           <img
             src={image.src}
@@ -78,13 +128,15 @@
 
   <div class="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
     <section>
-      <h2 class="font-display text-3xl text-primary mb-6">{detailCopy.specs}</h2>
+      <h2 class="mb-6 font-display text-3xl text-primary">{detailCopy.specs}</h2>
       <div class="card p-6">
         <dl class="divide-y divide-[color:var(--border-hairline)]">
           {#each specs as spec (spec.label)}
-            <div class="flex py-3 justify-between text-sm">
-              <dt class="uppercase tracking-[0.08em] text-secondary">{spec.label}</dt>
-              <dd class="text-primary font-medium">{spec.value}</dd>
+            <div class="flex justify-between py-3 text-sm">
+              <dt class="uppercase tracking-[0.08em] text-secondary">
+                {spec.label}
+              </dt>
+              <dd class="font-medium text-primary">{spec.value}</dd>
             </div>
           {/each}
         </dl>
@@ -123,7 +175,7 @@
           {detailCopy.location}
         </h2>
         <p class="mt-4 text-secondary">
-          {property.address}, {property.city}
+          {#if hasAddress}{property.address}, {/if}{property.city}
         </p>
         <a
           href={mapHref}
@@ -132,14 +184,11 @@
           class="mt-4 inline-flex items-center gap-2 text-sm uppercase tracking-[0.08em] text-gold-text transition-transform hover:translate-x-1"
         >
           {detailCopy.mapLink}
-          <span aria-hidden="true">→</span>
+          <ArrowRight class="size-3.5" aria-hidden="true" />
         </a>
       </div>
 
-      <a
-        href={`${base}/contact`}
-        class="inline-flex items-center justify-center rounded-sm border border-gold/40 px-6 py-3 text-sm uppercase tracking-[0.08em] text-gold-text transition-colors hover:bg-gold/10"
-      >
+      <a href={`${base}/contact`} class="btn-primary inline-flex">
         {detailCopy.contactCta}
       </a>
     </section>

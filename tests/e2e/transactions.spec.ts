@@ -20,7 +20,11 @@ test.describe("transactions routes", () => {
     await expect(
       page.getByRole("heading", { name: /partenaires de confiance/i }),
     ).toHaveCount(0);
+    // Static sold portfolio always available (titles are card text, not h1)
+    await expect(page.getByText("Condo vendu à Montréal")).toBeVisible();
+    await expect(page.getByText("Vendu").first()).toBeVisible();
   });
+
 
   test("/en/transactions returns 200 with English page header", async ({
     page,
