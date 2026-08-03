@@ -28,14 +28,16 @@
     return roster.map((member) => {
       if (member.id !== "sergine" || !cmsLead) return member;
 
-      const cmsPhoto =
-        cmsLead.photo?.asset?._ref
-          ? urlFor(cmsLead.photo).width(800).height(1000).fit("crop").url()
-          : null;
+      const cmsPhoto = cmsLead.photo?.asset?._ref
+        ? urlFor(cmsLead.photo).width(800).height(1000).fit("crop").url()
+        : null;
+
+      const name = cmsLead.name?.trim() || member.name;
 
       return {
         ...member,
-        name: cmsLead.name?.trim() || member.name,
+        name,
+        displayName: name,
         role: cmsLead.role?.trim() || member.role,
         photoSrc: cmsPhoto || member.photoSrc || MEDIA.teamPortrait,
         photoAlt: cmsLead.photo?.alt?.trim() || member.photoAlt,
@@ -112,7 +114,7 @@
     </h2>
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {#each network as member (member.id)}
-        <TeamMemberCard {member} />
+        <TeamMemberCard {member} locale={data.locale} />
       {/each}
     </div>
   </div>

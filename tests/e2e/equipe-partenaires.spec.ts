@@ -15,9 +15,21 @@ test.describe("equipe-partenaires routes", () => {
     await expect(
       page.getByRole("heading", { name: copy.teamPartners.networkHeading }),
     ).toBeVisible();
-    await expect(page.getByText("Steve Djeuga")).toBeVisible();
-    await expect(page.getByText("Sara", { exact: true })).toBeVisible();
-    await expect(page.getByText("Guy", { exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Steve Djeuga" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Sara-Tamika Bruno" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Guy Merlin Kuigoua" }),
+    ).toBeVisible();
+    await expect(page.getByText("Xperto Hypothèques", { exact: true })).toBeVisible();
+    await expect(page.getByText("TD Canada Trust", { exact: true })).toBeVisible();
+    await expect(page.getByText(/AIBQ.*22185/)).toBeVisible();
+    await expect(page.getByRole("link", { name: "438-225-4003" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "438-867-4995" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "438-936-8779" })).toBeVisible();
     await expect(
       page.getByRole("heading", { name: copy.teamPartners.partnersHeading }),
     ).toBeVisible();

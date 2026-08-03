@@ -119,6 +119,7 @@ export interface TeamMemberCopy {
   name: string;
   role: string;
   photoAlt: string;
+  services?: string[];
 }
 
 export interface TeamPartnersCopy {
@@ -131,6 +132,9 @@ export interface TeamPartnersCopy {
   emptyPartners: string;
   teamFallbackName: string;
   teamFallbackRole: string;
+  credentialsLabel: string;
+  servicesLabel: string;
+  contactLabel: string;
   members: {
     sergine: TeamMemberCopy;
     steve: TeamMemberCopy;
@@ -386,6 +390,9 @@ const fr: SiteCopy = {
     emptyPartners: "Aucun partenaire pour le moment.",
     teamFallbackName: "Sergine Hougoue",
     teamFallbackRole: "Courtière immobilière certifiée OACIQ",
+    credentialsLabel: "Accréditations",
+    servicesLabel: "Services",
+    contactLabel: "Coordonnées",
     members: {
       sergine: {
         name: "Sergine Hougoue",
@@ -394,18 +401,25 @@ const fr: SiteCopy = {
       },
       steve: {
         name: "Steve Djeuga",
-        role: "Courtier hypothécaire",
-        photoAlt: "Portrait de Steve Djeuga, courtier hypothécaire",
+        role: "Courtier hypothécaire agréé",
+        photoAlt:
+          "Portrait de Michael Steve Djeuga Ngadja, courtier hypothécaire agréé chez Xperto Hypothèques",
+        services: [
+          "Accompagnement personnalisé",
+          "Optimisation de financement",
+        ],
       },
       sara: {
-        name: "Sara",
-        role: "Spécialiste hypothécaire",
-        photoAlt: "Portrait de Sara, spécialiste hypothécaire",
+        name: "Sara-Tamika Bruno",
+        role: "Spécialiste hypothécaire mobile",
+        photoAlt:
+          "Portrait de Sara-Tamika Bruno, spécialiste hypothécaire mobile chez TD Canada Trust",
       },
       guy: {
-        name: "Guy",
+        name: "Guy Merlin Kuigoua",
         role: "Inspecteur en bâtiment",
-        photoAlt: "Portrait de Guy, inspecteur en bâtiment",
+        photoAlt:
+          "Portrait de Guy Merlin Kuigoua, inspecteur en bâtiment, membre AIBQ",
       },
     },
     partnerCategories: {
@@ -653,6 +667,9 @@ const en: SiteCopy = {
     emptyPartners: "No partners listed yet.",
     teamFallbackName: "Sergine Hougoue",
     teamFallbackRole: "OACIQ-certified real estate broker",
+    credentialsLabel: "Credentials",
+    servicesLabel: "Services",
+    contactLabel: "Contact",
     members: {
       sergine: {
         name: "Sergine Hougoue",
@@ -661,18 +678,22 @@ const en: SiteCopy = {
       },
       steve: {
         name: "Steve Djeuga",
-        role: "Mortgage broker",
-        photoAlt: "Portrait of Steve Djeuga, mortgage broker",
+        role: "Licensed mortgage broker",
+        photoAlt:
+          "Portrait of Michael Steve Djeuga Ngadja, licensed mortgage broker at Xperto Hypothèques",
+        services: ["Personalized guidance", "Financing optimization"],
       },
       sara: {
-        name: "Sara",
-        role: "Mortgage specialist",
-        photoAlt: "Portrait of Sara, mortgage specialist",
+        name: "Sara-Tamika Bruno",
+        role: "Mobile Mortgage Specialist",
+        photoAlt:
+          "Portrait of Sara-Tamika Bruno, mobile mortgage specialist at TD Canada Trust",
       },
       guy: {
-        name: "Guy",
+        name: "Guy Merlin Kuigoua",
         role: "Building inspector",
-        photoAlt: "Portrait of Guy, building inspector",
+        photoAlt:
+          "Portrait of Guy Merlin Kuigoua, building inspector, AIBQ member",
       },
     },
     partnerCategories: {
