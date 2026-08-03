@@ -166,7 +166,7 @@
         <span>
           {#if hasAddress}{property.address}, {/if}{property.city}
           {#if property.neighborhood}
-            <span class="text-muted"> — {property.neighborhood}</span>
+            <span class="text-muted"> · {property.neighborhood}</span>
           {/if}
         </span>
       </p>
@@ -262,7 +262,7 @@
             <span>
               {#if hasAddress}{property.address}, {/if}{property.city}
               {#if property.neighborhood}
-                <span> — {property.neighborhood}</span>
+                <span> · {property.neighborhood}</span>
               {/if}
             </span>
           </p>

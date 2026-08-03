@@ -84,7 +84,7 @@
           `${prop.bedrooms} ${copy.property.beds}, ${prop.bathrooms} ${copy.property.baths}, ${prop.area} ${copy.property.area}`,
         );
       }
-      return bits.join(" — ");
+      return bits.join(" · ");
     }
     const p = currentPath.replace(/^\/(fr|en)/, "") || "/";
     if (p === "/" || p === "")

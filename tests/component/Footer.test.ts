@@ -41,4 +41,11 @@ describe("<Footer>", () => {
       screen.getByRole("link", { name: "serginehougoue@gmail.com" }),
     ).toHaveAttribute("href", "mailto:serginehougoue@gmail.com");
   });
+
+  it("renders designed-by credit on the bottom right", () => {
+    render(Footer, { props: { locale: "fr" } });
+    expect(
+      screen.getByText("Site conçu par Digital House Compagny"),
+    ).toBeInTheDocument();
+  });
 });

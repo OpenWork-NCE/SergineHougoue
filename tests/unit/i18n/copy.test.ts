@@ -27,14 +27,22 @@ describe("getCopy", () => {
     expect(getCopy("fr").cookie.title).toBe("Cookies et confidentialité");
   });
 
-  it("uses an em-dash (not a curly quote) in French footer tagline", () => {
-    expect(getCopy("fr").footer.tagline).toContain("—");
+  it("keeps French footer tagline free of em dashes and curly quotes", () => {
+    expect(getCopy("fr").footer.tagline).not.toContain("—");
     expect(getCopy("fr").footer.tagline).not.toContain("”");
+    expect(getCopy("fr").footer.tagline).toMatch(/VENDIRECT/);
   });
 
-  it("uses an em-dash (not a curly quote) in English footer tagline", () => {
-    expect(getCopy("en").footer.tagline).toContain("—");
+  it("keeps English footer tagline free of em dashes and curly quotes", () => {
+    expect(getCopy("en").footer.tagline).not.toContain("—");
     expect(getCopy("en").footer.tagline).not.toContain("”");
+    expect(getCopy("en").footer.tagline).toMatch(/VENDIRECT/);
+  });
+
+  it("credits Digital House Compagny in the footer", () => {
+    expect(getCopy("fr").footer.designedBy).toBe(
+      "Site conçu par Digital House Compagny",
+    );
   });
 
   it("exposes hero copy in both languages", () => {

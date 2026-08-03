@@ -20,7 +20,7 @@
 
   const copy = $derived(getCopy(data.locale));
 
-  /** Static roster; CMS can override Sergine photo/name/role. */
+  /** Static roster; optional team data can override Sergine photo/name/role. */
   const team = $derived.by(() => {
     const roster = getStaticTeamRoster(data.locale);
     const cmsLead = data.teamMembers[0];
@@ -73,7 +73,7 @@
   intro={copy.teamPartners.intro}
 />
 
-<!-- Lead: Sergine — same card system, featured layout -->
+<!-- Lead: Sergine, featured card layout -->
 <section class="container-editorial pb-12 md:pb-16">
   <h2 class="eyebrow mb-8 text-burgundy">{copy.teamPartners.teamHeading}</h2>
 
@@ -98,7 +98,7 @@
   </div>
 </section>
 
-<!-- CMS partner logos -->
+<!-- Partner logos -->
 <section
   class="container-editorial border-t border-[color:var(--border-hairline)] py-16 md:py-20"
 >

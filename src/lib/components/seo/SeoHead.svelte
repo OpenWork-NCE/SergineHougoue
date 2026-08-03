@@ -96,7 +96,7 @@
     return `${SITE_URL}/${_locale}${normalized}`;
   });
 
-  // JSON-LD RealEstateAgent (schema.org) — use $derived to satisfy svelte rune local state ref rules
+  // JSON-LD RealEstateAgent (schema.org); use $derived for rune local state ref rules
   const _jsonLd = $derived.by(() => {
     const phoneRaw = _siteSettings?.contactPhone || "4384626015";
     const phone = `+1${phoneRaw.replace(/\D/g, "")}`;

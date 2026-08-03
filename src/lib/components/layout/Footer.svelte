@@ -122,10 +122,12 @@
     </div>
 
     <div
-      class="mt-12 flex flex-col gap-2 border-t border-[color:var(--border-hairline)] pt-8 text-xs text-muted sm:flex-row sm:items-center sm:justify-between"
+      class="mt-12 flex flex-col gap-3 border-t border-[color:var(--border-hairline)] pt-8 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:gap-6"
     >
-      <p>© {year} Sergine Hougoue — VENDIRECT</p>
-      <p class="text-secondary/80">OACIQ · Québec</p>
+      <p>© {year} {copy.footer.copyright}</p>
+      <p class="text-secondary sm:text-right">
+        {copy.footer.designedBy}
+      </p>
     </div>
   </div>
 </footer>

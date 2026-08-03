@@ -44,6 +44,8 @@ export interface FooterCopy {
   socialHeading: string;
   hours: string;
   privacy: string;
+  copyright: string;
+  designedBy: string;
 }
 
 export interface HeroCopy {
@@ -262,7 +264,7 @@ const fr: SiteCopy = {
   },
   footer: {
     tagline:
-      "Courtier immobilier résidentiel et commercial — VENDIRECT, certifiée OACIQ.",
+      "Courtier immobilier résidentiel et commercial, VENDIRECT, certifiée OACIQ.",
     sitemapHeading: "Plan du site",
     exploreHeading: "Explorer",
     resourcesHeading: "Ressources",
@@ -270,6 +272,8 @@ const fr: SiteCopy = {
     socialHeading: "Réseaux sociaux",
     hours: "Lun–Ven 8h–20h\nSam–Dim 9h–17h",
     privacy: "Politique de confidentialité",
+    copyright: "Sergine Hougoue · VENDIRECT",
+    designedBy: "Site conçu par Digital House Compagny",
   },
   hero: {
     eyebrow: "Courtier OACIQ · VENDIRECT",
@@ -292,7 +296,7 @@ const fr: SiteCopy = {
       "J'accompagne acheteurs et vendeurs dans les 17 régions administratives du Québec.",
     whyTitle: "Une approche qui fait la différence",
     whyIntro:
-      "Clarté, stratégie et réseau — pour avancer avec confiance à chaque étape.",
+      "Clarté, stratégie et réseau, pour avancer avec confiance à chaque étape.",
     why: [
       {
         title: "Écoute réelle",
@@ -386,13 +390,13 @@ const fr: SiteCopy = {
     intro: "Découvrez les propriétés vendues récemment à Montréal et environs.",
     soldHeading: "Propriétés vendues",
     emptySold:
-      "Les transactions récentes seront affichées dès leur publication dans le CMS.",
+      "Les transactions récentes seront affichées dès leur publication. Contactez-moi pour en savoir plus.",
   },
   teamPartners: {
     eyebrow: "06 / Équipe et partenaires",
     title: "Équipe et partenaires",
     intro:
-      "Rencontrez Sergine et les professionnels de confiance qui accompagnent chaque transaction — hypothèque, inspection et plus.",
+      "Rencontrez Sergine et les professionnels de confiance qui accompagnent chaque transaction : hypothèque, inspection et plus.",
     teamHeading: "L'équipe",
     networkHeading: "Réseau de confiance",
     partnersHeading: "Nos partenaires de confiance",
@@ -554,7 +558,7 @@ const en: SiteCopy = {
   },
   footer: {
     tagline:
-      "Residential and commercial real estate broker — VENDIRECT, OACIQ certified.",
+      "Residential and commercial real estate broker, VENDIRECT, OACIQ certified.",
     sitemapHeading: "Sitemap",
     exploreHeading: "Explore",
     resourcesHeading: "Resources",
@@ -562,12 +566,14 @@ const en: SiteCopy = {
     socialHeading: "Social media",
     hours: "Mon–Fri 8am–8pm\nSat–Sun 9am–5pm",
     privacy: "Privacy policy",
+    copyright: "Sergine Hougoue · VENDIRECT",
+    designedBy: "Site conçu par Digital House Compagny",
   },
   hero: {
     eyebrow: "OACIQ broker · VENDIRECT",
     title: "Let's build your real estate future",
     subtitle:
-      "Residential and commercial guidance — human, rigorous, across Quebec.",
+      "Residential and commercial guidance: human, rigorous, across Quebec.",
     secondaryCta: "View listings",
     scrollCue: "Scroll",
   },
@@ -584,7 +590,7 @@ const en: SiteCopy = {
       "I support buyers and sellers across Quebec's 17 administrative regions.",
     whyTitle: "An approach that stands apart",
     whyIntro:
-      "Clarity, strategy, and a trusted network — so you move forward with confidence.",
+      "Clarity, strategy, and a trusted network, so you move forward with confidence.",
     why: [
       {
         title: "Real listening",
@@ -612,7 +618,7 @@ const en: SiteCopy = {
     eyebrow: "03 / About",
     title: "About",
     intro:
-      "Meet Sergine Hougoue — an OACIQ-certified broker offering attentive, rigorous guidance for every real estate goal.",
+      "Meet Sergine Hougoue, an OACIQ-certified broker offering attentive, rigorous guidance for every real estate goal.",
     bioFallback:
       "OACIQ-certified real estate broker based in Montreal, Sergine Hougoue provides attentive and rigorous guidance for buyers and investors across the North Shore and Montreal area.",
     journeyTitle: "My journey",
@@ -677,13 +683,13 @@ const en: SiteCopy = {
     intro: "Explore recently closed deals in Montreal and surrounding areas.",
     soldHeading: "Sold properties",
     emptySold:
-      "Recent transactions will appear once published in the CMS.",
+      "Recent transactions will appear once published. Contact me to learn more.",
   },
   teamPartners: {
     eyebrow: "06 / Team & partners",
     title: "Team & partners",
     intro:
-      "Meet Sergine and the trusted professionals who support every transaction — mortgage, inspection, and more.",
+      "Meet Sergine and the trusted professionals who support every transaction: mortgage, inspection, and more.",
     teamHeading: "The team",
     networkHeading: "Trusted network",
     partnersHeading: "Our trusted partners",

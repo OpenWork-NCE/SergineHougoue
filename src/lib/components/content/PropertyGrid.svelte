@@ -19,5 +19,5 @@
     {/each}
   </div>
 {:else}
-  <p class="text-secondary">—</p>
+  <p class="text-secondary">…</p>
 {/if}

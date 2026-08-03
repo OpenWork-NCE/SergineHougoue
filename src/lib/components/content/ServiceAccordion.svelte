@@ -58,7 +58,7 @@
             <ul class="space-y-3 text-secondary">
               {#each service.bullets as bullet}
                 <li class="flex gap-3">
-                  <span class="text-gold" aria-hidden="true">—</span>
+                  <span class="text-gold" aria-hidden="true">·</span>
                   <span>{bullet}</span>
                 </li>
               {/each}
