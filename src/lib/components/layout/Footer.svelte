@@ -1,6 +1,9 @@
 <script lang="ts">
   import { getCopy } from "$i18n/copy";
   import type { Locale } from "$i18n/locales";
+  import Clock from "lucide-svelte/icons/clock";
+  import Mail from "lucide-svelte/icons/mail";
+  import Phone from "lucide-svelte/icons/phone";
 
   interface Props {
     locale: Locale;
@@ -91,22 +94,28 @@
         >
           {copy.footer.contactHeading}
         </h2>
-        <ul class="space-y-2.5 text-sm">
+        <ul class="space-y-3 text-sm">
           <li>
             <a
               href="tel:4384626015"
-              class="hover:text-burgundy transition-colors">438-462-6015</a
+              class="inline-flex items-center gap-2 transition-colors hover:text-burgundy"
             >
+              <Phone class="size-3.5 shrink-0 text-burgundy" aria-hidden="true" />
+              438-462-6015
+            </a>
           </li>
           <li>
             <a
               href="mailto:serginehougoue@gmail.com"
-              class="hover:text-burgundy transition-colors break-all"
-              >serginehougoue@gmail.com</a
+              class="inline-flex items-start gap-2 break-all transition-colors hover:text-burgundy"
             >
+              <Mail class="mt-0.5 size-3.5 shrink-0 text-burgundy" aria-hidden="true" />
+              serginehougoue@gmail.com
+            </a>
           </li>
-          <li class="pt-1 text-xs text-muted whitespace-pre-line">
-            {copy.footer.hours}
+          <li class="flex items-start gap-2 pt-1 text-xs text-muted">
+            <Clock class="mt-0.5 size-3.5 shrink-0 text-burgundy" aria-hidden="true" />
+            <span class="whitespace-pre-line">{copy.footer.hours}</span>
           </li>
         </ul>
       </div>

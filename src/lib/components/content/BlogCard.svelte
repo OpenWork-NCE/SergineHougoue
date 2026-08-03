@@ -4,6 +4,7 @@
   import { getCopy } from "$i18n/copy";
   import { blogFallbackImage } from "$lib/media";
   import { urlFor } from "$sanity/image";
+  import ArrowRight from "lucide-svelte/icons/arrow-right";
 
   interface Props {
     post: Post;
@@ -46,8 +47,11 @@
       <h2 class="font-display text-2xl text-primary">{post.title}</h2>
       <p class="text-sm leading-relaxed text-secondary">{post.excerpt}</p>
       <div class="pt-1">
-        <span class="inline-flex items-center gap-1 text-xs font-medium text-burgundy group-hover:translate-x-0.5 transition-transform">
-          {copy.blog.readMore} →
+        <span
+          class="inline-flex items-center gap-1 text-xs font-medium text-burgundy transition-transform group-hover:translate-x-0.5"
+        >
+          {copy.blog.readMore}
+          <ArrowRight class="size-3.5" aria-hidden="true" />
         </span>
       </div>
     </div>

@@ -2,6 +2,8 @@
   import { browser } from "$app/environment";
   import { getCopy } from "$i18n/copy";
   import type { Locale } from "$i18n/locales";
+  import Menu from "lucide-svelte/icons/menu";
+  import X from "lucide-svelte/icons/x";
   import LangToggle from "./LangToggle.svelte";
   import ThemeToggle from "./ThemeToggle.svelte";
 
@@ -135,13 +137,9 @@
         onclick={toggleMenu}
       >
         {#if menuOpen}
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
+          <X class="size-[22px]" strokeWidth={1.75} aria-hidden="true" />
         {:else}
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-            <path d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
+          <Menu class="size-[22px]" strokeWidth={1.75} aria-hidden="true" />
         {/if}
       </button>
     </div>
@@ -174,9 +172,7 @@
         aria-label={copy.navChrome.closeMenu}
         onclick={closeMenu}
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-          <path d="M6 6l12 12M18 6L6 18" />
-        </svg>
+        <X class="size-[22px]" strokeWidth={1.75} aria-hidden="true" />
       </button>
     </div>
 

@@ -6,6 +6,8 @@
   import type { Property } from "$sanity/types";
   import type { Locale } from "$i18n/locales";
   import { getCopy } from "$i18n/copy";
+  import ChevronLeft from "lucide-svelte/icons/chevron-left";
+  import ChevronRight from "lucide-svelte/icons/chevron-right";
   import PropertyCard from "./PropertyCard.svelte";
 
   interface Props {
@@ -90,7 +92,7 @@
       aria-label={copy.home.carouselPrevious}
       onclick={scrollPrev}
     >
-      <span aria-hidden="true">←</span>
+      <ChevronLeft class="size-5" aria-hidden="true" />
     </button>
     <button
       type="button"
@@ -98,7 +100,7 @@
       aria-label={copy.home.carouselNext}
       onclick={scrollNext}
     >
-      <span aria-hidden="true">→</span>
+      <ChevronRight class="size-5" aria-hidden="true" />
     </button>
   </div>
 

@@ -5,6 +5,10 @@
   import { propertyFallbackImage } from "$lib/media";
   import { formatArea, formatPrice } from "$utils/format";
   import { urlFor } from "$sanity/image";
+  import ArrowRight from "lucide-svelte/icons/arrow-right";
+  import Bath from "lucide-svelte/icons/bath";
+  import BedDouble from "lucide-svelte/icons/bed-double";
+  import Ruler from "lucide-svelte/icons/ruler";
 
   interface Props {
     property: Property;
@@ -27,9 +31,6 @@
       : propertyFallbackImage(fallbackIndex),
   );
   const imageAlt = $derived(photo?.alt?.trim() || property.title);
-  const specs = $derived(
-    `${property.bedrooms} ${copy.property.beds} · ${property.bathrooms} ${copy.property.baths} · ${formatArea(property.area, locale)}`,
-  );
 </script>
 
 <article class="card group">
@@ -53,18 +54,40 @@
       {/if}
     </div>
 
-    <div class="p-5 space-y-2.5">
-      <div class="font-display text-2xl text-gold-text tracking-tight">{formattedPrice}</div>
-
-      <div>
-        <p class="font-medium text-primary leading-snug">{property.address}{property.city ? `, ${property.city}` : ''}</p>
-        <p class="mt-1 text-sm text-secondary">{specs}</p>
+    <div class="space-y-3 p-5">
+      <div class="font-display text-2xl tracking-tight text-gold-text">
+        {formattedPrice}
       </div>
 
-      <div class="flex items-center justify-between pt-1">
-        <span class="text-xs uppercase tracking-[0.08em] text-secondary">{typeLabel}</span>
-        <span class="inline-flex items-center gap-1 text-xs font-medium text-burgundy group-hover:translate-x-0.5 transition-transform">
-          {copy.property.viewDetail} →
+      <div>
+        <p class="font-medium leading-snug text-primary">
+          {property.address}{property.city ? `, ${property.city}` : ""}
+        </p>
+        <ul class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm text-secondary">
+          <li class="inline-flex items-center gap-1.5">
+            <BedDouble class="size-3.5 shrink-0 text-burgundy" aria-hidden="true" />
+            <span>{property.bedrooms} {copy.property.beds}</span>
+          </li>
+          <li class="inline-flex items-center gap-1.5">
+            <Bath class="size-3.5 shrink-0 text-burgundy" aria-hidden="true" />
+            <span>{property.bathrooms} {copy.property.baths}</span>
+          </li>
+          <li class="inline-flex items-center gap-1.5">
+            <Ruler class="size-3.5 shrink-0 text-burgundy" aria-hidden="true" />
+            <span>{formatArea(property.area, locale)}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-[color:var(--border-hairline)] pt-3">
+        <span class="text-xs uppercase tracking-[0.08em] text-secondary"
+          >{typeLabel}</span
+        >
+        <span
+          class="inline-flex items-center gap-1 text-xs font-medium text-burgundy transition-transform group-hover:translate-x-0.5"
+        >
+          {copy.property.viewDetail}
+          <ArrowRight class="size-3.5" aria-hidden="true" />
         </span>
       </div>
     </div>
