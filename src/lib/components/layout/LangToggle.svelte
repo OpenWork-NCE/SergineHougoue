@@ -13,20 +13,23 @@
 </script>
 
 <div
-  class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.08em]"
+  class="inline-flex items-center rounded-full border border-[color:var(--border-hairline)] p-0.5 text-[11px] uppercase tracking-[0.08em]"
   role="group"
   aria-label="Language selector"
 >
   <a
     href={frHref}
-    class="text-secondary transition-colors hover:text-primary"
+    class="rounded-full px-2.5 py-1.5 transition-colors {currentLocale === 'fr'
+      ? 'bg-[var(--state-hover)] font-medium text-primary'
+      : 'text-secondary hover:text-primary'}"
     aria-current={currentLocale === "fr" ? "true" : undefined}
     hreflang="fr"
   >FR</a>
-  <span class="text-muted" aria-hidden="true">|</span>
   <a
     href={enHref}
-    class="text-secondary transition-colors hover:text-primary"
+    class="rounded-full px-2.5 py-1.5 transition-colors {currentLocale === 'en'
+      ? 'bg-[var(--state-hover)] font-medium text-primary'
+      : 'text-secondary hover:text-primary'}"
     aria-current={currentLocale === "en" ? "true" : undefined}
     hreflang="en"
   >EN</a>
