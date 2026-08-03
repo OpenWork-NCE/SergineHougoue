@@ -397,7 +397,13 @@ const fr: SiteCopy = {
       sergine: {
         name: "Sergine Hougoue",
         role: "Courtière immobilière certifiée OACIQ",
-        photoAlt: "Portrait de Sergine Hougoue",
+        photoAlt: "Portrait de Sergine Hougoue, courtière immobilière VENDIRECT",
+        services: [
+          "Achat et vente résidentielle",
+          "Investissement et flip",
+          "Location de propriétés",
+          "Accompagnement premiers acheteurs",
+        ],
       },
       steve: {
         name: "Steve Djeuga",
@@ -674,7 +680,14 @@ const en: SiteCopy = {
       sergine: {
         name: "Sergine Hougoue",
         role: "OACIQ-certified real estate broker",
-        photoAlt: "Portrait of Sergine Hougoue",
+        photoAlt:
+          "Portrait of Sergine Hougoue, real estate broker at VENDIRECT",
+        services: [
+          "Residential buy and sell",
+          "Investment and flip",
+          "Property rentals",
+          "First-time buyer guidance",
+        ],
       },
       steve: {
         name: "Steve Djeuga",

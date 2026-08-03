@@ -54,6 +54,40 @@ describe("<TeamMemberCard>", () => {
     ).toHaveAttribute("src", MEDIA.teamSteve);
   });
 
+  it("renders featured lead layout for Sergine", () => {
+    const sergine: DisplayTeamMember = {
+      id: "sergine",
+      name: "Sergine Hougoue",
+      displayName: "Sergine Hougoue",
+      role: "Courtière immobilière certifiée OACIQ",
+      company: "VENDIRECT",
+      credentials: [{ organization: "OACIQ" }],
+      services: ["Achat et vente résidentielle"],
+      phone: { display: "438-462-6015", href: "tel:+14384626015" },
+      email: {
+        display: "serginehougoue@gmail.com",
+        href: "mailto:serginehougoue@gmail.com",
+      },
+      socials: {},
+      photoSrc: MEDIA.teamPortrait,
+      photoAlt: "Portrait de Sergine",
+      order: 0,
+      isLead: true,
+    };
+
+    const { container } = render(TeamMemberCard, {
+      props: { member: sergine, locale: "fr", featured: true },
+    });
+
+    expect(
+      screen.getByRole("heading", { name: "Sergine Hougoue" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("VENDIRECT")).toBeInTheDocument();
+    expect(screen.getByText("OACIQ")).toBeInTheDocument();
+    expect(screen.getByText("Courtière")).toBeInTheDocument();
+    expect(container.querySelector("article")?.className).toMatch(/md:grid-cols-12/);
+  });
+
   it("renders AIBQ credential for inspector", () => {
     const guy: DisplayTeamMember = {
       id: "guy-merlin-kuigoua",

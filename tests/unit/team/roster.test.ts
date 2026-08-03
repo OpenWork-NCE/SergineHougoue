@@ -11,6 +11,11 @@ describe("getStaticTeamRoster", () => {
 
     expect(byId.sergine?.isLead).toBe(true);
     expect(byId.sergine?.photoSrc).toBe(MEDIA.teamPortrait);
+    expect(byId.sergine?.company).toBe("VENDIRECT");
+    expect(byId.sergine?.credentials[0]?.organization).toBe("OACIQ");
+    expect(byId.sergine?.phone?.display).toBe("438-462-6015");
+    expect(byId.sergine?.email?.display).toBe("serginehougoue@gmail.com");
+    expect(byId.sergine?.services.length).toBeGreaterThan(0);
 
     const steve = byId["michael-steve-djeuga-ngadja"];
     expect(steve?.displayName).toBe("Steve Djeuga");

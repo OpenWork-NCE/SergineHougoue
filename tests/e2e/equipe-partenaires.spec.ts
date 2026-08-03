@@ -13,6 +13,15 @@ test.describe("equipe-partenaires routes", () => {
       page.getByRole("heading", { name: copy.teamPartners.teamHeading }),
     ).toBeVisible();
     await expect(
+      page.getByRole("heading", { name: "Sergine Hougoue" }),
+    ).toBeVisible();
+    await expect(page.getByText("VENDIRECT", { exact: true })).toBeVisible();
+    await expect(page.getByText("OACIQ", { exact: true })).toBeVisible();
+    // Phone may also appear in footer — assert at least one in the lead card area
+    await expect(
+      page.getByRole("main").getByRole("link", { name: "438-462-6015" }).first(),
+    ).toBeVisible();
+    await expect(
       page.getByRole("heading", { name: copy.teamPartners.networkHeading }),
     ).toBeVisible();
     await expect(

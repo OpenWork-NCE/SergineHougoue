@@ -20,7 +20,7 @@
 
   const copy = $derived(getCopy(data.locale));
 
-  /** Static roster (Sergine + Steve + Sara + Guy); CMS can override Sergine photo/name/role. */
+  /** Static roster; CMS can override Sergine photo/name/role. */
   const team = $derived.by(() => {
     const roster = getStaticTeamRoster(data.locale);
     const cmsLead = data.teamMembers[0];
@@ -73,38 +73,16 @@
   intro={copy.teamPartners.intro}
 />
 
-<!-- Lead: Sergine -->
+<!-- Lead: Sergine — same card system, featured layout -->
 <section class="container-editorial pb-12 md:pb-16">
   <h2 class="eyebrow mb-8 text-burgundy">{copy.teamPartners.teamHeading}</h2>
 
   {#if lead}
-    <div class="grid items-center gap-10 md:grid-cols-12 md:gap-12">
-      <div class="md:col-span-5">
-        <div
-          class="aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--border-hairline)] bg-surface"
-        >
-          <img
-            src={lead.photoSrc}
-            alt={lead.photoAlt}
-            class="h-full w-full object-cover object-top"
-            width="800"
-            height="1000"
-          />
-        </div>
-      </div>
-      <div class="md:col-span-7 md:pt-2">
-        <p class="font-display text-3xl text-primary md:text-4xl lg:text-5xl">
-          {lead.name}
-        </p>
-        <p class="mt-3 text-sm uppercase tracking-[0.1em] text-gold-text">
-          {lead.role}
-        </p>
-      </div>
-    </div>
+    <TeamMemberCard member={lead} locale={data.locale} featured />
   {/if}
 </section>
 
-<!-- Network professionals: Steve, Sara, Guy -->
+<!-- Network: Steve, Sara, Guy -->
 <section
   class="border-t border-[color:var(--border-hairline)] bg-surface/40 py-14 md:py-20"
 >
@@ -120,7 +98,7 @@
   </div>
 </section>
 
-<!-- CMS partner logos (optional) -->
+<!-- CMS partner logos -->
 <section
   class="container-editorial border-t border-[color:var(--border-hairline)] py-16 md:py-20"
 >
