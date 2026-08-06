@@ -1,6 +1,7 @@
 <script lang="ts">
   import BlogCard from "$components/content/BlogCard.svelte";
   import PageHeader from "$components/content/PageHeader.svelte";
+  import RegionsMarquee from "$components/content/RegionsMarquee.svelte";
   import { getCopy } from "$i18n/copy";
   import type { PageData } from "./$types";
 
@@ -22,6 +23,8 @@
   title={copy.blog.title}
   intro={copy.blog.intro}
 />
+
+<RegionsMarquee locale={data.locale} />
 
 <section class="container-editorial py-8">
   {#if data.posts.length > 0}

@@ -151,6 +151,7 @@ export interface BlogCopy {
   eyebrow: string;
   title: string;
   intro: string;
+  regionsAriaLabel: string;
   readMore: string;
   categories: Record<PostCategory, string>;
   pagination: {
@@ -453,7 +454,8 @@ const fr: SiteCopy = {
     eyebrow: "05 / Blog",
     title: "Blog",
     intro:
-      "Conseils, tendances du marché et guides pratiques pour vos projets immobiliers à Montréal et sur la Rive-Nord.",
+      "Conseils, tendances du marché et guides pratiques pour vos projets immobiliers partout au Québec, dans les 17 régions administratives.",
+    regionsAriaLabel: "Les 17 régions administratives du Québec",
     readMore: "Lire l'article",
     categories: {
       acheter: "Acheter",
@@ -744,7 +746,8 @@ const en: SiteCopy = {
     eyebrow: "05 / Blog",
     title: "Blog",
     intro:
-      "Tips, market trends, and practical guides for your real estate projects in Montreal and the North Shore.",
+      "Tips, market trends, and practical guides for your real estate projects across Quebec's 17 administrative regions.",
+    regionsAriaLabel: "Quebec's 17 administrative regions",
     readMore: "Read article",
     categories: {
       acheter: "Buying",

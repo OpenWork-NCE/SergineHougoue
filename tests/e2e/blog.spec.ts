@@ -14,6 +14,15 @@ test.describe("blog routes", () => {
       page.getByRole("heading", { name: copy.blog.title }),
     ).toBeVisible();
     await expect(page.getByText(copy.blog.intro)).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: copy.blog.regionsAriaLabel }),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByRole("region", { name: copy.blog.regionsAriaLabel })
+        .getByText("Montréal", { exact: true })
+        .first(),
+    ).toBeVisible();
   });
 
   test("/en/blog returns 200 with English page header", async ({ page }) => {

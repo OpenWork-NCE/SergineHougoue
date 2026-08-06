@@ -53,4 +53,27 @@ describe("getCopy", () => {
       "Let's build your real estate future",
     );
   });
+
+  it("frames the blog as Quebec-wide, not only Montreal / North Shore", () => {
+    const fr = getCopy("fr").blog.intro;
+    const en = getCopy("en").blog.intro;
+
+    expect(fr).toMatch(/partout au Québec/i);
+    expect(fr).toMatch(/17 régions administratives/i);
+    expect(fr).not.toMatch(/Rive-Nord/);
+    expect(en).toMatch(/across Quebec/i);
+    expect(en).toMatch(/17 administrative regions/i);
+    expect(en).not.toMatch(/North Shore/);
+  });
+
+  it("exposes blog regions marquee labels in both languages", () => {
+    expect(getCopy("fr").blog.regionsAriaLabel).toMatch(
+      /17 régions administratives/i,
+    );
+    expect(getCopy("en").blog.regionsAriaLabel).toMatch(
+      /17 administrative regions/i,
+    );
+  });
 });
+
+
